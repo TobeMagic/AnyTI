@@ -4,15 +4,15 @@
 
 See: .planning/PROJECT.md (updated 2026-04-13)
 
-**Core value:** 用一套可复用的静态测试引擎，持续低成本孵化多个高传播测试，并把流量沉淀回自有矩阵资产
-**Current focus:** Phase 1 - Shared Engine Foundation
+**Core value:** 用一套可复用的静态测试引擎，持续低成本孵化多个高传播测试，并把流量沉淀回自有矩阵资产。
+**Current focus:** Phase 1 - Static Matrix Foundation
 
 ## Current Position
 
-Phase: 1 of 3 (Shared Engine Foundation)
+Phase: 1 of 4 (Static Matrix Foundation)
 Plan: 0 of 3 in current phase
 Status: Ready to plan
-Last activity: 2026-04-13 — Initialized project, completed research, defined v1 requirements, and created the initial roadmap
+Last activity: 2026-04-13 — Reconciled roadmap with the latest 26 v1 requirements and initialized project state
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -40,9 +40,9 @@ Progress: [░░░░░░░░░░] 0%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- Initialization: Build the product as a BTI matrix platform, not a single one-off quiz
-- Initialization: Use a pure static frontend + GitHub Pages deployment model
-- Initialization: Prove the template with `WBTI` before designing the main navigation site
+- Initialization: Treat the product as a matrix platform, not a one-off quiz microsite.
+- Initialization: Keep the stack pure static on GitHub Pages with shared engine and isolated data packs.
+- Initialization: Use WBTI to prove the full template before expanding test count or final visual design.
 
 ### Pending Todos
 
@@ -50,11 +50,11 @@ None yet.
 
 ### Blockers/Concerns
 
-- Frontend visual direction and detailed archetype naming are intentionally deferred until after the platform skeleton is stable
-- QR code implementation details can be finalized during Phase 3 rather than blocking the platform foundation
+- Frontend visual style, persona naming, and long-form content remain intentionally deferred until after the skeleton is planned.
+- Real-device poster export quality still needs explicit validation during later phase planning.
 
 ## Session Continuity
 
 Last session: 2026-04-13 17:25
-Stopped at: Project initialized and ready for Phase 1 discussion/planning
+Stopped at: Project initialized and ready for Phase 1 planning
 Resume file: None
