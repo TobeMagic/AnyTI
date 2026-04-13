@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-04-13)
 Phase: 1 of 3 (Shared Engine Foundation)
 Plan: 0 of 3 in current phase
 Status: Ready to plan
-Last activity: 2026-04-13 — Initialized project, completed research, aligned requirements with the roadmap, and prepared Phase 1 for planning
+Last activity: 2026-04-13 — Added homepage/category/test IA, category theme direction, and SBTI virality research inputs to planning
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -43,6 +43,8 @@ Recent decisions affecting current work:
 - Initialization: Build the product as a BTI matrix platform, not a single one-off quiz
 - Initialization: Use a pure static frontend + GitHub Pages deployment model
 - Initialization: Prove the template with `WBTI` before expanding the matrix
+- Direction update: Frontend hierarchy is homepage → category page → test page, not direct entry into a quiz only
+- Direction update: Archetype naming should be abstract, humorous, and optimized for screenshot/social spread
 
 ### Pending Todos
 
@@ -50,11 +52,11 @@ None yet.
 
 ### Blockers/Concerns
 
-- Frontend visual direction and detailed archetype naming are intentionally deferred until after the platform skeleton is stable
-- Poster export and QR implementation details can be finalized during Phase 3 rather than blocking the platform foundation
+- Detailed multi-category art direction still needs a verified UI-SPEC before implementation
+- SBTI-specific virality findings still need to be translated into concrete WBTI archetype naming and result-copy rules
 
 ## Session Continuity
 
 Last session: 2026-04-13 17:25
-Stopped at: Project initialized and ready for Phase 1 discussion/planning
+Stopped at: Planning updated with IA and virality direction; Phase 1 ready for autonomous planning
 Resume file: None

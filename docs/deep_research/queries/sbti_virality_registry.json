@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "project": "AnyTI",
+    "focus": "Why SBTI exploded as a social identity test in Chinese internet culture and how to design a stronger reusable BTI matrix product",
+    "from_year": 2021,
+    "to_year": 2026,
+    "openalex_per_query": 40,
+    "openalex_pages": 2,
+    "arxiv_max_results": 20,
+    "crossref_rows": 20
+  },
+  "queries": [
+    {
+      "id": "viral_identity_tests",
+      "theme": "Viral identity tests",
+      "question": "What makes identity and personality tests spread as social content rather than as assessment tools?",
+      "openalex": "viral personality tests social sharing meme identity labels",
+      "arxiv": "\"personality test\" AND (viral OR sharing OR meme OR social)",
+      "crossref": "social sharing personality tests meme identity labels"
+    },
+    {
+      "id": "screenshot_affordance",
+      "theme": "Screenshot and poster affordance",
+      "question": "What product patterns make quiz results highly screenshotable and easy to relay in feeds and chats?",
+      "openalex": "screenshot sharing visual affordance social media identity cards",
+      "arxiv": "(screenshot OR social card OR share card) AND social media",
+      "crossref": "visual affordance screenshot sharing social media cards"
+    },
+    {
+      "id": "meme_language_and_state_labels",
+      "theme": "Meme language and state labels",
+      "question": "Why do users prefer state-based, internet-fluent labels over formal personality terminology?",
+      "openalex": "internet slang emotional labeling self presentation humor social media",
+      "arxiv": "(internet slang OR meme language OR self presentation) AND social media",
+      "crossref": "humor self presentation internet slang emotional labels"
+    }
+  ]
+}
