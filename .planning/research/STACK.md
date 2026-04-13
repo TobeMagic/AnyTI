@@ -1,8 +1,8 @@
 # Stack Research
 
-**Domain:** Static BTI-style personality quiz matrix platform
+**Domain:** Static BTI quiz matrix platform
 **Researched:** 2026-04-13
-**Confidence:** HIGH
+**Confidence:** MEDIUM
 
 ## Recommended Stack
 
@@ -10,98 +10,87 @@
 
 | Technology | Version | Purpose | Why Recommended |
 |------------|---------|---------|-----------------|
-| Node.js | 20.19+ or 22.12+ | Local build and CI runtime | Vite 7 requires these Node ranges, so aligning the repo to them avoids CI drift and ESM edge cases. |
-| Vite | 7.x | Dev server, production bundling, multi-page static build | Official docs support multi-page apps directly and document GitHub Pages deployment cleanly. This matches the user's directory-per-test model better than an SPA-first stack. |
-| TypeScript | 5.9.x | Shared engine, data contracts, scoring logic | TS 5.9 gives a cleaner default config and strong type-safety for score vectors, quiz schemas, and renderer contracts without pushing the project onto a just-released major. |
-| Browser-native Web APIs | Baseline widely available | Quiz runtime, poster export, local persistence | Canvas 2D, Web Storage, URLSearchParams, and Fetch already cover the core runtime needs. Using the platform directly keeps the static bundle lean. |
-| GitHub Pages + GitHub Actions | `configure-pages@v5`, `upload-pages-artifact@v4`, `deploy-pages@v4` | Zero-ops hosting and deployment | This is the user's explicit hosting constraint. Both GitHub and Vite document the exact workflow path. |
+| Vite | current stable major | 本地开发、打包、MPA 输出 | 官方文档直接支持多 HTML 入口和 GitHub Pages 静态部署，适合 `index.html + /wbti/ + /lbti/` 这种矩阵目录结构。 |
+| TypeScript | 6.0 | 共享引擎类型安全、题库/人格数据约束、计分逻辑可维护 | 计分权重、向量匹配、隐藏人格规则都属于“容易写错但难肉眼发现”的逻辑，TypeScript 能显著降低模板复制后的漂移风险。 |
+| Native Web Platform | evergreen browsers | 运行时 UI、Canvas 海报、静态资源加载 | 当前产品不需要完整 SPA 框架；原生 HTML/CSS/ESM + Canvas 2D 更符合“纯静态、低 JS、低运维、可 SEO”的约束。 |
+| GitHub Pages + GitHub Actions | current | 托管与自动部署 | 官方文档明确支持静态文件和 Actions 工作流；没有服务端语言支持，反而与本项目的零运维路线天然一致。 |
 
 ### Supporting Libraries
 
 | Library | Version | Purpose | When to Use |
 |---------|---------|---------|-------------|
-| Zod | 4.3.6 | Validate `questions.json`, `personalities.json`, and future registry/meta files | Use at build time and app boot so broken data packs fail fast instead of producing silent scoring bugs. |
-| Vitest | 4.1.4 | Unit tests for scoring, cosine matching, hidden-type gates, and schema fixtures | Use from the first engine phase; the scoring core is deterministic and should be tested before any UI polish. |
-| qrcode | 1.5.4 | Generate QR codes for result posters and share cards | Use in the poster pipeline; it works in browser and can render directly to canvas/data URL. |
+| Zod | 4.x | 校验 `questions.json`、`personalities.json`、`manifest.json` 结构 | 只要开始做“一个引擎复制多个测试”，就应该在构建或运行时验证数据包，避免单测复制后悄悄坏掉。 |
+| qrcode | current stable | 生成海报里的二维码 | 结果海报需要直出二维码时使用；适合和 Canvas 合成链路配合。 |
+| Vitest | 4.x | 测试计分、相似度匹配、隐藏人格触发条件 | 引擎层最需要的是数学与规则回归测试，Vitest 和 Vite 生态贴合。 |
+| Biome | 2.x | 格式化、lint、基础静态检查 | 这个项目文件量会快速扩张，但复杂度不高；用单工具链压住格式与常见错误，成本最低。 |
 
 ### Development Tools
 
 | Tool | Purpose | Notes |
 |------|---------|-------|
-| ESLint + Prettier or Biome | Linting and formatting | Pick one stack and keep it boring. For this project, consistency matters more than tool novelty. |
-| GitHub Actions | CI for build, test, deploy | Reuse the same workflow family GitHub Pages expects so deployment stays transparent. |
-| Lighthouse (manual or CI later) | Performance/SEO checks | Add after the first public WBTI template is live; don't block phase 1 on it. |
+| GitHub Actions | 自动 build + deploy 到 Pages | Vite 官方给出了 GitHub Pages 工作流示例，直接复用即可。 |
+| `vite preview` | 本地验证生产包 | 官方文档明确其用途是本地预览生产包，不是正式服务器。 |
+| Lighthouse | 检查移动端性能与 SEO 基线 | 结果页、海报页、入口页都面向移动传播，发布前至少做一次手工审查。 |
 
 ## Installation
 
 ```bash
-# Scaffold
-npm create vite@latest . -- --template vanilla-ts
-
-# Supporting libraries
+# Core
 npm install zod qrcode
 
 # Dev dependencies
-npm install -D vitest eslint prettier
+npm install -D vite typescript vitest @biomejs/biome
 ```
 
 ## Alternatives Considered
 
 | Recommended | Alternative | When to Use Alternative |
 |-------------|-------------|-------------------------|
-| Vite MPA + vanilla TypeScript | React + Vite | Use React only if the team later wants a component-heavy design system, complex shared UI state, or a richer app shell. For v1, quiz state is local and finite; React is optional complexity. |
-| Vite MPA | Astro | Astro is attractive when content pages dominate and interactivity is sparse. Here, nearly every key route is interactive, so Astro adds another abstraction without solving a pressing problem yet. |
-| GitHub Pages | Cloudflare Pages | Use Cloudflare Pages later only if preview deployments, edge functions, custom headers, or image/back-end needs appear. It is not needed for the current zero-backend scope. |
+| Vite MPA + TypeScript | Astro | 当“人格类型内容库 / SEO 落地页 / 博客文章”明显多于交互测试页时，Astro 对内容组织更省心。 |
+| Native DOM + Canvas | React / Preact | 当前页面交互浅，框架不是刚需；如果后续要做复杂组件系统、状态同步、实验平台，再上框架更合适。 |
+| Biome | ESLint + Prettier | 若团队已有成熟 ESLint 规则体系或必须依赖大量特定插件，再切回双工具链。 |
+| GitHub Pages | Cloudflare Pages | 若后续需要预览环境、边缘函数、或更灵活的域名/缓存控制，再迁移。 |
 
 ## What NOT to Use
 
 | Avoid | Why | Use Instead |
 |-------|-----|-------------|
-| Next.js or other SSR-first frameworks as the baseline | Static export exists, but unsupported static-export features like redirects, headers, middleware, and server actions create unnecessary footguns for a zero-backend project. | Vite MPA with explicit static HTML entries |
-| SPA router as the primary site architecture | GitHub Pages is happiest serving real files; SPA routing adds refresh/404 friction and weakens the test-per-directory SEO model. | Directory-based static pages per test |
-| DOM-screenshot-first poster generation (`html2canvas`-style approach) | Poster export becomes fragile around fonts, transforms, and CORS. | Direct Canvas composition with controlled assets |
-| Large answer logs or analytics blobs in `localStorage` | MDN notes Web Storage is synchronous; large reads/writes can block the UI. | Keep storage to small progress/result snapshots only |
+| Hash-router SPA (`#/wbti`) | Google 官方明确更偏好真实 `href` URL；哈希路由会削弱发现与索引能力，不利于矩阵 SEO。 | 真正的多页面路径，如 `/wbti/`、`/lbti/`、`/types/wbti/...` |
+| Next.js / Nuxt SSR as v1 baseline | 项目没有服务端诉求，且目标托管是 GitHub Pages；SSR 会把零运维目标直接打破。 | Vite 静态多页面 |
+| `html2canvas` 作为核心海报方案 | 结果海报是产品内建能力，不应依赖脆弱的 DOM 截图链路；字体、跨域图片、布局差异都可能导致导出不稳定。 | 原生 Canvas 2D 直接绘制海报，再用 `toBlob()` 导出 |
+| 账号系统 / 数据库存档 | 与当前“零成本、零后端”约束冲突，而且会拖慢模板跑通。 | 无账号匿名测试 + 可复制分享链接 |
 
 ## Stack Patterns by Variant
 
-**If the project stays purely static:**
-- Use Vite multi-page entries for `/wbti/`, `/lbti/`, `/sbti/`, etc.
-- Load each test's JSON data pack lazily based on the current directory.
-- Keep one shared engine bundle and one shared poster bundle.
+**If the product remains quiz-first:**
+- Keep Vite MPA + TypeScript + native Canvas.
+- Because the main work is engine/data/content, not app-shell complexity.
 
-**If content/SEO pages later become a major product surface:**
-- Keep the quiz engine package as-is.
-- Consider introducing Astro only for editorial shells and landing pages.
-- Do not rewrite the quiz runtime until content volume proves it is worth it.
-
-**If later phases require server features:**
-- Keep the existing static front-end contract.
-- Add only the missing capability at the edge (for example analytics ingestion or account history), rather than migrating the whole app to SSR.
+**If the product becomes content-first later:**
+- Introduce Astro or a content-oriented static layer for indexable personality library pages.
+- Because SEO-heavy type pages and editorial content benefit from stronger content primitives.
 
 ## Version Compatibility
 
 | Package A | Compatible With | Notes |
 |-----------|-----------------|-------|
-| `vite@7.x` | Node.js `20.19+` or `22.12+` | Official Vite 7 requirement |
-| `vite@7.x` | GitHub Pages Actions workflow | Official Vite deploy guide documents a Pages workflow directly |
-| `vitest@4.1.4` | Vite 7 projects | Vite 7 is supported starting from Vitest 3.2; latest 4.1.4 is the current stable track |
-| `zod@4.3.6` | TypeScript 5.x | Good fit for schema validation in TS-first apps; avoid mixing old Zod 3 assumptions into new code |
+| Vite current stable | matching Vitest 4.x line | 保持在官方 starter / 官方文档推荐的兼容组合，升级 major 前先跑测试与部署预览。 |
+| TypeScript 6.0 | Zod 4.x | 适合当前“类型驱动 + schema 校验”模式。 |
+| Canvas 2D API | evergreen browsers | `drawImage()` 已广泛可用；`toBlob()` 自 2020 起已在主流浏览器普遍可用。 |
 
 ## Sources
 
-- Vite blog: https://vite.dev/blog/announcing-vite7 — verified Node.js support and current major
-- Vite guide: https://vite.dev/guide/build — verified multi-page app support
-- Vite guide: https://vite.dev/guide/static-deploy.html — verified GitHub Pages deployment and `base` handling
-- GitHub Docs: https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages — verified custom workflow deployment requirements
-- GitHub Docs: https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll — verified `.nojekyll` bypass note and Pages publishing behavior
-- TypeScript docs: https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-9.html — verified TS 5.9 capabilities and current stable release-note track
-- Vitest releases: https://github.com/vitest-dev/vitest/releases — verified current stable release line
-- Zod releases: https://github.com/colinhacks/zod/releases — verified current stable release line
-- qrcode package: https://www.npmjs.com/package/qrcode — verified browser/client support and current package version
-- MDN Web Share API: https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API — verified native share constraints
-- MDN Web Storage API: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API — verified sync storage trade-offs
-- MDN Canvas export: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL — verified export and memory/CORS caveats
+- Vite build guide: https://vite.dev/guide/build.html
+- Vite static deploy guide: https://vite.dev/guide/static-deploy.html
+- GitHub Pages docs: https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
+- TypeScript 6.0 official release: https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/
+- Vitest blog / latest releases: https://v4.vitest.dev/blog
+- Zod docs: https://zod.dev/packages/zod
+- Biome docs: https://biomejs.dev/
+- MDN `drawImage()`: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+- MDN `toBlob()`: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
+- `node-qrcode` repository: https://github.com/soldair/node-qrcode
 
 ---
-*Stack research for: Static BTI-style personality quiz matrix platform*
+*Stack research for: Static BTI quiz matrix platform*
 *Researched: 2026-04-13*
