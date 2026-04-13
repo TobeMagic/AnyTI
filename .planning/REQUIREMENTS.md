@@ -94,25 +94,25 @@
 | DATA-02 | Phase 1 | Pending |
 | DATA-03 | Phase 1 | Pending |
 | DATA-04 | Phase 1 | Pending |
-| SCOR-01 | Phase 2 | Pending |
-| SCOR-02 | Phase 2 | Pending |
-| SCOR-03 | Phase 2 | Pending |
-| SCOR-04 | Phase 2 | Pending |
-| SCOR-05 | Phase 4 | Pending |
+| SCOR-01 | Phase 1 | Pending |
+| SCOR-02 | Phase 1 | Pending |
+| SCOR-03 | Phase 1 | Pending |
+| SCOR-04 | Phase 1 | Pending |
+| SCOR-05 | Phase 1 | Pending |
+| SEO-02 | Phase 1 | Pending |
 | WBTI-01 | Phase 2 | Pending |
 | WBTI-02 | Phase 2 | Pending |
 | WBTI-03 | Phase 2 | Pending |
-| RSLT-01 | Phase 3 | Pending |
+| WBTI-04 | Phase 2 | Pending |
+| RSLT-01 | Phase 2 | Pending |
+| TRST-01 | Phase 2 | Pending |
+| SEO-01 | Phase 2 | Pending |
 | RSLT-02 | Phase 3 | Pending |
 | RSLT-03 | Phase 3 | Pending |
 | RSLT-04 | Phase 3 | Pending |
-| MTRX-01 | Phase 1 | Pending |
+| MTRX-01 | Phase 3 | Pending |
 | MTRX-02 | Phase 3 | Pending |
-| MTRX-03 | Phase 4 | Pending |
-| WBTI-04 | Phase 2 | Pending |
-| TRST-01 | Phase 3 | Pending |
-| SEO-01 | Phase 3 | Pending |
-| SEO-02 | Phase 1 | Pending |
+| MTRX-03 | Phase 3 | Pending |
 
 **Coverage:**
 - v1 requirements: 26 total
@@ -121,4 +121,4 @@
 
 ---
 *Requirements defined: 2026-04-13*
-*Last updated: 2026-04-13 after roadmap mapping*
+*Last updated: 2026-04-13 after roadmap creation*
