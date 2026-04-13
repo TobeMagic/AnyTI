@@ -31,29 +31,35 @@
 - [ ] **WBTI-01**: A user can start the Workplace Behavior Type Indicator from a dedicated intro page.
 - [ ] **WBTI-02**: A user can answer the full WBTI questionnaire with visible progress and mobile-friendly interactions.
 - [ ] **WBTI-03**: A user can restart and retake WBTI after completing the test.
+- [ ] **WBTI-04**: A user can complete WBTI without creating an account or relying on server-side state.
 
 ### Results and Sharing
 
-- [ ] **RSLT-01**: After completing WBTI, the user sees a result page with a personality name, core description, and dimension summary.
+- [ ] **RSLT-01**: After completing WBTI, the user sees a result page with a personality name, core description, dimension summary, and a short explanation of why it matched.
 - [ ] **RSLT-02**: The result page can generate a share poster as a canvas image.
 - [ ] **RSLT-03**: The poster includes the personality name, a short result description, and a QR code linking back to the test.
 - [ ] **RSLT-04**: The result page provides download/save behavior for the poster plus share/copy-link fallback actions.
 
-### Matrix Expansion
+### Trust and Method
+
+- [ ] **TRST-01**: A user can read a brief explanation of the test's theory inspiration, scoring approach, and non-clinical disclaimer from the WBTI experience.
+
+### Matrix Readiness
 
 - [ ] **MTRX-01**: The site maintains a registry of live and upcoming tests for recommendations and future navigation.
-- [ ] **MTRX-02**: The WBTI result page recommends at least one other test using that registry.
+- [ ] **MTRX-02**: The WBTI result page recommends at least two other matrix entries or upcoming tests so the experience does not dead-end after one result.
 - [ ] **MTRX-03**: A second BTI test can launch using the shared engine with new data files rather than engine rewrites.
 
-### Hub and SEO
+### SEO and Metadata
 
-- [ ] **HUB-01**: After at least two tests exist, the site exposes a matrix navigation page linking to all live tests.
-- [ ] **HUB-02**: Each live test page has unique title/description metadata and crawlable internal links suitable for search indexing.
+- [ ] **SEO-01**: Each live test page has unique title/description metadata and crawlable internal links suitable for search indexing.
+- [ ] **SEO-02**: The route and content structure remain compatible with a future matrix navigation site and future indexable type/detail pages.
 
 ## v2 Requirements
 
 ### Additional Tests
 
+- **HUB-01**: After at least two tests exist, the site exposes a matrix navigation page linking to all live tests.
 - **TEST-01**: The platform expands from WBTI/LBTI baseline coverage to include STBI, SBTI, FBTI, and TBTI.
 - **TEST-02**: Each additional test introduces its own dimension model, personality set, and hidden-type logic without changing the shared engine contract.
 
@@ -81,35 +87,37 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FND-01 | Pending roadmap | Pending |
-| FND-02 | Pending roadmap | Pending |
-| FND-03 | Pending roadmap | Pending |
-| DATA-01 | Pending roadmap | Pending |
-| DATA-02 | Pending roadmap | Pending |
-| DATA-03 | Pending roadmap | Pending |
-| DATA-04 | Pending roadmap | Pending |
-| SCOR-01 | Pending roadmap | Pending |
-| SCOR-02 | Pending roadmap | Pending |
-| SCOR-03 | Pending roadmap | Pending |
-| SCOR-04 | Pending roadmap | Pending |
-| SCOR-05 | Pending roadmap | Pending |
-| WBTI-01 | Pending roadmap | Pending |
-| WBTI-02 | Pending roadmap | Pending |
-| WBTI-03 | Pending roadmap | Pending |
-| RSLT-01 | Pending roadmap | Pending |
-| RSLT-02 | Pending roadmap | Pending |
-| RSLT-03 | Pending roadmap | Pending |
-| RSLT-04 | Pending roadmap | Pending |
-| MTRX-01 | Pending roadmap | Pending |
-| MTRX-02 | Pending roadmap | Pending |
-| MTRX-03 | Pending roadmap | Pending |
-| HUB-01 | Pending roadmap | Pending |
-| HUB-02 | Pending roadmap | Pending |
+| FND-01 | Phase 1 | Pending |
+| FND-02 | Phase 1 | Pending |
+| FND-03 | Phase 1 | Pending |
+| DATA-01 | Phase 1 | Pending |
+| DATA-02 | Phase 1 | Pending |
+| DATA-03 | Phase 1 | Pending |
+| DATA-04 | Phase 1 | Pending |
+| SCOR-01 | Phase 2 | Pending |
+| SCOR-02 | Phase 2 | Pending |
+| SCOR-03 | Phase 2 | Pending |
+| SCOR-04 | Phase 2 | Pending |
+| SCOR-05 | Phase 4 | Pending |
+| WBTI-01 | Phase 2 | Pending |
+| WBTI-02 | Phase 2 | Pending |
+| WBTI-03 | Phase 2 | Pending |
+| RSLT-01 | Phase 3 | Pending |
+| RSLT-02 | Phase 3 | Pending |
+| RSLT-03 | Phase 3 | Pending |
+| RSLT-04 | Phase 3 | Pending |
+| MTRX-01 | Phase 1 | Pending |
+| MTRX-02 | Phase 3 | Pending |
+| MTRX-03 | Phase 4 | Pending |
+| WBTI-04 | Phase 2 | Pending |
+| TRST-01 | Phase 3 | Pending |
+| SEO-01 | Phase 3 | Pending |
+| SEO-02 | Phase 1 | Pending |
 
 **Coverage:**
-- v1 requirements: 24 total
-- Mapped to phases: 0
-- Unmapped: 24 ⚠️
+- v1 requirements: 26 total
+- Mapped to phases: 26
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-04-13*
