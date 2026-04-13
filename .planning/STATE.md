@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-04-13)
 Phase: 1 of 3 (Shared Engine Foundation)
 Plan: 0 of 3 in current phase
 Status: Ready to plan
-Last activity: 2026-04-13 — Added homepage/category/test IA, category theme direction, and SBTI virality research inputs to planning
+Last activity: 2026-04-13 — Added homepage/category/test IA, approved the Phase 2 UI-SPEC draft, and bootstrapped SBTI virality research
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -52,11 +52,11 @@ None yet.
 
 ### Blockers/Concerns
 
-- Detailed multi-category art direction still needs a verified UI-SPEC before implementation
+- Phase 2 UI-SPEC is approved at the contract level, but implementation details still need plan-phase breakdown
 - SBTI-specific virality findings still need to be translated into concrete WBTI archetype naming and result-copy rules
 
 ## Session Continuity
 
 Last session: 2026-04-13 17:25
-Stopped at: Planning updated with IA and virality direction; Phase 1 ready for autonomous planning
+Stopped at: Phase 1 context captured, Phase 2 UI-SPEC approved, and research backlog clarified
 Resume file: None
