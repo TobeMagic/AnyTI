@@ -36,61 +36,101 @@ export async function buildPosterBlob({
     throw new Error('Canvas is unavailable in this browser.');
   }
 
-  const gradient = ctx.createLinearGradient(0, 0, width, height);
-  gradient.addColorStop(0, category.theme.surface);
-  gradient.addColorStop(1, hexToRgba(category.theme.accentSoft, 0.92));
-  ctx.fillStyle = gradient;
+  ctx.fillStyle = '#fff8f4';
   ctx.fillRect(0, 0, width, height);
 
-  ctx.fillStyle = hexToRgba(category.theme.accent, 0.12);
+  ctx.fillStyle = hexToRgba(category.theme.accentSoft, 0.88);
   ctx.beginPath();
-  ctx.arc(width - 160, 170, 220, 0, Math.PI * 2);
+  ctx.arc(width - 90, 120, 260, 0, Math.PI * 2);
   ctx.fill();
   ctx.beginPath();
-  ctx.arc(150, height - 140, 200, 0, Math.PI * 2);
+  ctx.arc(64, height - 80, 200, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.shadowColor = 'rgba(29, 23, 32, 0.14)';
+  ctx.shadowBlur = 48;
+  ctx.shadowOffsetY = 20;
+  ctx.fillStyle = '#fffdfb';
+  ctx.beginPath();
+  ctx.roundRect(56, 56, width - 112, height - 112, 42);
+  ctx.fill();
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetY = 0;
+
+  ctx.fillStyle = category.theme.accent;
+  ctx.beginPath();
+  ctx.roundRect(56, 56, width - 112, 20, 20);
   ctx.fill();
 
   ctx.fillStyle = '#ffffff';
-  ctx.fillRect(72, 72, width - 144, height - 144);
+  ctx.beginPath();
+  ctx.roundRect(96, 110, 248, 44, 22);
+  ctx.fill();
+  ctx.fillStyle = '#1d1720';
+  ctx.font = '700 22px "Manrope", "Noto Sans SC", sans-serif';
+  ctx.fillText('ANYTI LOVE PROFILE', 120, 139);
 
+  ctx.fillStyle = '#1d1720';
+  ctx.font = '700 28px "Manrope", "Noto Sans SC", sans-serif';
+  ctx.fillText(pack.meta.title, 96, 214);
+
+  ctx.fillStyle = '#6b6571';
+  ctx.font = '500 22px "Manrope", "Noto Sans SC", sans-serif';
+  ctx.fillText(pack.meta.hook, 96, 252);
+
+  ctx.fillStyle = '#18131c';
+  ctx.font = '800 88px "Newsreader", "Noto Serif SC", serif';
+  ctx.fillText(result.name, 96, 362, width - 192);
+
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.roundRect(96, 390, 248, 52, 26);
+  ctx.fill();
   ctx.fillStyle = category.theme.accent;
-  ctx.fillRect(72, 72, width - 144, 18);
-
-  ctx.fillStyle = '#10202A';
-  ctx.font = '700 30px "Bricolage Grotesque", "Noto Sans SC", sans-serif';
-  ctx.fillText(pack.meta.title, 120, 154);
-  ctx.font = '400 24px "Noto Sans SC", sans-serif';
-  ctx.fillStyle = '#52606D';
-  ctx.fillText(pack.meta.hook, 120, 196);
-
-  ctx.fillStyle = category.theme.accent;
-  ctx.font = '700 92px "Bricolage Grotesque", "Noto Sans SC", sans-serif';
-  ctx.fillText(result.name, 120, 318, width - 240);
-
-  ctx.fillStyle = '#13202A';
-  ctx.font = '600 34px "Noto Sans SC", sans-serif';
-  ctx.fillText(result.badge, 120, 374);
+  ctx.font = '800 28px "Manrope", "Noto Sans SC", sans-serif';
+  ctx.fillText(result.badge, 122, 424);
 
   ctx.fillStyle = category.theme.accentSoft;
   ctx.beginPath();
-  ctx.roundRect(120, 420, 320, 320, 36);
+  ctx.roundRect(96, 478, 320, 320, 42);
   ctx.fill();
 
-  ctx.fillStyle = hexToRgba(category.theme.accent, 0.75);
+  ctx.fillStyle = 'rgba(255,255,255,0.18)';
   ctx.beginPath();
-  ctx.arc(280, 548, 88, 0, Math.PI * 2);
+  ctx.roundRect(124, 506, 264, 264, 34);
   ctx.fill();
 
   ctx.fillStyle = '#ffffff';
   ctx.beginPath();
-  ctx.arc(280, 506, 44, 0, Math.PI * 2);
+  ctx.arc(174, 564, 24, 0, Math.PI * 2);
   ctx.fill();
-  ctx.fillRect(224, 560, 112, 88);
+  ctx.beginPath();
+  ctx.arc(332, 540, 14, 0, Math.PI * 2);
+  ctx.fill();
 
-  ctx.fillStyle = '#13202A';
-  ctx.font = '600 30px "Noto Sans SC", sans-serif';
-  ctx.fillText(result.vibe, 470, 468, 460);
-  ctx.font = '400 25px "Noto Sans SC", sans-serif';
+  ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+  ctx.lineWidth = 12;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(138, 712);
+  ctx.quadraticCurveTo(244, 640, 372, 628);
+  ctx.stroke();
+
+  ctx.fillStyle = 'rgba(255,255,255,0.88)';
+  ctx.beginPath();
+  ctx.roundRect(160, 548, 190, 162, 30);
+  ctx.fill();
+  ctx.fillStyle = category.theme.accent;
+  ctx.font = '800 92px "Newsreader", "Noto Serif SC", serif';
+  ctx.fillText(Array.from(result.name)[0] ?? 'A', 222, 658);
+
+  ctx.fillStyle = '#1d1720';
+  ctx.font = '700 32px "Manrope", "Noto Sans SC", sans-serif';
+  ctx.fillText('Quick Read', 458, 510);
+
+  ctx.fillStyle = '#6b6571';
+  ctx.font = '500 24px "Manrope", "Noto Sans SC", sans-serif';
 
   const wrap = (text: string, x: number, y: number, maxWidth: number, lineHeight: number) => {
     const chars = text.split('');
@@ -116,30 +156,37 @@ export async function buildPosterBlob({
     return currentY;
   };
 
-  ctx.fillStyle = '#41505C';
-  const nextY = wrap(result.summary, 470, 520, 460, 38);
+  const nextY = wrap(result.summary, 458, 560, 500, 38);
 
-  ctx.fillStyle = '#13202A';
-  ctx.font = '600 28px "Noto Sans SC", sans-serif';
-  ctx.fillText('你现在更像这样', 120, 834);
+  ctx.fillStyle = '#1d1720';
+  ctx.font = '700 25px "Manrope", "Noto Sans SC", sans-serif';
+  wrap(result.sweetSpot ?? result.vibe, 458, nextY + 20, 500, 34);
+
+  ctx.fillStyle = '#1d1720';
+  ctx.font = '700 30px "Manrope", "Noto Sans SC", sans-serif';
+  ctx.fillText('Dimension Snapshot', 96, 874);
 
   dimensions.slice(0, 4).forEach((dimension, index) => {
-    const top = 886 + index * 92;
-    ctx.fillStyle = '#13202A';
-    ctx.font = '600 24px "Noto Sans SC", sans-serif';
+    const top = 928 + index * 92;
+    ctx.fillStyle = '#1d1720';
+    ctx.font = '700 24px "Manrope", "Noto Sans SC", sans-serif';
     ctx.fillText(dimension.title, 120, top);
 
-    ctx.fillStyle = '#6B7985';
-    ctx.font = '400 20px "Noto Sans SC", sans-serif';
+    ctx.fillStyle = '#6b6571';
+    ctx.font = '500 20px "Manrope", "Noto Sans SC", sans-serif';
     ctx.fillText(dimension.leftLabel, 120, top + 30);
     ctx.fillText(dimension.rightLabel, 830, top + 30);
 
-    ctx.fillStyle = '#E8EEF1';
-    ctx.fillRect(120, top + 44, 760, 16);
+    ctx.fillStyle = '#efe8df';
+    ctx.beginPath();
+    ctx.roundRect(120, top + 44, 760, 16, 8);
+    ctx.fill();
 
     const normalized = (dimension.score + 100) / 200;
     ctx.fillStyle = category.theme.accent;
-    ctx.fillRect(120, top + 44, 760 * normalized, 16);
+    ctx.beginPath();
+    ctx.roundRect(120, top + 44, 760 * normalized, 16, 8);
+    ctx.fill();
   });
 
   const qrData = await QRCode.toDataURL(permalink, {
@@ -153,14 +200,18 @@ export async function buildPosterBlob({
   const qr = new Image();
   qr.src = qrData;
   await qr.decode();
-  ctx.drawImage(qr, 760, height - 326, 180, 180);
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.roundRect(720, height - 326, 232, 232, 28);
+  ctx.fill();
+  ctx.drawImage(qr, 746, height - 300, 180, 180);
 
-  ctx.fillStyle = '#13202A';
-  ctx.font = '600 24px "Noto Sans SC", sans-serif';
-  ctx.fillText('扫回这个测试', 760, height - 118);
-  ctx.fillStyle = '#55636F';
-  ctx.font = '400 20px "Noto Sans SC", sans-serif';
-  ctx.fillText('AnyTI · 先看分类，再进测试', 120, height - 110);
+  ctx.fillStyle = '#1d1720';
+  ctx.font = '700 24px "Manrope", "Noto Sans SC", sans-serif';
+  ctx.fillText('Scan To Retake', 742, height - 86);
+  ctx.fillStyle = '#6b6571';
+  ctx.font = '500 20px "Manrope", "Noto Sans SC", sans-serif';
+  ctx.fillText('AnyTI · Channel first, test second', 96, height - 90);
 
   return new Promise<Blob>((resolvePromise, reject) => {
     canvas.toBlob((blob) => {

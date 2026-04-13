@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { buildPosterBlob } from '@/lib/poster';
-import type { Category, DimensionSummary, Personality, TestPack } from '@/lib/types';
+import type { Category, DimensionSummary, RankedResult, Personality, TestPack } from '@/lib/types';
 import { PlaceholderPortrait } from './PlaceholderPortrait';
 
 type ResultPanelProps = {
@@ -8,6 +8,8 @@ type ResultPanelProps = {
   pack: TestPack;
   result: Personality;
   dimensions: DimensionSummary[];
+  match: number;
+  nearby: RankedResult[];
   permalink: string;
   onRestart: () => void;
 };
@@ -17,6 +19,8 @@ export function ResultPanel({
   pack,
   result,
   dimensions,
+  match,
+  nearby,
   permalink,
   onRestart,
 }: ResultPanelProps) {
@@ -56,29 +60,59 @@ export function ResultPanel({
   return (
     <section className="result-panel" data-testid="result-panel">
       <div className="result-panel__hero">
-        <div>
-          <p className="eyebrow">{pack.meta.accentLabel}</p>
+        <div className="result-panel__copy">
+          <div className="chip-row chip-row--result">
+            <span className="metric-chip">{pack.meta.accentLabel}</span>
+            <span className="metric-chip">{pack.meta.slug.toUpperCase()}</span>
+            <span className="metric-chip">匹配 {match}%</span>
+          </div>
+          <p className="eyebrow">{result.group ?? '恋爱类型'}</p>
           <h2 className="result-panel__name" data-testid="result-name">
             {result.name}
           </h2>
           <p className="result-panel__badge">{result.badge}</p>
           <p className="result-panel__vibe">{result.vibe}</p>
         </div>
-        <PlaceholderPortrait
-          accent={category.theme.accent}
-          soft={category.theme.accentSoft}
-          label={result.name}
-        />
+        <div className="result-panel__figure">
+          <PlaceholderPortrait
+            accent={category.theme.accent}
+            soft={category.theme.accentSoft}
+            label={result.name}
+          />
+        </div>
       </div>
+
+      {result.sweetSpot || result.stressSignal || result.repairTip ? (
+        <div className="story-band story-band--result">
+          {result.sweetSpot ? (
+            <article className="story-band__item">
+              <small>你最有魅力的点</small>
+              <p>{result.sweetSpot}</p>
+            </article>
+          ) : null}
+          {result.stressSignal ? (
+            <article className="story-band__item">
+              <small>压力下会怎样</small>
+              <p>{result.stressSignal}</p>
+            </article>
+          ) : null}
+          {result.repairTip ? (
+            <article className="story-band__item">
+              <small>更适合你的修复方式</small>
+              <p>{result.repairTip}</p>
+            </article>
+          ) : null}
+        </div>
+      ) : null}
 
       <div className="result-grid">
         <article className="result-card">
-          <h3>这一型为什么像你</h3>
+          <h3>这一型为什么会命中你</h3>
           <p>{result.summary}</p>
           <p className="result-card__note">{result.whyItHits}</p>
         </article>
         <article className="result-card">
-          <h3>结果标签怎么读</h3>
+          <h3>这张标签该怎么读</h3>
           <ul className="bullet-list">
             {result.dimensionRead.map((line) => (
               <li key={line}>{line}</li>
@@ -114,11 +148,26 @@ export function ResultPanel({
         </div>
       </article>
 
+      {nearby.length ? (
+        <article className="result-card">
+          <h3>和你很接近的另外几型</h3>
+          <div className="nearby-strip">
+            {nearby.slice(0, 3).map((entry) => (
+              <div className="nearby-strip__item" key={entry.personality.id}>
+                <strong>{entry.personality.name}</strong>
+                <span>{entry.personality.badge}</span>
+                <small>匹配 {entry.match}%</small>
+              </div>
+            ))}
+          </div>
+        </article>
+      ) : null}
+
       <article className="result-card result-card--muted">
         <h3>这个测试怎么读</h3>
         <p>
-          这不是心理诊断，只是把你最近的关系或工作状态，压缩成一张更好懂、更好发的
-          标签卡。它参考连续维度匹配，不走二选一的人格神谕。
+          这不是心理诊断，只是把你最近的关系状态压缩成一张更好懂、更好发的标签卡。
+          它用的是连续模型和相似度匹配，不是二选一的人格神谕。
         </p>
       </article>
 

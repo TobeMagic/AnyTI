@@ -21,20 +21,32 @@ const questionSchema = z.object({
 const personalitySchema = z.object({
   id: z.string(),
   slug: z.string(),
+  group: z.string().optional(),
   name: z.string(),
   badge: z.string(),
   vibe: z.string(),
   summary: z.string(),
   whyItHits: z.string(),
   dimensionRead: z.array(z.string()).min(3),
+  sweetSpot: z.string().optional(),
+  stressSignal: z.string().optional(),
+  repairTip: z.string().optional(),
   recommendationIds: z.array(z.string()).optional(),
   targetVector: weightSchema,
   hiddenRule: z
     .object({
-      mode: z.enum(['all-range', 'min-threshold']),
+      mode: z.enum(['all-range', 'min-threshold', 'answer-pattern']),
       dimensions: z.record(z.string(), z.tuple([z.number(), z.number()])).optional(),
       threshold: z.number().optional(),
       keys: z.array(z.string()).optional(),
+      answers: z
+        .array(
+          z.object({
+            questionId: z.string(),
+            optionIds: z.array(z.string()).min(1),
+          }),
+        )
+        .optional(),
     })
     .optional(),
 });

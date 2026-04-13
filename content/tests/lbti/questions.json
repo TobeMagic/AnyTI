@@ -1,92 +1,302 @@
 [
   {
     "id": "lbti-q1",
+    "context": "连结需求模型 · 01 / 05",
     "prompt": "对方突然半天没回，你脑内弹出的第一句通常是？",
     "options": [
-      { "id": "a", "label": "是不是出事了，我先去问", "weights": { "attachment": 2, "expression": 1 } },
-      { "id": "b", "label": "行，那我也先忙自己的", "weights": { "space": 2, "attachment": -1 } },
-      { "id": "c", "label": "等他回来我再顺手提一句", "weights": { "conflict": -1, "expression": -1 } }
+      { "id": "a", "label": "先问一句是不是出了什么事", "weights": { "attunement": 2, "certainty": 1, "signal": 1 } },
+      { "id": "b", "label": "先忙自己的，等对方回就行", "weights": { "attunement": -2, "boundary": 2, "certainty": -1 } },
+      { "id": "c", "label": "我不问，但会开始留意后面的语气", "weights": { "attunement": 1, "certainty": 2, "signal": -1 } }
     ]
   },
   {
     "id": "lbti-q2",
-    "prompt": "有分歧时你更接近哪种操作？",
+    "context": "连结需求模型 · 02 / 05",
+    "prompt": "你最舒服的联系频率更像哪种？",
     "options": [
-      { "id": "a", "label": "当场开聊，不想把情绪存夜里", "weights": { "conflict": 2, "expression": 2 } },
-      { "id": "b", "label": "先退后一点，等没那么顶了再说", "weights": { "space": 1, "conflict": -2 } },
-      { "id": "c", "label": "我会先判断谁更需要安抚", "weights": { "attachment": 1, "control": -1, "expression": 1 } }
+      { "id": "a", "label": "要有存在感，最好每天都能接上", "weights": { "attunement": 2, "boundary": -2 } },
+      { "id": "b", "label": "稳定就行，不必事事报备", "weights": { "attunement": 1, "certainty": 1 } },
+      { "id": "c", "label": "各忙各的，想到再靠近", "weights": { "attunement": -2, "boundary": 2, "certainty": -1 } }
     ]
   },
   {
     "id": "lbti-q3",
-    "prompt": "你最舒服的相处节奏是？",
+    "context": "连结需求模型 · 03 / 05",
+    "prompt": "暧昧期里，你通常怎么确认这段关系的温度？",
     "options": [
-      { "id": "a", "label": "高频联系，让彼此都能感到在场", "weights": { "attachment": 2, "space": -2 } },
-      { "id": "b", "label": "联系稳定，但不用时时报备", "weights": { "attachment": 1, "space": 1 } },
-      { "id": "c", "label": "各忙各的，想到再靠近", "weights": { "space": 2, "expression": -1 } }
+      { "id": "a", "label": "直接问清楚现在到底算什么", "weights": { "certainty": 2, "signal": 2, "attunement": 1 } },
+      { "id": "b", "label": "看细节，比如主动度和措辞变化", "weights": { "certainty": 2, "signal": -1, "attunement": 1 } },
+      { "id": "c", "label": "先顺着走，不想太早定义", "weights": { "certainty": -2, "boundary": 1, "retreat": 1 } }
     ]
   },
   {
     "id": "lbti-q4",
-    "prompt": "你表达喜欢的方式更像？",
+    "context": "连结需求模型 · 04 / 05",
+    "prompt": "你不开心的时候，最希望对方怎么靠近你？",
     "options": [
-      { "id": "a", "label": "会直接说，怕对方感受不到", "weights": { "expression": 2 } },
-      { "id": "b", "label": "更爱用行动，不爱说满", "weights": { "expression": -1, "control": 1 } },
-      { "id": "c", "label": "我会一边逗，一边试探对方接不接得住", "weights": { "expression": 1, "control": 1 } }
+      { "id": "a", "label": "尽快来找我，让我知道关系没掉线", "weights": { "attunement": 2, "certainty": 1 } },
+      { "id": "b", "label": "给我一点空间，但别完全消失", "weights": { "boundary": 2, "attunement": 1 } },
+      { "id": "c", "label": "把话说清楚，比陪着沉默更有用", "weights": { "repair": 2, "signal": 1 } }
     ]
   },
   {
     "id": "lbti-q5",
-    "prompt": "面对关系的不确定感，你通常会？",
+    "context": "连结需求模型 · 05 / 05",
+    "prompt": "如果你感觉关系正在变冷，你的 first move 更接近？",
     "options": [
-      { "id": "a", "label": "立刻想确认，到底算什么", "weights": { "attachment": 2, "control": 1 } },
-      { "id": "b", "label": "先观察，不急着逼问", "weights": { "space": 1, "control": -1 } },
-      { "id": "c", "label": "会假装无所谓，但心里已经记账", "weights": { "attachment": 1, "expression": -1, "control": 1 } }
+      { "id": "a", "label": "主动把话挑开，至少先确认现在怎么了", "weights": { "attunement": 1, "certainty": 2, "repair": 1, "retreat": -2 } },
+      { "id": "b", "label": "嘴上说顺其自然，手上已经开始翻聊天记录", "weights": { "attunement": 2, "boundary": 1, "certainty": 2, "signal": -1 } },
+      { "id": "c", "label": "先把自己收回来，不想显得太着急", "weights": { "boundary": 2, "retreat": 2, "attunement": -1 } }
     ]
   },
   {
     "id": "lbti-q6",
-    "prompt": "你最怕关系里哪种感受？",
+    "context": "示爱表达模型 · 01 / 05",
+    "prompt": "你表达喜欢的方式更像？",
     "options": [
-      { "id": "a", "label": "突然冷掉，像一个人被丢在半空", "weights": { "attachment": 2, "space": -1 } },
-      { "id": "b", "label": "被管太多，像时时被拧着", "weights": { "space": 2, "control": -2 } },
-      { "id": "c", "label": "说不清楚，像在演默剧", "weights": { "expression": 2, "conflict": 1 } }
+      { "id": "a", "label": "直接说喜欢，不想让对方猜", "weights": { "signal": 2, "certainty": 1 } },
+      { "id": "b", "label": "用行动给到，但不一定讲得很满", "weights": { "signal": -1, "certainty": 1 } },
+      { "id": "c", "label": "半开玩笑半试探，看对方接不接得住", "weights": { "signal": 0, "boundary": 1 } }
     ]
   },
   {
     "id": "lbti-q7",
-    "prompt": "如果你不开心，通常希望对方怎么做？",
+    "context": "示爱表达模型 · 02 / 05",
+    "prompt": "你想一个人的时候，通常会怎么做？",
     "options": [
-      { "id": "a", "label": "赶紧靠近，别让我一个人脑补", "weights": { "attachment": 2, "expression": 1 } },
-      { "id": "b", "label": "给我空间，但别真的消失", "weights": { "space": 2, "attachment": 1 } },
-      { "id": "c", "label": "先把话说清楚，别搞氛围猜谜", "weights": { "conflict": 2, "expression": 1 } }
+      { "id": "a", "label": "会直接找他，或者把想念说出来", "weights": { "signal": 2, "attunement": 1 } },
+      { "id": "b", "label": "做点实际的事，见面时再给", "weights": { "signal": 0, "repair": 1 } },
+      { "id": "c", "label": "先忍住，怕自己显得太上头", "weights": { "signal": -2, "boundary": 1, "retreat": 1 } }
     ]
   },
   {
     "id": "lbti-q8",
-    "prompt": "你对“掌控感”的态度是？",
+    "context": "示爱表达模型 · 03 / 05",
+    "prompt": "公开场合里的亲密表达，你更接近哪种？",
     "options": [
-      { "id": "a", "label": "我会想知道节奏，心里才踏实", "weights": { "control": 2, "attachment": 1 } },
-      { "id": "b", "label": "关系不能像项目管理，我会逃", "weights": { "control": -2, "space": 1 } },
-      { "id": "c", "label": "看阶段，熟了以后我就没那么想管", "weights": { "control": 1 } }
+      { "id": "a", "label": "只要喜欢，公开一点也没关系", "weights": { "signal": 2, "boundary": -1 } },
+      { "id": "b", "label": "轻微可以，但不想过于高调", "weights": { "signal": 0 } },
+      { "id": "c", "label": "更喜欢只在私下表达亲密", "weights": { "signal": -2, "boundary": 2 } }
     ]
   },
   {
     "id": "lbti-q9",
-    "prompt": "你最像哪句关系台词？",
+    "context": "示爱表达模型 · 04 / 05",
+    "prompt": "下面哪句话最像你的示爱语言？",
     "options": [
-      { "id": "a", "label": "你先说清楚，我就不乱想", "weights": { "attachment": 2, "expression": 1 } },
-      { "id": "b", "label": "喜欢归喜欢，但别把我围住", "weights": { "space": 2, "control": -1 } },
-      { "id": "c", "label": "你别装没事，我们把这事聊完", "weights": { "conflict": 2, "expression": 2 } }
+      { "id": "a", "label": "把喜欢说得清清楚楚", "weights": { "signal": 2, "certainty": 1 } },
+      { "id": "b", "label": "默默照顾，比说更实际", "weights": { "signal": -1, "repair": 1 } },
+      { "id": "c", "label": "用梗、表情包和打趣传递好感", "weights": { "signal": 0, "attunement": 1, "boundary": 1 } }
     ]
   },
   {
     "id": "lbti-q10",
-    "prompt": "如果关系正在变淡，你更可能？",
+    "context": "示爱表达模型 · 05 / 05",
+    "prompt": "吵完架后，你最可能用哪句话开头？",
     "options": [
-      { "id": "a", "label": "疯狂找信号，试图把温度拉回来", "weights": { "attachment": 2, "control": 1 } },
-      { "id": "b", "label": "先往后退，不想让自己太难看", "weights": { "space": 2, "expression": -1 } },
-      { "id": "c", "label": "直接谈一次，成不成我都想知道", "weights": { "conflict": 2, "expression": 2 } }
+      { "id": "a", "label": "我们把这件事说开吧", "weights": { "signal": 1, "repair": 2, "retreat": -1 } },
+      { "id": "b", "label": "先给个台阶，比如送个吃的或者问一句到了没", "weights": { "repair": 1 } },
+      { "id": "c", "label": "等气氛回温了再找机会开口", "weights": { "repair": -1, "retreat": 1, "boundary": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q11",
+    "context": "冲突修复模型 · 01 / 05",
+    "prompt": "有分歧的时候，你通常怎么处理？",
+    "options": [
+      { "id": "a", "label": "最好当天聊完，不想拖成隐患", "weights": { "repair": 2, "certainty": 1 } },
+      { "id": "b", "label": "先退一下，不然容易说重话", "weights": { "repair": -1, "boundary": 1 } },
+      { "id": "c", "label": "先把情绪翻译一下，再谈具体问题", "weights": { "repair": 2, "signal": 1, "attunement": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q12",
+    "context": "冲突修复模型 · 02 / 05",
+    "prompt": "你对冷战的容忍时长大概是？",
+    "options": [
+      { "id": "a", "label": "几个小时都嫌长", "weights": { "repair": 2, "attunement": 2, "retreat": -1 } },
+      { "id": "b", "label": "睡一觉内都还能接受", "weights": { "boundary": 1 } },
+      { "id": "c", "label": "几天不说话也不是不行", "weights": { "repair": -2, "retreat": 2, "boundary": 2 } }
+    ]
+  },
+  {
+    "id": "lbti-q13",
+    "context": "冲突修复模型 · 03 / 05",
+    "prompt": "被误解的时候，你更容易？",
+    "options": [
+      { "id": "a", "label": "立刻解释，不想让误会滚大", "weights": { "repair": 2, "signal": 2 } },
+      { "id": "b", "label": "换一种对方能听进去的说法", "weights": { "repair": 2, "signal": 1 } },
+      { "id": "c", "label": "先沉默，等对方自己冷静", "weights": { "repair": -2, "retreat": 2 } }
+    ]
+  },
+  {
+    "id": "lbti-q14",
+    "context": "冲突修复模型 · 04 / 05",
+    "prompt": "你觉得谁来递台阶最舒服？",
+    "options": [
+      { "id": "a", "label": "谁先想明白谁先开口，别比输赢", "weights": { "repair": 2, "retreat": -1 } },
+      { "id": "b", "label": "最好有人先软下来，气氛才有得救", "weights": { "repair": 1, "attunement": 1 } },
+      { "id": "c", "label": "我更相信时间会把这事磨过去", "weights": { "repair": -2, "certainty": -1, "retreat": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q15",
+    "context": "冲突修复模型 · 05 / 05",
+    "prompt": "一次争执过去后，你还会不会想复盘？",
+    "options": [
+      { "id": "a", "label": "要，至少知道下次别再踩同一个坑", "weights": { "repair": 2, "certainty": 2 } },
+      { "id": "b", "label": "确认没事就够了，不必每次复盘", "weights": {} },
+      { "id": "c", "label": "不太想重提，翻过去就翻过去", "weights": { "repair": -2, "boundary": 1, "retreat": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q16",
+    "context": "边界节奏模型 · 01 / 05",
+    "prompt": "你最舒服的一周相处节奏更像哪种？",
+    "options": [
+      { "id": "a", "label": "高频见面或联系更有安全感", "weights": { "attunement": 2, "boundary": -2 } },
+      { "id": "b", "label": "有计划地见，留点各自时间", "weights": { "boundary": 1, "certainty": 1 } },
+      { "id": "c", "label": "我需要很完整的个人节奏", "weights": { "boundary": 2, "attunement": -1 } }
+    ]
+  },
+  {
+    "id": "lbti-q17",
+    "context": "边界节奏模型 · 02 / 05",
+    "prompt": "你对报备这件事的接受度是？",
+    "options": [
+      { "id": "a", "label": "自然分享行程会让我更安心", "weights": { "certainty": 2, "boundary": -1, "attunement": 1 } },
+      { "id": "b", "label": "重要节点说一声就够了", "weights": { "certainty": 1 } },
+      { "id": "c", "label": "被默认要报备会让我很想逃", "weights": { "boundary": 2, "retreat": 1, "certainty": -1 } }
+    ]
+  },
+  {
+    "id": "lbti-q18",
+    "context": "边界节奏模型 · 03 / 05",
+    "prompt": "对定位、看动态、查岗这类行为，你更接近？",
+    "options": [
+      { "id": "a", "label": "特定情况能理解，但不能当常态", "weights": { "certainty": 1, "boundary": -1 } },
+      { "id": "b", "label": "偶尔好奇正常，但别变成巡逻", "weights": { "boundary": 1 } },
+      { "id": "c", "label": "很反感，像关系被管理了", "weights": { "boundary": 2, "retreat": 1, "certainty": -1 } }
+    ]
+  },
+  {
+    "id": "lbti-q19",
+    "context": "边界节奏模型 · 04 / 05",
+    "prompt": "周末或节假日安排，更舒服的模式是？",
+    "options": [
+      { "id": "a", "label": "一起把节奏定下来会更踏实", "weights": { "certainty": 2, "boundary": -1 } },
+      { "id": "b", "label": "轮流决定，别永远一个人扛", "weights": { "repair": 1 } },
+      { "id": "c", "label": "最好保留各自的机动空间", "weights": { "boundary": 2, "certainty": -1 } }
+    ]
+  },
+  {
+    "id": "lbti-q20",
+    "context": "边界节奏模型 · 05 / 05",
+    "prompt": "如果你觉得对方有点黏过头，你最像哪种反应？",
+    "options": [
+      { "id": "a", "label": "直接说我需要喘口气，但别断联", "weights": { "boundary": 2, "attunement": 1, "repair": 1 } },
+      { "id": "b", "label": "我会说没事你去忙，但其实在等对方再靠近一点", "weights": { "attunement": 2, "boundary": 2, "certainty": 1 } },
+      { "id": "c", "label": "会明显拉开距离，等自己舒服了再回来", "weights": { "boundary": 2, "retreat": 2 } }
+    ]
+  },
+  {
+    "id": "lbti-q21",
+    "context": "确定性需求模型 · 01 / 05",
+    "prompt": "对方说到却没做到，你通常会？",
+    "options": [
+      { "id": "a", "label": "非常在意，这会直接影响我对关系的评分", "weights": { "certainty": 2, "retreat": 1 } },
+      { "id": "b", "label": "会记着，但也看当下处境", "weights": { "certainty": 1 } },
+      { "id": "c", "label": "情绪和气氛对我来说更重要", "weights": { "certainty": -2, "signal": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q22",
+    "context": "确定性需求模型 · 02 / 05",
+    "prompt": "你希望一段关系多快进入“有定义”的阶段？",
+    "options": [
+      { "id": "a", "label": "有感觉就想尽快知道彼此站位", "weights": { "certainty": 2, "attunement": 1 } },
+      { "id": "b", "label": "嘴上说不急，但没有方向我会慢慢焦虑", "weights": { "certainty": 2, "attunement": 1, "boundary": 1 } },
+      { "id": "c", "label": "标签可以很晚，先相处再说", "weights": { "certainty": -2, "boundary": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q23",
+    "context": "确定性需求模型 · 03 / 05",
+    "prompt": "纪念日、记住细节、兑现承诺这些事，对你来说？",
+    "options": [
+      { "id": "a", "label": "很重要，这些就是关系温度计", "weights": { "certainty": 2, "attunement": 1 } },
+      { "id": "b", "label": "记得会加分，不记得也不是大罪", "weights": {} },
+      { "id": "c", "label": "别让这些形式感变成考核题", "weights": { "certainty": -2, "boundary": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q24",
+    "context": "确定性需求模型 · 04 / 05",
+    "prompt": "你察觉到异常信号时，更可能怎么做？",
+    "options": [
+      { "id": "a", "label": "直接确认，不想靠脑补生活", "weights": { "certainty": 2, "repair": 2, "signal": 1 } },
+      { "id": "b", "label": "先侧面观察，再决定要不要问", "weights": { "certainty": 1, "retreat": 1 } },
+      { "id": "c", "label": "先看看，说不定只是我多想", "weights": { "certainty": -1, "retreat": 1, "boundary": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q25",
+    "context": "确定性需求模型 · 05 / 05",
+    "prompt": "你对未来计划和排他性的需求更像哪种？",
+    "options": [
+      { "id": "a", "label": "需要有明确方向，模糊太久会消耗我", "weights": { "certainty": 2, "attunement": 1 } },
+      { "id": "b", "label": "我嘴上说顺其自然，但其实希望对方自己给答案", "weights": { "certainty": 2, "attunement": 1, "boundary": 1, "signal": -1 } },
+      { "id": "c", "label": "我更看重当下感觉，未来不必先写合同", "weights": { "certainty": -2, "boundary": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q26",
+    "context": "撤离倾向模型 · 01 / 05",
+    "prompt": "关系开始变淡时，你最像哪种处理方式？",
+    "options": [
+      { "id": "a", "label": "再认真谈一次，看还有没有修的必要", "weights": { "repair": 2, "retreat": -2, "certainty": 1 } },
+      { "id": "b", "label": "先把联系降下来，看看对方会不会回来找", "weights": { "retreat": 1, "certainty": 1, "boundary": 1 } },
+      { "id": "c", "label": "默默退出会比较体面", "weights": { "retreat": 2, "boundary": 2, "repair": -1 } }
+    ]
+  },
+  {
+    "id": "lbti-q27",
+    "context": "撤离倾向模型 · 02 / 05",
+    "prompt": "关系暂停或结束后，你会不会回看聊天记录？",
+    "options": [
+      { "id": "a", "label": "会，想确认到底从哪里开始变的", "weights": { "attunement": 1, "certainty": 1, "retreat": -1 } },
+      { "id": "b", "label": "偶尔会看，但更多只是习惯", "weights": {} },
+      { "id": "c", "label": "我会尽快关掉提醒和入口", "weights": { "retreat": 2, "boundary": 2 } }
+    ]
+  },
+  {
+    "id": "lbti-q28",
+    "context": "撤离倾向模型 · 03 / 05",
+    "prompt": "如果对方回头，你通常会？",
+    "options": [
+      { "id": "a", "label": "先谈清楚为什么回来，再决定能不能进", "weights": { "certainty": 2, "repair": 1 } },
+      { "id": "b", "label": "看感觉，也看现在的自己还有没有空位", "weights": { "boundary": 1 } },
+      { "id": "c", "label": "大多直接关门，不再回头", "weights": { "retreat": 2, "boundary": 2 } }
+    ]
+  },
+  {
+    "id": "lbti-q29",
+    "context": "撤离倾向模型 · 04 / 05",
+    "prompt": "一段关系结束后，痕迹你通常怎么处理？",
+    "options": [
+      { "id": "a", "label": "会留一部分，不急着全删", "weights": { "attunement": 1, "retreat": -1 } },
+      { "id": "b", "label": "先归档起来，等自己平了再处理", "weights": { "retreat": 1, "boundary": 1 } },
+      { "id": "c", "label": "清得干干净净，省得反复回看", "weights": { "retreat": 2, "boundary": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q30",
+    "context": "撤离倾向模型 · 05 / 05",
+    "prompt": "如果你确定一段关系不合适了，你更可能怎么结束？",
+    "options": [
+      { "id": "a", "label": "把话说清楚，尽量好好收尾", "weights": { "repair": 2, "signal": 1 } },
+      { "id": "b", "label": "慢慢降频，让关系自己停下来", "weights": { "retreat": 1, "boundary": 1, "repair": -1 } },
+      { "id": "c", "label": "会很果断，避免反复拉扯", "weights": { "retreat": 2, "certainty": 1, "boundary": 1 } }
     ]
   }
 ]

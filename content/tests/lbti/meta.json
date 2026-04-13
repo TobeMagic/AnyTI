@@ -3,31 +3,33 @@
   "slug": "lbti",
   "category": "love",
   "status": "live",
-  "title": "LBTI 恋爱行为类型测试",
-  "hook": "你谈恋爱到底是秒回幻觉师，还是体面失联人？",
-  "summary": "10 道题，把你的陪伴、冲突、表达和边界感，测成一张更像当代关系状态的恋爱标签。",
-  "seoTitle": "LBTI 恋爱行为类型测试｜测你在关系里是哪种活人状态",
-  "seoDescription": "通过多维连续谱和结果匹配，测出你的恋爱行为类型。结果页可生成海报，并推荐其他 BTI 测试。",
-  "posterTheme": "love-rose",
-  "accentLabel": "玫瑰关系系",
-  "durationLabel": "约 3 分钟",
-  "questionCount": 10,
-  "dimensions": ["attachment", "conflict", "expression", "control", "space"],
+  "title": "LBTI 恋爱关系类型测试",
+  "hook": "30 道题，测你在关系里到底是浪漫审计员、正面开麦人，还是薛定谔恋人。",
+  "summary": "30 道题、6 个连续关系模型，把你的连结需求、示爱方式、修复习惯、边界节奏、确定性需求和撤离逻辑，压缩成一张更像当代活人状态的恋爱标签。",
+  "seoTitle": "LBTI 恋爱关系类型测试｜测你在关系里是哪种高传播活人状态",
+  "seoDescription": "基于 6 个连续关系模型与向量匹配，测出你的恋爱类型。30 道题结果支持海报导出，适合手机端分享。",
+  "posterTheme": "love-editorial-rose",
+  "accentLabel": "玫瑰频道 Edition 01",
+  "durationLabel": "约 6 分钟",
+  "questionCount": 30,
+  "dimensions": ["attunement", "signal", "repair", "boundary", "certainty", "retreat"],
   "dimensionDetails": [
-    { "key": "attachment", "title": "依附需求", "leftLabel": "淡感自持", "rightLabel": "强烈确认" },
-    { "key": "conflict", "title": "冲突处理", "leftLabel": "先退后说", "rightLabel": "正面开麦" },
-    { "key": "expression", "title": "表达方式", "leftLabel": "少说多藏", "rightLabel": "直接给到" },
-    { "key": "control", "title": "掌控倾向", "leftLabel": "顺势流动", "rightLabel": "关系查账" },
-    { "key": "space", "title": "空间需求", "leftLabel": "高频靠近", "rightLabel": "边界留白" }
+    { "key": "attunement", "title": "连结需求", "leftLabel": "自稳低敏", "rightLabel": "在场高需" },
+    { "key": "signal", "title": "示爱表达", "leftLabel": "含蓄试探", "rightLabel": "直接给到" },
+    { "key": "repair", "title": "冲突修复", "leftLabel": "冷却静音", "rightLabel": "正面修复" },
+    { "key": "boundary", "title": "边界节奏", "leftLabel": "融进关系", "rightLabel": "边界优先" },
+    { "key": "certainty", "title": "确定性需求", "leftLabel": "慢看再说", "rightLabel": "先要定心" },
+    { "key": "retreat", "title": "撤离倾向", "leftLabel": "留场硬扛", "rightLabel": "体面后撤" }
   ],
   "methodology": {
     "inspiration": [
-      "依恋理论：安全、焦虑与回避的差异会落在真实互动里",
-      "冲突处理研究：冷处理和正面开麦会形成完全不同的关系体感",
-      "亲密关系中的边界感：陪伴需求与独立空间往往一起决定关系节奏"
+      "依恋理论：焦虑、回避与安全感差异，往往首先体现在回应敏感度和靠近方式上",
+      "Gottman 冲突修复研究：关系好不好，不只看会不会吵，更看会不会修",
+      "不确定性降低与承诺推进：很多恋爱痛感，来自长期模糊而不是单次争执",
+      "边界协商与自主需求：亲密和独立不是二选一，而是需要被调频的连续谱"
     ],
-    "scoring": "题目会同时记录你的确认需求、冲突习惯、表达方式、掌控倾向和空间感，再用向量匹配找到最贴近的关系标签。",
-    "disclaimer": "结果描述的是你最近在关系里的行为倾向，不代表你永远如此，也不能替代任何专业咨询判断。"
+    "scoring": "30 道题会同时记录你的 6 个关系模型分数，再用向量余弦相似度匹配 16 个公开原型。隐藏人格会额外读取矛盾题模式，捕捉“又想被懂、又怕被围住”的状态。",
+    "disclaimer": "这是娱乐化的关系行为测试，不是专业诊断。它更适合描述你最近一段时间的互动习惯，而不是宣判你永远是谁。"
   },
   "recommendationIds": ["wbti", "sbti", "tbti"]
 }

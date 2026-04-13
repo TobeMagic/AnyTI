@@ -39,22 +39,32 @@ export type Question = {
   options: QuestionOption[];
 };
 
+export type HiddenRuleAnswerPattern = {
+  questionId: string;
+  optionIds: string[];
+};
+
 export type HiddenRule = {
-  mode: 'all-range' | 'min-threshold';
+  mode: 'all-range' | 'min-threshold' | 'answer-pattern';
   dimensions?: Record<string, [number, number]>;
   threshold?: number;
   keys?: string[];
+  answers?: HiddenRuleAnswerPattern[];
 };
 
 export type Personality = {
   id: string;
   slug: string;
+  group?: string;
   name: string;
   badge: string;
   vibe: string;
   summary: string;
   whyItHits: string;
   dimensionRead: string[];
+  sweetSpot?: string;
+  stressSignal?: string;
+  repairTip?: string;
   recommendationIds?: string[];
   targetVector: Record<string, number>;
   hiddenRule?: HiddenRule;
@@ -99,6 +109,12 @@ export type TestPack = {
 
 export type ScoreVector = Record<string, number>;
 
+export type RankedResult = {
+  personality: Personality;
+  similarity: number;
+  match: number;
+};
+
 export type DimensionSummary = {
   key: string;
   title: string;
@@ -112,4 +128,11 @@ export type QuizSession = {
   currentIndex: number;
   answers: string[];
   resultId?: string;
+};
+
+export type ResolvedQuizResult = {
+  vector: ScoreVector;
+  result: Personality;
+  match: number;
+  ranked: RankedResult[];
 };

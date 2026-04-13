@@ -2,6 +2,8 @@ import type {
   DimensionSummary,
   Personality,
   Question,
+  RankedResult,
+  ResolvedQuizResult,
   QuizSession,
   ScoreVector,
   TestPack,
@@ -43,16 +45,29 @@ export function cosineSimilarity(a: ScoreVector, b: ScoreVector) {
   return dot / (Math.sqrt(aNorm) * Math.sqrt(bNorm));
 }
 
-function matchesHiddenRule(personality: Personality, vector: ScoreVector) {
+function matchesDimensionRanges(personality: Personality, vector: ScoreVector) {
+  if (!personality.hiddenRule?.dimensions) return true;
+
+  return Object.entries(personality.hiddenRule.dimensions).every(([key, [min, max]]) => {
+    const value = vector[key] ?? 0;
+    return value >= min && value <= max;
+  });
+}
+
+function similarityToMatch(similarity: number) {
+  return Math.max(0, Math.min(100, Math.round(((similarity + 1) / 2) * 100)));
+}
+
+function matchesHiddenRule(
+  personality: Personality,
+  vector: ScoreVector,
+  questions: Question[],
+  answers: string[],
+) {
   if (!personality.hiddenRule) return false;
 
   if (personality.hiddenRule.mode === 'all-range') {
-    return Object.entries(personality.hiddenRule.dimensions ?? {}).every(
-      ([key, [min, max]]) => {
-        const value = vector[key] ?? 0;
-        return value >= min && value <= max;
-      },
-    );
+    return matchesDimensionRanges(personality, vector);
   }
 
   if (personality.hiddenRule.mode === 'min-threshold') {
@@ -60,31 +75,54 @@ function matchesHiddenRule(personality: Personality, vector: ScoreVector) {
     return Object.values(vector).every((value) => value >= threshold);
   }
 
+  if (personality.hiddenRule.mode === 'answer-pattern') {
+    const answerLookup = Object.fromEntries(
+      questions.map((question, index) => [question.id, answers[index]]),
+    );
+    const minimumMatches = personality.hiddenRule.threshold ?? 1;
+    const matchedCount = (personality.hiddenRule.answers ?? []).filter((pattern) =>
+      pattern.optionIds.includes(answerLookup[pattern.questionId]),
+    ).length;
+
+    return matchesDimensionRanges(personality, vector) && matchedCount >= minimumMatches;
+  }
+
   return false;
 }
 
-export function resolveResult(pack: TestPack, answers: string[]) {
+export function resolveResult(pack: TestPack, answers: string[]): ResolvedQuizResult {
   const vector = scoreAnswers(pack.questions, answers, pack.meta.dimensions);
-  const hidden = pack.personalities.find((personality) => matchesHiddenRule(personality, vector));
+  const ranked = [...pack.personalities]
+    .filter((personality) => !personality.hiddenRule)
+    .map((personality): RankedResult => {
+      const similarity = cosineSimilarity(vector, personality.targetVector);
+      return {
+        personality,
+        similarity,
+        match: similarityToMatch(similarity),
+      };
+    })
+    .sort((left, right) => right.similarity - left.similarity);
+
+  const hidden = pack.personalities.find((personality) =>
+    matchesHiddenRule(personality, vector, pack.questions, answers),
+  );
 
   if (hidden) {
+    const similarity = cosineSimilarity(vector, hidden.targetVector);
     return {
       vector,
       result: hidden,
+      match: similarityToMatch(similarity),
+      ranked,
     };
   }
-
-  const ranked = [...pack.personalities]
-    .filter((personality) => !personality.hiddenRule)
-    .map((personality) => ({
-      personality,
-      similarity: cosineSimilarity(vector, personality.targetVector),
-    }))
-    .sort((left, right) => right.similarity - left.similarity);
 
   return {
     vector,
     result: ranked[0]?.personality ?? pack.personalities[0],
+    match: ranked[0]?.match ?? 0,
+    ranked,
   };
 }
 

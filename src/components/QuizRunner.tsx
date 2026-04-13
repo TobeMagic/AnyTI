@@ -20,7 +20,9 @@ export function QuizRunner({
   return (
     <section className="quiz-panel" data-testid="quiz-runner">
       <div className="quiz-panel__eyebrow">
-        <span>Question {currentIndex + 1}</span>
+        <span>
+          Question {currentIndex + 1} / {total}
+        </span>
         <span>{progress}%</span>
       </div>
       <div className="progress-track" aria-hidden="true">
@@ -39,7 +41,10 @@ export function QuizRunner({
             type="button"
           >
             <span className="answer-card__index">{option.id.toUpperCase()}</span>
-            <span>{option.label}</span>
+            <span className="answer-card__body">
+              <strong className="answer-card__label">{option.label}</strong>
+              <small>{option.hint ?? '点一下就进入下一题'}</small>
+            </span>
           </button>
         ))}
       </div>

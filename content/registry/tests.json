@@ -13,9 +13,9 @@
     "slug": "lbti",
     "category": "love",
     "status": "live",
-    "title": "LBTI 恋爱行为类型测试",
-    "teaser": "测你在关系里到底是浪漫审计员、秒回幻觉师，还是体面失联人。",
-    "questionCount": 10
+    "title": "LBTI 恋爱关系类型测试",
+    "teaser": "30 道题测你在关系里到底是浪漫审计员、正面开麦人，还是薛定谔恋人。",
+    "questionCount": 30
   },
   {
     "id": "sbti",
