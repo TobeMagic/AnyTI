@@ -1,0 +1,33 @@
+{
+  "id": "wbti",
+  "slug": "wbti",
+  "category": "work",
+  "status": "live",
+  "title": "WBTI 职场行为类型测试",
+  "hook": "你上班到底是在点火、缓冲，还是体面掉线？",
+  "summary": "10 道题，把你在会议、规则、曝光和压力里的活人状态测成一张能转发的职场标签。",
+  "seoTitle": "WBTI 职场行为类型测试｜测你在工位上是哪种活人状态",
+  "seoDescription": "通过多维连续谱和结果匹配，测出你的职场行为类型。结果页可生成海报，并推荐下一个 BTI 测试。",
+  "posterTheme": "work-steel",
+  "accentLabel": "钢蓝职场系",
+  "durationLabel": "约 3 分钟",
+  "questionCount": 10,
+  "dimensions": ["stress", "drive", "collaboration", "rule", "visibility"],
+  "dimensionDetails": [
+    { "key": "stress", "title": "压力应对", "leftLabel": "内吞承压", "rightLabel": "外放点火" },
+    { "key": "drive", "title": "推进方式", "leftLabel": "稳步补位", "rightLabel": "直接冲刺" },
+    { "key": "collaboration", "title": "协作风格", "leftLabel": "独自消化", "rightLabel": "拉人共推" },
+    { "key": "rule", "title": "规则态度", "leftLabel": "先照着走", "rightLabel": "先质疑边界" },
+    { "key": "visibility", "title": "曝光倾向", "leftLabel": "低调隐身", "rightLabel": "主动被看见" }
+  ],
+  "methodology": {
+    "inspiration": [
+      "职业人格与情境切换：很多人在工作场景里的表现和日常状态并不一致",
+      "组织行为学中的应对策略：压力、协作、规则与展示欲会共同塑造职场形象",
+      "心理安全感研究：人在能否放心表达时，行为风格会出现明显偏转"
+    ],
+    "scoring": "每道题都给多个维度加权，不走简单 A/B 二分。完成后会生成你的行为向量，再和所有职场角色向量做余弦相似度匹配。",
+    "disclaimer": "它更像一张阶段性状态卡，不是职业能力鉴定，也不是心理诊断。你现在的环境，会显著影响这次结果。"
+  },
+  "recommendationIds": ["lbti", "sbti", "stbi"]
+}

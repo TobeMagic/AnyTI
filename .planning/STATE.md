@@ -5,33 +5,35 @@
 See: .planning/PROJECT.md (updated 2026-04-13)
 
 **Core value:** 用一套可复用的静态测试引擎，持续低成本孵化多个高传播测试，并把流量沉淀回自有矩阵资产
-**Current focus:** Phase 1 - Shared Engine Foundation
+**Current focus:** Milestone complete - v1 static matrix foundation shipped
 
 ## Current Position
 
-Phase: 1 of 3 (Shared Engine Foundation)
-Plan: 0 of 3 in current phase
-Status: Ready to plan
-Last activity: 2026-04-13 — Added homepage/category/test IA, approved the Phase 2 UI-SPEC draft, and bootstrapped SBTI virality research
+Phase: 3 of 3 (Sharing and Matrix Loop)
+Plan: 3 of 3 in current phase
+Status: Completed
+Last activity: 2026-04-13 — Shipped the static matrix app, verified WBTI/LBTI end-to-end, exported poster assets, and completed screenshot audit
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: 0 min
-- Total execution time: 0.0 hours
+- Total plans completed: 9
+- Average duration: n/a
+- Total execution time: n/a
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 1 | 3 | completed | n/a |
+| 2 | 3 | completed | n/a |
+| 3 | 3 | completed | n/a |
 
 **Recent Trend:**
-- Last 5 plans: none
-- Trend: Stable
+- Last 5 plans: completed
+- Trend: Upward
 
 ## Accumulated Context
 
@@ -45,18 +47,20 @@ Recent decisions affecting current work:
 - Initialization: Prove the template with `WBTI` before expanding the matrix
 - Direction update: Frontend hierarchy is homepage → category page → test page, not direct entry into a quiz only
 - Direction update: Archetype naming should be abstract, humorous, and optimized for screenshot/social spread
+- Delivery: v1 now ships two live tests (`WBTI`, `LBTI`) on the shared engine with placeholder portraits, poster export, and category-theme shells
+- Delivery: audit screenshots are stored in `work/audit/` and validate the current visual baseline
 
 ### Pending Todos
 
-None yet.
+None for v1 milestone.
 
 ### Blockers/Concerns
 
-- Phase 2 UI-SPEC is approved at the contract level, but implementation details still need plan-phase breakdown
-- SBTI-specific virality findings still need to be translated into concrete WBTI archetype naming and result-copy rules
+- The remaining matrix lanes (`SBTI`, `STBI`, `FBTI`, `TBTI`) still need their own authored content packs before launch
+- Placeholder portraits are intentional for this milestone and should be replaced by final archetype art in a later pass
 
 ## Session Continuity
 
 Last session: 2026-04-13 17:25
-Stopped at: Phase 1 context captured, Phase 2 UI-SPEC approved, and research backlog clarified
+Stopped at: Milestone complete; repo contains audited build output, tests, and screenshot artifacts
 Resume file: None

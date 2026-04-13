@@ -1,0 +1,33 @@
+{
+  "id": "lbti",
+  "slug": "lbti",
+  "category": "love",
+  "status": "live",
+  "title": "LBTI 恋爱行为类型测试",
+  "hook": "你谈恋爱到底是秒回幻觉师，还是体面失联人？",
+  "summary": "10 道题，把你的陪伴、冲突、表达和边界感，测成一张更像当代关系状态的恋爱标签。",
+  "seoTitle": "LBTI 恋爱行为类型测试｜测你在关系里是哪种活人状态",
+  "seoDescription": "通过多维连续谱和结果匹配，测出你的恋爱行为类型。结果页可生成海报，并推荐其他 BTI 测试。",
+  "posterTheme": "love-rose",
+  "accentLabel": "玫瑰关系系",
+  "durationLabel": "约 3 分钟",
+  "questionCount": 10,
+  "dimensions": ["attachment", "conflict", "expression", "control", "space"],
+  "dimensionDetails": [
+    { "key": "attachment", "title": "依附需求", "leftLabel": "淡感自持", "rightLabel": "强烈确认" },
+    { "key": "conflict", "title": "冲突处理", "leftLabel": "先退后说", "rightLabel": "正面开麦" },
+    { "key": "expression", "title": "表达方式", "leftLabel": "少说多藏", "rightLabel": "直接给到" },
+    { "key": "control", "title": "掌控倾向", "leftLabel": "顺势流动", "rightLabel": "关系查账" },
+    { "key": "space", "title": "空间需求", "leftLabel": "高频靠近", "rightLabel": "边界留白" }
+  ],
+  "methodology": {
+    "inspiration": [
+      "依恋理论：安全、焦虑与回避的差异会落在真实互动里",
+      "冲突处理研究：冷处理和正面开麦会形成完全不同的关系体感",
+      "亲密关系中的边界感：陪伴需求与独立空间往往一起决定关系节奏"
+    ],
+    "scoring": "题目会同时记录你的确认需求、冲突习惯、表达方式、掌控倾向和空间感，再用向量匹配找到最贴近的关系标签。",
+    "disclaimer": "结果描述的是你最近在关系里的行为倾向，不代表你永远如此，也不能替代任何专业咨询判断。"
+  },
+  "recommendationIds": ["wbti", "sbti", "tbti"]
+}

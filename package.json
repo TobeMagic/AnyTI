@@ -1,0 +1,33 @@
+{
+  "name": "anyti",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run validate:content && tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "validate:content": "node ./scripts/validate-content.mjs",
+    "test": "vitest run tests/unit",
+    "test:watch": "vitest tests/unit",
+    "test:e2e": "npm run build && playwright test",
+    "audit": "npm run test && npm run test:e2e"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^4.1.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^24.9.0",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.8",
+    "vitest": "^4.0.8"
+  }
+}

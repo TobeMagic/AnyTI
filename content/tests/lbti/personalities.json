@@ -1,0 +1,144 @@
+[
+  {
+    "id": "lbti-ping-machine",
+    "slug": "miao-hui-huan-jue-shi",
+    "name": "秒回幻觉师",
+    "badge": "在场感焦虑体",
+    "vibe": "你不一定想控制关系，但你真的很想确认它还在发光。",
+    "summary": "你很吃连接感。你会从回复速度、语气轻重、靠近频率里感受关系温度，所以你不是粘，而是对“失去在场感”特别敏感。",
+    "whyItHits": "高依附、偏表达、低空间距离，让你更容易把关系温度感受得很具体。",
+    "dimensionRead": [
+      "对回应速度和细节信号格外敏锐",
+      "需要被明确接住，关系才稳",
+      "不是想演戏，只是太怕空气突然冷掉"
+    ],
+    "recommendationIds": ["wbti", "tbti"],
+    "targetVector": {
+      "attachment": 0.98,
+      "conflict": 0.2,
+      "expression": 0.75,
+      "control": 0.35,
+      "space": -0.9
+    }
+  },
+  {
+    "id": "lbti-auditor",
+    "slug": "lang-man-shen-ji-yuan",
+    "name": "浪漫审计员",
+    "badge": "关系查账体",
+    "vibe": "你可以很爱，但你也会默默核对这个爱是不是前后一致。",
+    "summary": "你不会随便把关系交给情绪带跑。你会看投入、看行为、看兑现度，所以你看起来像冷静，实际上是在努力保护自己的期待不被乱花掉。",
+    "whyItHits": "你在控制感和表达上都不低，说明你会在感情里保留一套自己的核对机制。",
+    "dimensionRead": [
+      "会比较在意对方说到做到",
+      "表达不是少，而是要过自己心里的账",
+      "你想要的是稳定，不是热闹"
+    ],
+    "recommendationIds": ["wbti", "sbti"],
+    "targetVector": {
+      "attachment": 0.45,
+      "conflict": 0.35,
+      "expression": 0.25,
+      "control": 0.95,
+      "space": -0.15
+    }
+  },
+  {
+    "id": "lbti-ghost",
+    "slug": "ti-mian-shi-lian-ren",
+    "name": "体面失联人",
+    "badge": "优雅降温体",
+    "vibe": "不是不在意，是你宁愿优雅撤退，也不想把自己摊成一地狼狈。",
+    "summary": "你在关系里很会留后手。你并不是没有情绪，而是比很多人更清楚，自己一旦失控就会很难看，所以你更倾向往后退一步，先护住边界。",
+    "whyItHits": "高空间、低外显表达、偏低依附让你在关系风险出现时更倾向于体面后撤。",
+    "dimensionRead": [
+      "越不确定，越容易先把自己收回来",
+      "不爱被围住，也不想被看穿慌乱",
+      "会把撤退包装得很平静"
+    ],
+    "recommendationIds": ["wbti", "fbti"],
+    "targetVector": {
+      "attachment": -0.55,
+      "conflict": -0.35,
+      "expression": -0.85,
+      "control": 0.25,
+      "space": 0.95
+    }
+  },
+  {
+    "id": "lbti-translator",
+    "slug": "qing-xu-fan-yi-qi",
+    "name": "情绪翻译器",
+    "badge": "关系润滑体",
+    "vibe": "你比很多人更擅长把一句难听话，翻译成还能继续爱下去的话。",
+    "summary": "你通常不急着赢。你更在乎关系能不能继续流动，所以你会先翻译情绪、消化锋芒、帮彼此找一个还聊得下去的版本。",
+    "whyItHits": "中高依附、低冲突正面爆发、偏高表达让你更像那个让关系继续流动的人。",
+    "dimensionRead": [
+      "更擅长化解，不擅长硬刚",
+      "会替双方寻找还能说下去的话",
+      "容易承担关系里的润滑角色"
+    ],
+    "recommendationIds": ["wbti", "stbi"],
+    "targetVector": {
+      "attachment": 0.55,
+      "conflict": -0.75,
+      "expression": 0.7,
+      "control": -0.2,
+      "space": 0.05
+    }
+  },
+  {
+    "id": "lbti-speaker",
+    "slug": "zheng-mian-kai-mai-ren",
+    "name": "正面开麦人",
+    "badge": "别演快说体",
+    "vibe": "你宁愿吵一次，也不想被一堆含糊话拖到精神离线。",
+    "summary": "你对关系的忍耐方式很直接：有问题就聊。你不一定脾气大，但你很怕那种谁都懂、谁都不说、最后全靠猜的相处。",
+    "whyItHits": "高冲突处理、高表达、低拖延倾向让你更像关系里的正面沟通派。",
+    "dimensionRead": [
+      "对模糊气氛容忍度低",
+      "你不是喜欢吵，是喜欢明确",
+      "情绪压太久会让你更难受"
+    ],
+    "recommendationIds": ["wbti", "tbti"],
+    "targetVector": {
+      "attachment": 0.15,
+      "conflict": 0.98,
+      "expression": 0.95,
+      "control": 0.1,
+      "space": -0.25
+    }
+  },
+  {
+    "id": "lbti-hidden-watchtower",
+    "slug": "ai-qing-guan-cha-shao",
+    "name": "爱情观察哨",
+    "badge": "隐藏人格",
+    "vibe": "你对关系并不冷漠，只是已经学会先站远一点再判断值不值得靠近。",
+    "summary": "你很会看，但不急着下场。你能感知关系气候，也懂得自保，所以你既没有完全投入，也没有完全退出，像个在风口架着望远镜的人。",
+    "whyItHits": "你的空间感与控制感都不低，同时表达和依附都压在中间带，呈现出典型的观察哨状态。",
+    "dimensionRead": [
+      "靠近之前会先观察很多轮",
+      "不是没有期待，只是不愿太快交出主动权",
+      "像是在关系边缘驻守，而不是冲锋"
+    ],
+    "recommendationIds": ["wbti", "sbti"],
+    "targetVector": {
+      "attachment": 0.1,
+      "conflict": -0.1,
+      "expression": -0.05,
+      "control": 0.45,
+      "space": 0.55
+    },
+    "hiddenRule": {
+      "mode": "all-range",
+      "dimensions": {
+        "attachment": [-1.5, 1.5],
+        "conflict": [-1.5, 1.5],
+        "expression": [-1.5, 1.5],
+        "control": [0.5, 4.5],
+        "space": [1, 5]
+      }
+    }
+  }
+]

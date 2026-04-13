@@ -1,0 +1,92 @@
+[
+  {
+    "id": "wbti-q1",
+    "prompt": "领导突然把一个没人想接的活塞给你，你第一反应是？",
+    "options": [
+      { "id": "a", "label": "先接住，回头自己慢慢消化", "weights": { "stress": -2, "drive": 1, "visibility": -1 } },
+      { "id": "b", "label": "当场追问边界，不让锅糊在我身上", "weights": { "stress": 2, "rule": 2, "visibility": 1 } },
+      { "id": "c", "label": "顺手把锅拆成小块，开始找人共担", "weights": { "collaboration": 2, "drive": 1, "visibility": 1 } }
+    ]
+  },
+  {
+    "id": "wbti-q2",
+    "prompt": "项目推进卡住时，你更像哪种人？",
+    "options": [
+      { "id": "a", "label": "盯结果，先把能交的交出来", "weights": { "drive": 2, "stress": 1 } },
+      { "id": "b", "label": "先把流程顺清，不然迟早返工", "weights": { "rule": 2, "drive": -1 } },
+      { "id": "c", "label": "看谁能动就先拉谁动起来", "weights": { "collaboration": 2, "visibility": 1 } }
+    ]
+  },
+  {
+    "id": "wbti-q3",
+    "prompt": "开会时你通常处在什么位置？",
+    "options": [
+      { "id": "a", "label": "话不多，但会在关键时刻补一句", "weights": { "visibility": -1, "drive": 1 } },
+      { "id": "b", "label": "我会主动控场，不然会越开越散", "weights": { "visibility": 2, "drive": 2 } },
+      { "id": "c", "label": "我更擅长会后私聊，把事推进", "weights": { "collaboration": 1, "visibility": -2 } }
+    ]
+  },
+  {
+    "id": "wbti-q4",
+    "prompt": "面对老流程老制度，你通常怎么处理？",
+    "options": [
+      { "id": "a", "label": "能不碰就不碰，先照着走", "weights": { "rule": -2, "stress": -1 } },
+      { "id": "b", "label": "有问题就提，哪怕显得刺", "weights": { "rule": 2, "visibility": 1 } },
+      { "id": "c", "label": "表面照做，暗地里找更顺的路", "weights": { "rule": 1, "drive": 1, "visibility": -1 } }
+    ]
+  },
+  {
+    "id": "wbti-q5",
+    "prompt": "被夸时你更接近哪种反应？",
+    "options": [
+      { "id": "a", "label": "别夸，我只想赶紧回工位", "weights": { "visibility": -2 } },
+      { "id": "b", "label": "谢谢，顺便把团队也带上", "weights": { "collaboration": 2, "visibility": 1 } },
+      { "id": "c", "label": "夸都夸了，我就接住继续放大", "weights": { "visibility": 2, "drive": 1 } }
+    ]
+  },
+  {
+    "id": "wbti-q6",
+    "prompt": "临近 deadline，你的状态通常是？",
+    "options": [
+      { "id": "a", "label": "外表平静，内心已经开始燃烧", "weights": { "stress": -2, "drive": 1 } },
+      { "id": "b", "label": "谁拖后腿我就直接点名", "weights": { "stress": 2, "visibility": 2 } },
+      { "id": "c", "label": "开始疯狂发消息把人串起来", "weights": { "collaboration": 2, "stress": 1 } }
+    ]
+  },
+  {
+    "id": "wbti-q7",
+    "prompt": "你对“被看见”的态度是？",
+    "options": [
+      { "id": "a", "label": "最好别，我宁愿安静把活干完", "weights": { "visibility": -2, "stress": -1 } },
+      { "id": "b", "label": "该被看见就得被看见，不然谁知道我做了啥", "weights": { "visibility": 2, "drive": 1 } },
+      { "id": "c", "label": "看情况，必要时我也会自己推门上台", "weights": { "visibility": 1, "drive": 1 } }
+    ]
+  },
+  {
+    "id": "wbti-q8",
+    "prompt": "团队协作最让你烦的点通常是？",
+    "options": [
+      { "id": "a", "label": "大家都来找我擦边角", "weights": { "collaboration": 1, "stress": -2 } },
+      { "id": "b", "label": "说半天没人拍板", "weights": { "drive": 2, "visibility": 1 } },
+      { "id": "c", "label": "规则讲不清，后面全在补洞", "weights": { "rule": 2, "drive": 1 } }
+    ]
+  },
+  {
+    "id": "wbti-q9",
+    "prompt": "如果项目成功了，你更想得到什么？",
+    "options": [
+      { "id": "a", "label": "别来额外加活就行", "weights": { "stress": -1, "visibility": -1 } },
+      { "id": "b", "label": "明确归功，别让我白燃", "weights": { "visibility": 2, "drive": 2 } },
+      { "id": "c", "label": "团队顺了，下次合作别再互相怀疑", "weights": { "collaboration": 2, "rule": 1 } }
+    ]
+  },
+  {
+    "id": "wbti-q10",
+    "prompt": "最像你的一句工位自白是？",
+    "options": [
+      { "id": "a", "label": "先别叫我，我还能撑", "weights": { "stress": -2, "visibility": -1 } },
+      { "id": "b", "label": "这事谁来拍板？我现在就要答案", "weights": { "drive": 2, "rule": 1, "visibility": 1 } },
+      { "id": "c", "label": "大家都别散，我把这桌残局拼起来", "weights": { "collaboration": 2, "stress": 1 } }
+    ]
+  }
+]

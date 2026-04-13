@@ -12,9 +12,9 @@ This roadmap turns the BTI matrix idea into a reusable static product platform i
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Shared Engine Foundation** - Build the static platform skeleton, data contracts, and reusable quiz runtime
-- [ ] **Phase 2: WBTI End-to-End Experience** - Deliver the first complete home → category → WBTI flow and its result experience
-- [ ] **Phase 3: Sharing and Matrix Loop** - Add poster export, recommendation loops, and prove the second-test replication path
+- [x] **Phase 1: Shared Engine Foundation** - Build the static platform skeleton, data contracts, and reusable quiz runtime
+- [x] **Phase 2: WBTI End-to-End Experience** - Deliver the first complete home → category → WBTI flow and its result experience
+- [x] **Phase 3: Sharing and Matrix Loop** - Add poster export, recommendation loops, and prove the second-test replication path
 
 ## Phase Details
 
@@ -30,9 +30,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Bootstrap Vite multi-page project, repo structure, and GitHub Pages deployment workflow
-- [ ] 01-02: Define quiz pack schemas, content loading, and shared metadata contracts
-- [ ] 01-03: Implement the reusable scoring, matching, hidden-type, and test foundation
+- [x] 01-01: Bootstrap Vite multi-page project, repo structure, and GitHub Pages deployment workflow
+- [x] 01-02: Define quiz pack schemas, content loading, and shared metadata contracts
+- [x] 01-03: Implement the reusable scoring, matching, hidden-type, and test foundation
 
 ### Phase 2: WBTI End-to-End Experience
 **Goal**: Use `WBTI` to prove the platform template with a responsive homepage-to-category-to-test hierarchy, answer flow, result calculation, social-first archetype framing, and per-page metadata.
@@ -47,9 +47,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: Build the platform homepage, first category landing page, and `WBTI` entry surface
-- [ ] 02-02: Implement the `WBTI` quiz runner, result rendering, and social-first archetype copy contract
-- [ ] 02-03: Apply category theming, responsive QA, and per-page SEO metadata
+- [x] 02-01: Build the platform homepage, first category landing page, and `WBTI` entry surface
+- [x] 02-02: Implement the `WBTI` quiz runner, result rendering, and social-first archetype copy contract
+- [x] 02-03: Apply category theming, responsive QA, and per-page SEO metadata
 
 ### Phase 3: Sharing and Matrix Loop
 **Goal**: Turn the working `WBTI` template into a matrix-ready growth loop with poster export, QR-enabled sharing, other-quiz recommendations, and a proven second-test replication path.
@@ -63,9 +63,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: Implement poster export, QR placement, and social-share-safe rendering
-- [ ] 03-02: Add matrix registry and recommendation loops to the result page
-- [ ] 03-03: Prove the second-test replication path on the shared engine
+- [x] 03-01: Implement poster export, QR placement, and social-share-safe rendering
+- [x] 03-02: Add matrix registry and recommendation loops to the result page
+- [x] 03-03: Prove the second-test replication path on the shared engine
 
 ## Progress
 
@@ -74,6 +74,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Shared Engine Foundation | 0/3 | Not started | - |
-| 2. WBTI End-to-End Experience | 0/3 | Not started | - |
-| 3. Sharing and Matrix Loop | 0/3 | Not started | - |
+| 1. Shared Engine Foundation | 3/3 | Completed | 2026-04-13 |
+| 2. WBTI End-to-End Experience | 3/3 | Completed | 2026-04-13 |
+| 3. Sharing and Matrix Loop | 3/3 | Completed | 2026-04-13 |

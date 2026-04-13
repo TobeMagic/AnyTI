@@ -1,0 +1,92 @@
+[
+  {
+    "id": "lbti-q1",
+    "prompt": "对方突然半天没回，你脑内弹出的第一句通常是？",
+    "options": [
+      { "id": "a", "label": "是不是出事了，我先去问", "weights": { "attachment": 2, "expression": 1 } },
+      { "id": "b", "label": "行，那我也先忙自己的", "weights": { "space": 2, "attachment": -1 } },
+      { "id": "c", "label": "等他回来我再顺手提一句", "weights": { "conflict": -1, "expression": -1 } }
+    ]
+  },
+  {
+    "id": "lbti-q2",
+    "prompt": "有分歧时你更接近哪种操作？",
+    "options": [
+      { "id": "a", "label": "当场开聊，不想把情绪存夜里", "weights": { "conflict": 2, "expression": 2 } },
+      { "id": "b", "label": "先退后一点，等没那么顶了再说", "weights": { "space": 1, "conflict": -2 } },
+      { "id": "c", "label": "我会先判断谁更需要安抚", "weights": { "attachment": 1, "control": -1, "expression": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q3",
+    "prompt": "你最舒服的相处节奏是？",
+    "options": [
+      { "id": "a", "label": "高频联系，让彼此都能感到在场", "weights": { "attachment": 2, "space": -2 } },
+      { "id": "b", "label": "联系稳定，但不用时时报备", "weights": { "attachment": 1, "space": 1 } },
+      { "id": "c", "label": "各忙各的，想到再靠近", "weights": { "space": 2, "expression": -1 } }
+    ]
+  },
+  {
+    "id": "lbti-q4",
+    "prompt": "你表达喜欢的方式更像？",
+    "options": [
+      { "id": "a", "label": "会直接说，怕对方感受不到", "weights": { "expression": 2 } },
+      { "id": "b", "label": "更爱用行动，不爱说满", "weights": { "expression": -1, "control": 1 } },
+      { "id": "c", "label": "我会一边逗，一边试探对方接不接得住", "weights": { "expression": 1, "control": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q5",
+    "prompt": "面对关系的不确定感，你通常会？",
+    "options": [
+      { "id": "a", "label": "立刻想确认，到底算什么", "weights": { "attachment": 2, "control": 1 } },
+      { "id": "b", "label": "先观察，不急着逼问", "weights": { "space": 1, "control": -1 } },
+      { "id": "c", "label": "会假装无所谓，但心里已经记账", "weights": { "attachment": 1, "expression": -1, "control": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q6",
+    "prompt": "你最怕关系里哪种感受？",
+    "options": [
+      { "id": "a", "label": "突然冷掉，像一个人被丢在半空", "weights": { "attachment": 2, "space": -1 } },
+      { "id": "b", "label": "被管太多，像时时被拧着", "weights": { "space": 2, "control": -2 } },
+      { "id": "c", "label": "说不清楚，像在演默剧", "weights": { "expression": 2, "conflict": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q7",
+    "prompt": "如果你不开心，通常希望对方怎么做？",
+    "options": [
+      { "id": "a", "label": "赶紧靠近，别让我一个人脑补", "weights": { "attachment": 2, "expression": 1 } },
+      { "id": "b", "label": "给我空间，但别真的消失", "weights": { "space": 2, "attachment": 1 } },
+      { "id": "c", "label": "先把话说清楚，别搞氛围猜谜", "weights": { "conflict": 2, "expression": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q8",
+    "prompt": "你对“掌控感”的态度是？",
+    "options": [
+      { "id": "a", "label": "我会想知道节奏，心里才踏实", "weights": { "control": 2, "attachment": 1 } },
+      { "id": "b", "label": "关系不能像项目管理，我会逃", "weights": { "control": -2, "space": 1 } },
+      { "id": "c", "label": "看阶段，熟了以后我就没那么想管", "weights": { "control": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q9",
+    "prompt": "你最像哪句关系台词？",
+    "options": [
+      { "id": "a", "label": "你先说清楚，我就不乱想", "weights": { "attachment": 2, "expression": 1 } },
+      { "id": "b", "label": "喜欢归喜欢，但别把我围住", "weights": { "space": 2, "control": -1 } },
+      { "id": "c", "label": "你别装没事，我们把这事聊完", "weights": { "conflict": 2, "expression": 2 } }
+    ]
+  },
+  {
+    "id": "lbti-q10",
+    "prompt": "如果关系正在变淡，你更可能？",
+    "options": [
+      { "id": "a", "label": "疯狂找信号，试图把温度拉回来", "weights": { "attachment": 2, "control": 1 } },
+      { "id": "b", "label": "先往后退，不想让自己太难看", "weights": { "space": 2, "expression": -1 } },
+      { "id": "c", "label": "直接谈一次，成不成我都想知道", "weights": { "conflict": 2, "expression": 2 } }
+    ]
+  }
+]

@@ -1,0 +1,144 @@
+[
+  {
+    "id": "wbti-buffer",
+    "slug": "bei-guo-huan-chong-dian",
+    "name": "背锅缓冲垫",
+    "badge": "工位缓冲层",
+    "vibe": "你总能先把炸点接住，所以别人经常默认你还能继续接。",
+    "summary": "你不是最吵的人，但你常常是最后那个没让局面彻底崩掉的人。你更习惯把压力往身体里吞，再把对外输出修成体面版本。",
+    "whyItHits": "你的分数显示出低曝光、高承压、偏协作的组合，说明你更像团队里的减震结构。",
+    "dimensionRead": [
+      "压力来了先内吞，再找地方慢慢消化",
+      "更愿意补位而不是抢镜",
+      "别人失控时，你反而更像场面修补匠"
+    ],
+    "recommendationIds": ["lbti", "sbti"],
+    "targetVector": {
+      "stress": -0.95,
+      "drive": 0.2,
+      "collaboration": 0.65,
+      "rule": 0.15,
+      "visibility": -0.85
+    }
+  },
+  {
+    "id": "wbti-igniter",
+    "slug": "hui-yi-dian-huo-qi",
+    "name": "会议点火器",
+    "badge": "控场高压锅",
+    "vibe": "局一散你就想上手扶正，顺便把所有拖拉都点着。",
+    "summary": "你不太受得了事情悬着。比起等氛围成熟，你更像那个直接下刀、逼大家进入状态的人，因此你经常又高效又招人怕。",
+    "whyItHits": "高驱动、高曝光、偏外显压力让你更像推动局面的人，而不是被动承受的人。",
+    "dimensionRead": [
+      "对模糊和拖延容忍度很低",
+      "会主动发出行动信号",
+      "常常先把气氛点燃，再逼结果落地"
+    ],
+    "recommendationIds": ["lbti", "stbi"],
+    "targetVector": {
+      "stress": 0.85,
+      "drive": 0.95,
+      "collaboration": 0.15,
+      "rule": 0.45,
+      "visibility": 0.9
+    }
+  },
+  {
+    "id": "wbti-ghost",
+    "slug": "ti-mian-tao-bing",
+    "name": "体面逃兵",
+    "badge": "优雅掉线人",
+    "vibe": "你不是不会做，而是太会在关键时刻把自己从漩涡边缘撤出来。",
+    "summary": "你很懂局，但也很懂自保。你会在被卷入全场消耗之前先给自己留出口，所以你看起来体面、聪明、偶尔也略显飘忽。",
+    "whyItHits": "你的低曝光、低规则对抗、低外显消耗让你更倾向于保持体面距离，而不是深陷混战。",
+    "dimensionRead": [
+      "看懂场面，但不一定每次都冲进去",
+      "会保留自己的精力边界",
+      "比起燃尽，更在意怎么从局里全身而退"
+    ],
+    "recommendationIds": ["lbti", "tbti"],
+    "targetVector": {
+      "stress": -0.35,
+      "drive": -0.2,
+      "collaboration": -0.1,
+      "rule": -0.45,
+      "visibility": -0.75
+    }
+  },
+  {
+    "id": "wbti-architect",
+    "slug": "liu-cheng-mu-gong",
+    "name": "流程木工",
+    "badge": "结构缝补师",
+    "vibe": "你最不怕麻烦，但最怕没章法。",
+    "summary": "你不一定想站在最前面，但你很难忍受大家在一团糟里假装推进。你会试着把漏洞补平、把边界写清、把下次踩坑的概率压下去。",
+    "whyItHits": "你的高规则敏感度加上中高驱动，说明你更像那个把烂流程重新刨平的人。",
+    "dimensionRead": [
+      "对模糊边界和返工极度敏感",
+      "宁可现在麻烦，也不想后面再崩一次",
+      "擅长把经验沉淀成结构"
+    ],
+    "recommendationIds": ["stbi", "sbti"],
+    "targetVector": {
+      "stress": 0.1,
+      "drive": 0.55,
+      "collaboration": 0.2,
+      "rule": 0.95,
+      "visibility": -0.1
+    }
+  },
+  {
+    "id": "wbti-stage",
+    "slug": "gong-wei-da-zhu-bo",
+    "name": "工位大主播",
+    "badge": "高能见度体",
+    "vibe": "被看到不是副作用，是你推进事情的一部分。",
+    "summary": "你知道什么时候该让自己被看见，什么时候该把成果抬高。你不一定张扬，但你很清楚，完全隐形的人通常也最容易被忽略。",
+    "whyItHits": "你的高曝光倾向和中高驱动说明你会主动经营被看见的时机。",
+    "dimensionRead": [
+      "知道什么时候站到光下更划算",
+      "比很多人更会做结果呈现",
+      "把表达本身也当成推进手段"
+    ],
+    "recommendationIds": ["lbti", "fbti"],
+    "targetVector": {
+      "stress": 0.25,
+      "drive": 0.7,
+      "collaboration": 0.05,
+      "rule": 0.15,
+      "visibility": 0.98
+    }
+  },
+  {
+    "id": "wbti-hidden-bodhisattva",
+    "slug": "gong-wei-pu-sa",
+    "name": "工位菩萨",
+    "badge": "隐藏人格",
+    "vibe": "你看透了所有工位剧本，但还是决定先把今天过完。",
+    "summary": "你几乎不往任何极端偏。你既不会过度表演，也不会彻底摆烂；像是已经把所有套路看穿，但选择留在场上，把日子过成一种平静的硬撑。",
+    "whyItHits": "你的得分长期贴近中间带，说明你不是单向极端，而是一种看穿后继续存活的平衡状态。",
+    "dimensionRead": [
+      "不爱极端，也不信任何单一口号",
+      "理解所有派系，但不轻易站队",
+      "像在工位上修行，而不是上班"
+    ],
+    "recommendationIds": ["lbti", "tbti"],
+    "targetVector": {
+      "stress": 0,
+      "drive": 0,
+      "collaboration": 0,
+      "rule": 0,
+      "visibility": 0
+    },
+    "hiddenRule": {
+      "mode": "all-range",
+      "dimensions": {
+        "stress": [-1.25, 1.25],
+        "drive": [-1.25, 1.25],
+        "collaboration": [-1.25, 1.25],
+        "rule": [-1.25, 1.25],
+        "visibility": [-1.25, 1.25]
+      }
+    }
+  }
+]

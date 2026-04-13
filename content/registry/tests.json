@@ -1,0 +1,56 @@
+[
+  {
+    "id": "wbti",
+    "slug": "wbti",
+    "category": "work",
+    "status": "live",
+    "title": "WBTI 职场行为类型测试",
+    "teaser": "测你在工位上到底是点火器、缓冲垫，还是体面逃兵。",
+    "questionCount": 10
+  },
+  {
+    "id": "lbti",
+    "slug": "lbti",
+    "category": "love",
+    "status": "live",
+    "title": "LBTI 恋爱行为类型测试",
+    "teaser": "测你在关系里到底是浪漫审计员、秒回幻觉师，还是体面失联人。",
+    "questionCount": 10
+  },
+  {
+    "id": "sbti",
+    "slug": "sbti",
+    "category": "spend",
+    "status": "upcoming",
+    "title": "SBTI 消费行为类型测试",
+    "teaser": "筹备中：把买东西这件事，测成一张能发群的状态卡。",
+    "questionCount": 0
+  },
+  {
+    "id": "stbi",
+    "slug": "stbi",
+    "category": "study",
+    "status": "upcoming",
+    "title": "STBI 学习行为类型测试",
+    "teaser": "筹备中：你的努力，到底是高压冲刺还是表演式发奋。",
+    "questionCount": 0
+  },
+  {
+    "id": "fbti",
+    "slug": "fbti",
+    "category": "fitness",
+    "status": "upcoming",
+    "title": "FBTI 健身行为类型测试",
+    "teaser": "筹备中：你健身是为了变强，还是为了让朋友圈知道你变强。",
+    "questionCount": 0
+  },
+  {
+    "id": "tbti",
+    "slug": "tbti",
+    "category": "travel",
+    "status": "upcoming",
+    "title": "TBTI 旅行行为类型测试",
+    "teaser": "筹备中：你是攻略暴君、精神旅行者，还是随机漂流体。",
+    "questionCount": 0
+  }
+]
