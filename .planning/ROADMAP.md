@@ -2,7 +2,7 @@
 
 ## Overview
 
-这条路线图把 BTI 矩阵平台压成 4 个粗粒度阶段，先定静态多入口和数据契约，再用 `WBTI` 跑通第一条完整链路，再补齐结果页的传播闭环，最后验证模板是否真的能复制到第二个测试。这样阶段边界来自需求本身，而不是套通用 PM 模板。
+This roadmap turns the BTI matrix idea into a reusable static product platform in three coarse phases. Phase 1 establishes the shared engine, data contracts, scoring core, and deployment skeleton; Phase 2 proves the template with a complete `WBTI` experience; Phase 3 adds the poster, recommendation, and replication loop that makes the product behave like a matrix instead of a one-off quiz.
 
 ## Phases
 
@@ -12,84 +12,67 @@
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Static Matrix Foundation** - Build the reusable static structure, quiz-pack contract, and matrix registry.
-- [ ] **Phase 2: WBTI Engine and Quiz Flow** - Deliver the first complete WBTI answering experience on top of the shared engine.
-- [ ] **Phase 3: WBTI Results and Share Loop** - Turn WBTI completions into results, posters, trust framing, and cross-test continuation.
-- [ ] **Phase 4: Template Hardening and Replication** - Prove the template can be tested and reused for a second BTI test without engine rewrites.
+- [ ] **Phase 1: Shared Engine Foundation** - Build the static platform skeleton, data contracts, and reusable quiz runtime
+- [ ] **Phase 2: WBTI End-to-End Experience** - Deliver the first complete quiz flow from landing page to results
+- [ ] **Phase 3: Sharing and Matrix Loop** - Add poster export, recommendation loops, and prove the second-test replication path
 
 ## Phase Details
 
-### Phase 1: Static Matrix Foundation
-**Goal**: The platform can build as a GitHub Pages static multi-page site where every quiz is a schema-validated data pack with its own route and shared registry.
+### Phase 1: Shared Engine Foundation
+**Goal**: Establish the static project structure, schema-validated quiz packs, shared scoring runtime, and GitHub Pages deployment path so future quizzes can be added as data rather than code forks.
 **Depends on**: Nothing (first phase)
-**Requirements**: FND-01, FND-02, FND-03, DATA-01, DATA-02, DATA-03, DATA-04, MTRX-01, SEO-02
+**Requirements**: FND-01, FND-02, FND-03, DATA-01, DATA-02, DATA-03, DATA-04, SCOR-01, SCOR-02, SCOR-03, SCOR-04, SCOR-05, SEO-02
 **Success Criteria** (what must be TRUE):
-  1. The project builds and deploys as a static multi-page site on GitHub Pages.
-  2. Each live test is reachable from its own static directory route such as `/wbti/`.
-  3. A test is defined through `questions.json`, `personalities.json`, and `meta.json`, and invalid data fails schema validation before rendering or scoring.
-  4. The site maintains a shared registry of live and upcoming tests, and the route/content structure stays compatible with a future matrix hub and indexable detail pages.
+  1. Published quizzes can live at stable static slugs such as `/wbti/` without relying on a single client-only route
+  2. Invalid quiz data fails during build instead of breaking silently at runtime
+  3. Weighted scoring, cosine matching, and hidden-type rules are covered by automated tests
+  4. The project can build and deploy to GitHub Pages through a repeatable workflow while staying compatible with future matrix routes
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Scaffold the static multi-entry project and GitHub Pages deployment flow.
-- [ ] 01-02: Define the shared quiz-pack schemas, validation path, and data loading contracts.
-- [ ] 01-03: Add the matrix registry and shared runtime boundaries that future tests can reuse.
+- [ ] 01-01: Bootstrap Vite multi-page project, repo structure, and GitHub Pages deployment workflow
+- [ ] 01-02: Define quiz pack schemas, content loading, and shared metadata contracts
+- [ ] 01-03: Implement the reusable scoring, matching, hidden-type, and test foundation
 
-### Phase 2: WBTI Engine and Quiz Flow
-**Goal**: Visitors can start, complete, restart, and retake WBTI using a shared weighted-dimension scoring engine without any account or server-state dependency.
+### Phase 2: WBTI End-to-End Experience
+**Goal**: Use `WBTI` to prove the platform template with a responsive landing page, answer flow, result calculation, result explanation, trust framing, and per-quiz metadata.
 **Depends on**: Phase 1
-**Requirements**: SCOR-01, SCOR-02, SCOR-03, SCOR-04, WBTI-01, WBTI-02, WBTI-03, WBTI-04
+**Requirements**: WBTI-01, WBTI-02, WBTI-03, WBTI-04, RSLT-01, TRST-01, SEO-01
 **Success Criteria** (what must be TRUE):
-  1. A user can start WBTI from a dedicated intro page and answer the full questionnaire with visible progress and mobile-friendly interactions.
-  2. Answer options can assign weighted scores across multiple dimensions, and the engine converts completed answers into a user score vector.
-  3. The engine ranks personalities by cosine similarity and can apply hidden-personality trigger rules after base matching.
-  4. A user can complete, restart, and retake WBTI without creating an account or relying on server-side state.
+  1. A visitor can start `WBTI`, complete it on mobile or desktop, and retake it without creating an account or relying on server-side state
+  2. The final result is calculated from weighted continuous dimensions and rendered with a clear archetype explanation, core description, and dimension summary
+  3. The `WBTI` experience includes a brief explanation of theory inspiration, scoring approach, and non-clinical disclaimer
+  4. The `WBTI` route exposes its own title, description, and crawlable internal links suitable for search indexing
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: Build the WBTI intro page and responsive quiz runner shell.
-- [ ] 02-02: Implement weighted scoring, vector creation, cosine matching, and hidden-rule support.
-- [ ] 02-03: Wire the complete WBTI answer flow, restart, and retake behavior.
+- [ ] 02-01: Build the `WBTI` landing page and interactive quiz runner
+- [ ] 02-02: Implement `WBTI` result rendering, dimension profile, and trust/disclaimer content
+- [ ] 02-03: Apply responsive QA and per-quiz SEO metadata
 
-### Phase 3: WBTI Results and Share Loop
-**Goal**: After completing WBTI, users get a readable result page, understand the test framing, can export a poster, and are pulled deeper into the matrix instead of dead-ending.
+### Phase 3: Sharing and Matrix Loop
+**Goal**: Turn the working `WBTI` template into a matrix-ready growth loop with poster export, QR-enabled sharing, other-quiz recommendations, and a proven second-test replication path.
 **Depends on**: Phase 2
-**Requirements**: RSLT-01, RSLT-02, RSLT-03, RSLT-04, TRST-01, MTRX-02, SEO-01
+**Requirements**: RSLT-02, RSLT-03, RSLT-04, MTRX-01, MTRX-02, MTRX-03
 **Success Criteria** (what must be TRUE):
-  1. After completing WBTI, the user sees a result page with a personality name, core description, dimension summary, and a short explanation of why it matched.
-  2. The user can read a brief explanation of the theory inspiration, scoring approach, and non-clinical disclaimer from the WBTI experience.
-  3. The result page can generate a canvas poster that includes the personality name, short description, and a QR code back to the test.
-  4. The result page provides download/save behavior for the poster, share/copy-link fallback actions, and recommends at least two other matrix entries or upcoming tests.
-  5. Each live test page exposes unique title/description metadata and crawlable internal links suitable for search indexing.
+  1. A visitor can export a shareable poster from the result page with archetype name, short description, and QR code
+  2. Poster output preserves critical content in mobile-first social image dimensions and supports save/share fallback actions
+  3. The result page recommends at least two other matrix entries or upcoming tests from a shared registry
+  4. A second BTI test can launch through new data files and route assets without changing the shared engine code
 **Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: Build the WBTI result page, explanation blocks, and trust/disclaimer section.
-- [ ] 03-02: Implement canvas poster generation, QR composition, and save/share fallback actions.
-- [ ] 03-03: Add metadata, crawlable links, and registry-driven cross-test recommendations.
-
-### Phase 4: Template Hardening and Replication
-**Goal**: The shared template is verified by automated tests and reused to launch a second BTI test without changing the engine contract.
-**Depends on**: Phase 3
-**Requirements**: SCOR-05, MTRX-03
-**Success Criteria** (what must be TRUE):
-  1. The scoring and matching pipeline is covered by automated tests against known answer sets.
-  2. A second BTI test can launch using new data files rather than engine rewrites.
-  3. The template now behaves like a reusable product foundation rather than a one-off WBTI implementation.
-**Plans**: 2 plans
-
-Plans:
-- [ ] 04-01: Add automated regression coverage for scoring, matching, and hidden-rule behavior.
-- [ ] 04-02: Clone the template into a second BTI test using new data packs only.
+- [ ] 03-01: Implement poster export, QR placement, and social-share-safe rendering
+- [ ] 03-02: Add matrix registry and recommendation loops to the result page
+- [ ] 03-03: Prove the second-test replication path on the shared engine
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4
+Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Static Matrix Foundation | 0/3 | Not started | - |
-| 2. WBTI Engine and Quiz Flow | 0/3 | Not started | - |
-| 3. WBTI Results and Share Loop | 0/3 | Not started | - |
-| 4. Template Hardening and Replication | 0/2 | Not started | - |
+| 1. Shared Engine Foundation | 0/3 | Not started | - |
+| 2. WBTI End-to-End Experience | 0/3 | Not started | - |
+| 3. Sharing and Matrix Loop | 0/3 | Not started | - |

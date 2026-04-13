@@ -42,6 +42,7 @@ Recent decisions affecting current work:
 
 - Initialization: Treat the product as a matrix platform, not a one-off quiz microsite.
 - Initialization: Keep the stack pure static on GitHub Pages with shared engine and isolated data packs.
+- Initialization: Use a Vite-based static multi-entry architecture rather than a single client-only app shell.
 - Initialization: Use WBTI to prove the full template before expanding test count or final visual design.
 
 ### Pending Todos
@@ -51,6 +52,7 @@ None yet.
 ### Blockers/Concerns
 
 - Frontend visual style, persona naming, and long-form content remain intentionally deferred until after the skeleton is planned.
+- The matrix hub remains intentionally deferred until at least two tests are live.
 - Real-device poster export quality still needs explicit validation during later phase planning.
 
 ## Session Continuity
