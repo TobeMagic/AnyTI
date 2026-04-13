@@ -1,152 +1,157 @@
 # Project Research Summary
 
 **Project:** BTI Matrix Platform
-**Domain:** 静态人格测试矩阵平台
+**Domain:** Static BTI-style personality quiz matrix platform
 **Researched:** 2026-04-13
-**Confidence:** MEDIUM
+**Confidence:** HIGH
 
 ## Executive Summary
 
-这个项目最像“静态内容站 + 高交互测试引擎”的混合体，而不是传统 SPA，也不是需要后端的 SaaS。官方文档层面，Astro + islands + GitHub Pages 这条路径与项目约束最匹配：页面可以静态生成、测试 URL 可独立索引、只有答题器和结果页需要 hydration，同时部署链路保持零运维。
+This product is best treated as a static multi-page quiz matrix, not as a single app shell. The official Vite and GitHub Pages documentation align unusually well with the user's desired structure: one route per test, one shared engine, data packs per test, and deployment through GitHub Actions to Pages. That means the technical strategy should stay intentionally simple in v1: Vite 7, TypeScript, browser-native APIs, and a small set of supporting libraries for schema validation, QR generation, and engine tests.
 
-从产品生态看，用户对人格测试的预期已经比较稳定：要有封面页、清晰的题目流、结果解释、分享动作，以及至少一定程度的“为什么是你”的解释层。真正能把本项目和普通人格测试拉开的，不是更复杂的算法本身，而是矩阵化扩展能力，也就是“同一套引擎快速复制多个测试，并在结果页内形成互荐闭环”。
+The product landscape shows that successful personality-test products consistently combine three things: low-friction test entry, immediate identity-rich results, and adjacent expansion paths such as work, relationships, or career. What this project can do differently is treat social distribution and matrix compounding as first-class product behavior rather than afterthoughts. The poster export, hidden personalities, and cross-test recommendations are not decorative features; they are the bridge between one-off traffic and a durable matrix asset.
 
-研究也表明本项目最大的风险不是性能，而是结构失控：如果首个 `WBTI` 没有建立稳定的数据 contract、可测试的计分内核、独立静态路由和可靠的海报导出，后面每多一个测试都会把维护成本按倍放大。因此路线图应该先做平台骨架，再做首个测试体验，再做矩阵复制和主站聚合。
+The main risk is self-inflicted complexity. The fastest way to lose the project is to build too much platform before WBTI proves the template, or to adopt an architecture that fights static hosting and page-level SEO. The roadmap should therefore front-load engine contracts, WBTI end-to-end delivery, and poster reliability, then prove replication with a second test before investing in the matrix hub.
 
 ## Key Findings
 
 ### Recommended Stack
 
-推荐使用 `Astro 5.x + React 19.2 + TypeScript 5.x + Tailwind CSS 4.2 + GitHub Pages`。Astro 提供静态路由、metadata 和内容组织，React 负责 quiz runner / result / poster 这类高交互局部，TypeScript + `astro/zod` 负责把题库和人格数据收紧成可验证 contract。
+The recommended baseline is Vite 7 multi-page app mode on top of Node.js 20.19+ / 22.12+, written in TypeScript 5.9, deployed to GitHub Pages through GitHub Actions. Add Zod for data-pack validation, Vitest for scoring engine tests, and `qrcode` for the poster QR workflow. This stays fully aligned with the project's zero-backend, zero-ops constraint and preserves the user's planned folder-per-test layout.
 
 **Core technologies:**
-- **Astro:** 静态路由与 SEO 页生成 — 最符合 GitHub Pages 与矩阵站需求
-- **React 19.2:** 交互组件层 — 适合答题器、结果页、海报面板复用
-- **TypeScript + `astro/zod`:** 数据契约与类型约束 — 防止复制测试时静默出错
-- **Tailwind CSS 4.2:** 主题 token 与快速样式迭代 — 为后续讨论前端风格留出统一变量层
-- **GitHub Pages + Actions:** 零运维部署 — 与项目成本约束完全一致
+- **Vite 7.x:** static multi-page build and GitHub Pages-friendly deployment
+- **TypeScript 5.9.x:** typed engine contracts and safer data-driven cloning
+- **GitHub Pages + Actions:** zero-ops hosting that matches the chosen stack
+- **Canvas/Web Storage/Web Share:** native runtime APIs for postering, light persistence, and mobile sharing
 
 ### Expected Features
 
-用户必需项不是“海量功能”，而是一个完整、可信、可分享的测试闭环。
+The table stakes are clear: quick quiz flow, immediate free result, memorable type naming, credibility framing, and a discoverable multi-test surface. Competitors already offer broad test libraries and identity-centric results; what they do less visibly is matrix-native social spread. That is the opening for this project.
 
 **Must have (table stakes):**
-- 独立测试落地页与移动端答题流 — 用户默认预期
-- 确定性的结果计算与结果页解释 — 没有解释层就没有“准感”
-- 一键保存海报 — 本项目的传播动作核心
-- 结果页相关推荐 — 对矩阵站是基本盘，不是附加项
+- Fast quiz flow and mobile completion
+- Immediate result reveal with a memorable type identity
+- Basic credibility/disclaimer framing
+- Discoverable adjacent tests or a clear next-step CTA
 
 **Should have (competitive):**
-- 隐藏人格 / 稀有结果 — 提升传播意愿
-- Top 2-3 相近人格展示 — 把余弦相似度优势显性化
-- 统一模板快速复制到第二、第三个测试 — 这是平台级 differentiator
+- Canvas poster with QR
+- Cross-test recommendation slot
+- Hidden personality/easter-egg logic
+- Continuous-spectrum scoring with richer type matching
 
 **Defer (v2+):**
-- 用户账号与云端历史
-- 实时推荐系统
-- 大量 SEO 内容页与百科层
+- Accounts/history
+- Admin/CMS tooling
+- Team/comparison features
 
 ### Architecture Approach
 
-推荐的结构是四层：`Quiz content/data`、`Shared domain engine`、`Interactive quiz experience`、`Static route/SEO shell`。这能把“每个测试是什么”和“平台如何运行”完全拆开，让新增测试只加数据包，不改引擎。
+The recommended architecture is directory-based static entries backed by one shared runtime and one deterministic scoring engine. Each test should ship its own `questions.json`, `personalities.json`, and `meta.json`, while the shared engine handles loading, validation, scoring, result mapping, poster export, and recommendations. This keeps the clone path explicit and testable.
 
 **Major components:**
-1. **Quiz content pack** — 每个测试的数据合同：`meta/questions/personalities`
-2. **Shared scoring engine** — 连续维度积分、相似度匹配、隐藏人格判定
-3. **Quiz runner / result / poster UI** — React 交互层
-4. **Static route shell + manifest** — Astro 路由、metadata、主站聚合与互荐入口
+1. **Per-test static entry pages** — own route, metadata, and current-test bootstrapping
+2. **Shared engine modules** — schema validation, scoring, matching, hidden-type rules
+3. **Result/poster layer** — renders final type, poster assets, QR, and share/download actions
+4. **Registry/recommendation layer** — powers matrix expansion and cross-test discovery
 
 ### Critical Pitfalls
 
-1. **共享引擎名义化** — 没有统一 contract，后续每个测试都会长特殊逻辑
-2. **结果逻辑和 UI 耦合** — 一旦改题库就难以验证结果是否漂移
-3. **海报导出只在本机成功** — 真机和线上环境常因字体/跨域资源失败
-4. **把整站做成单 SPA** — 直接损失 SEO、分享预览和矩阵路由价值
-5. **结果文案过度科学化** — 传播也许变强，但信任边界会出问题
+1. **SPA drift on static hosting** — avoid app-shell-first routing; use real static pages
+2. **Fragile poster export** — avoid DOM screenshot hacks; use deterministic Canvas rendering
+3. **Data-pack drift** — enforce schemas and fixtures before cloning tests
+4. **Overclaiming science** — keep BTI-inspired framing, not "official assessment" language
+5. **Launching the whole matrix too early** — prove WBTI first, then clone
 
 ## Implications for Roadmap
 
 Based on research, suggested phase structure:
 
-### Phase 1: Engine Foundation
-**Rationale:** 先把“引擎共用，数据分离”落实成真正的工程骨架，否则后面任何测试都是假模板。  
-**Delivers:** quiz pack schema、共享计分内核、静态路由骨架、部署链路、基础测试。  
-**Addresses:** 数据 contract、独立静态路径、GitHub Pages 适配。  
-**Avoids:** 共享引擎名义化、SPA 化、结果逻辑不可验证。
+### Phase 1: Shared Engine Foundation
+**Rationale:** the entire matrix depends on a stable data contract and deterministic scoring core.
+**Delivers:** Vite MPA scaffold, shared engine modules, schemas, test fixtures, deploy skeleton.
+**Addresses:** shared scoring engine, data-pack validation, static route architecture.
+**Avoids:** SPA drift and data-pack drift.
 
-### Phase 2: WBTI End-to-End Experience
-**Rationale:** 骨架稳定后，立即用 `WBTI` 跑通用户真实体验，验证题库到结果再到海报的完整链条。  
-**Delivers:** `WBTI` 测试页、结果页、维度解释、海报导出、隐藏人格。  
-**Uses:** React island、`html-to-image`、Vitest/Playwright。  
-**Implements:** 首个完整 quiz pack 与结果模板。
+### Phase 2: WBTI End-to-End Template
+**Rationale:** WBTI is the chosen proving ground and must validate the full user loop.
+**Delivers:** WBTI intro, quiz flow, result page, poster export, disclaimers, first deployment.
+**Uses:** Canvas poster pipeline, QR generation, result payload contract.
+**Implements:** quiz shell, result shell, poster engine.
 
-### Phase 3: Matrix Replication + Recommendations
-**Rationale:** 首测跑通后，最重要的是证明“复制第二个测试很便宜”，同时把结果页互荐做成产品能力。  
-**Delivers:** 第二个测试（建议 `LBTI`）、统一推荐 manifest、跨测试卡片。  
-**Addresses:** 矩阵站闭环与模板复用真实性。
+### Phase 3: Matrix Replication Proof
+**Rationale:** the matrix thesis is unproven until a second test runs on the same engine without code forks.
+**Delivers:** second test clone (likely LBTI), registry-driven recommendations, repeatable clone recipe.
+**Uses:** shared engine and per-test data packs.
+**Implements:** registry layer and cross-test recommendation logic.
 
-### Phase 4: Main Navigation + SEO Aggregation
-**Rationale:** 至少有两个测试后，主站聚合与 SEO 才有内容基础，不会做成空架子。  
-**Delivers:** 主站导航页、分类标签、统一 metadata 策略。  
-**Uses:** quiz manifest 与静态生成路由。
+### Phase 4: Matrix Navigation and SEO Hardening
+**Rationale:** the hub only matters after there is more than one real destination.
+**Delivers:** main navigation page, structured metadata pass, stronger discovery loops.
+**Uses:** registry metadata and page-level SEO helpers.
+**Implements:** matrix hub and crawlability improvements.
 
 ### Phase Ordering Rationale
 
-- 先做 data contract 和共享引擎，是为了让后面的每个测试都成为“加内容”而不是“加应用”。
-- `WBTI` 必须作为模板先跑通，否则矩阵只是纸上架构。
-- 主站应依赖至少两个测试的真实结构，否则信息架构会反复返工。
-- 海报与推荐要在首测阶段就进入，因为它们是增长能力，不是后装饰。
+- The data contract comes first because every later test depends on it.
+- WBTI comes second because the template must prove scoring, result UX, and poster reliability end to end.
+- The second test comes before the hub because replication is more important than aggregation at this stage.
+- SEO/navigation work is more valuable after the matrix has more than one strong page to point to.
 
 ### Research Flags
 
 Phases likely needing deeper research during planning:
-- **Phase 2:** 海报导出与移动端真机兼容，尤其是字体/图片/CORS 细节
-- **Phase 2:** 结果文案边界与隐藏人格触发设计，需要内容与产品共同校对
+- **Phase 2:** poster export reliability on mobile/in-app browsers and exact share fallbacks
+- **Phase 4:** structured data and metadata strategy once multiple tests are live
 
 Phases with standard patterns (skip research-phase):
-- **Phase 1:** Astro/GitHub Pages/测试框架的工程骨架相对标准
-- **Phase 4:** 主站聚合在技术上并不难，关键是内容基础是否成熟
+- **Phase 1:** Vite scaffold, GitHub Pages deployment, schema/test setup
+- **Phase 3:** cloning via data packs once the engine contract is established
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | 主要基于 Astro / Vite / GitHub / React / Vitest / Playwright 官方文档 |
-| Features | MEDIUM | 基于人格测试竞品与 quiz builder 平台能力观察，偏产品归纳 |
-| Architecture | HIGH | 结合官方静态站文档与本项目约束，结论稳定 |
-| Pitfalls | MEDIUM | 一部分来自官方文档与库限制，一部分来自该类产品的工程推断 |
+| Stack | HIGH | Grounded mostly in official Vite, GitHub, MDN, TypeScript, Vitest, and Zod sources |
+| Features | MEDIUM | Competitive patterns are clear, but exact social-share behavior is partly inferred from product strategy and public competitor surfaces |
+| Architecture | HIGH | Strongly constrained by the user's static-hosting requirements and well-supported by official docs |
+| Pitfalls | HIGH | Backed by official hosting/API docs plus domain-specific product patterns |
 
-**Overall confidence:** MEDIUM
+**Overall confidence:** HIGH
 
 ### Gaps to Address
 
-- **前端视觉方向尚未定：** 不影响当前骨架，但会影响 Tailwind token、海报风格和主站视觉语言
-- **具体人格命名与文案体系未定：** 不影响平台架构，但会影响结果页模板内容密度
-- **二维码生成方案未细化：** v1 可后补实现方式，当前不构成路线图阻塞
+- **Poster QA matrix:** validate exact behavior later on target mobile browsers and in-app browsers during implementation
+- **Structured data scope:** choose the right schema/metadata depth when the hub and multiple tests exist
+- **Analytics choice:** if the product later needs measurement, pick a privacy/cost model that still fits the zero-backend constraint
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- https://docs.astro.build/en/concepts/islands/ — islands 架构
-- https://docs.astro.build/en/guides/content-collections/ — 数据集合、schema 与静态构建
-- https://docs.astro.build/en/reference/routing-reference/#getstaticpaths — 批量静态路由
-- https://docs.astro.build/en/guides/deploy/github/ — Astro + GitHub Pages 部署
-- https://vite.dev/guide/static-deploy.html#github-pages — Pages 构建与 `base` 约束
-- https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages — Pages 静态托管边界
-- https://react.dev/learn/describing-the-ui — React 当前版本与组件模型
-- https://tailwindcss.com/blog/tailwindcss-v4 — Tailwind v4 能力与 CSS-first 配置
-- https://github.com/bubkoo/html-to-image — DOM 转图机制与限制
-- https://vitest.dev/guide/ — Vitest 当前版本与测试定位
-- https://playwright.dev/docs/intro — Playwright 的 E2E / Actions 适配
+- https://vite.dev/blog/announcing-vite7
+- https://vite.dev/guide/build
+- https://vite.dev/guide/static-deploy.html
+- https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
+- https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll
+- https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-9.html
+- https://github.com/vitest-dev/vitest/releases
+- https://github.com/colinhacks/zod/releases
+- https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
+- https://developer.mozilla.org/en-US/docs/Web/API/Document/fonts
+- https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
+- https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API
+- https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics
+- https://developers.google.com/search/docs/appearance/structured-data/generate-structured-data-with-javascript
 
 ### Secondary (MEDIUM confidence)
-- https://www.16personalities.com/ — 人格测试主站的结果包装与内容层观察
-- https://www.mbtiresults.com/ — 多测试矩阵入口和结果页面结构观察
-- https://help.tryinteract.com/en/articles/4143802-show-top-results-multiple-outcomes-to-quiz-takers — 多结果展示能力
-- https://help.tryinteract.com/en/articles/9971974-how-to-set-up-personality-quiz-logic-scoring — 人格测试逻辑映射与准确性注意点
-
-### Tertiary (LOW confidence)
-- 无额外低可信来源作为核心决策依据
+- https://www.16personalities.com/
+- https://www.truity.com/
+- https://www.truity.com/test/type-finder-personality-test-new
+- https://www.truity.com/view/tests/personality-type
+- https://www.idrlabs.com/tests.php
+- https://www.idrlabs.com/test.php
+- https://www.npmjs.com/package/qrcode
 
 ---
 *Research completed: 2026-04-13*

@@ -1,6 +1,6 @@
 # Feature Research
 
-**Domain:** 静态 BTI 矩阵测试平台
+**Domain:** Personality quiz matrix products and static quiz platforms
 **Researched:** 2026-04-13
 **Confidence:** MEDIUM
 
@@ -10,122 +10,126 @@
 
 | Feature | Why Expected | Complexity | Notes |
 |---------|--------------|------------|-------|
-| 测试封面页 + 开始 CTA | 竞品普遍提供 cover page、时长预期和开测入口；没有封面页会显得像草率表单 | LOW | 包含标题、钩子文案、预计题量/时长、开始按钮 |
-| 移动端友好的逐题答题流 | 人格测试主要消费场景就是手机；卡顿或布局溢出直接掉完播率 | MEDIUM | 需要大点击区、进度条、题目切换动效克制 |
-| 确定性的结果逻辑 | 竞品通常用“答案累计指向结果”的逻辑；用户默认结果应稳定可复现 | MEDIUM | 本项目会升级为连续维度 + 向量匹配，但对用户来说核心是“结果别乱跳” |
-| 结果页核心说明 | 16Personalities、MBTI Results 等都提供类型名、概述、优劣势或场景解释 | MEDIUM | 至少要有人格名、1 句 punchline、核心描述、维度解释 |
-| 结果分享动作 | 人格测试天然依赖传播；竞品和工具平台都提供分享/引导扩散能力 | MEDIUM | v1 至少要一键保存海报；后续可再加平台化分享文案 |
-| 结果页相关推荐 | 对单测平台不是必需，但对“矩阵平台”是基础设施 | LOW | 最少 2-3 个其他测试卡片，按场景或情绪导流 |
-| 基础 SEO / 社交预览 | 每个测试落地页都需要可抓取标题、描述、OG 信息，否则流量浪费 | LOW | 静态页要有独立 metadata，不要全部指向同一首页 |
+| Fast mobile-first quiz flow | 16Personalities markets a result in about 10 minutes; online test users expect a low-friction session, not a form marathon | MEDIUM | Keep v1 in the roughly 20-40 question range unless a longer test clearly improves result quality |
+| Immediate free result summary | Truity and 16Personalities both give immediate high-level results before upsells or deeper reports | LOW | Must land on a result page with a strong headline, short diagnosis, and next action |
+| Distinct, memorable result identity | Users return for labels they can remember and share | MEDIUM | This directly supports social spread; names must be sticky, not academic |
+| Credibility framing | Competitors consistently explain the theory, reviewer, or scientific basis of the test | LOW | Use concise basis/disclaimer blocks; do not overclaim clinical validity |
+| Multi-test discovery | Truity and IDRlabs both operate as libraries of tests, not isolated pages | MEDIUM | Even v1 should reserve a slot for "next test" recommendations |
+| Stable linkable URLs | Search and sharing both depend on crawlable, predictable page URLs | LOW | This favors static directory routes over app-shell-only navigation |
 
 ### Differentiators (Competitive Advantage)
 
 | Feature | Value Proposition | Complexity | Notes |
 |---------|-------------------|------------|-------|
-| 隐藏人格 / 稀有结果 | 稀缺感会直接提高晒图与讨论欲望 | MEDIUM | 必须可控，不能随机瞎发；应由极端向量或特定模式触发 |
-| Top 2-3 相近人格展示 | Interact 已经提供多结果百分比分布，说明用户愿意看“次匹配” | MEDIUM | 很适合本项目的余弦相似度模型，能把“像谁”解释得更自然 |
-| 矩阵式互荐链路 | 单个测试做完即流失，矩阵互荐可以延长站内停留 | LOW | 推荐策略可以从静态规则开始，不需要个性化推荐系统 |
-| 结果海报带二维码 | 把传播动作和回流入口绑在一起，特别适合朋友圈/小红书 | MEDIUM | 海报内容要控制层级，不要堆成营销页 |
-| 主题化测试模板复用 | 工作、恋爱、学习等垂类切换只替换数据，会让扩张速度成为优势 | HIGH | 这是产品级 differentiator，不是单个页面特性 |
-| 维度谱系解释 | 比单点人格名更像“你为什么是这个结果”，提高信服感 | MEDIUM | 可展示 4-5 个维度的倾向条，而不是只给标签 |
+| Shared engine + per-test data packs | Lets the product scale from one successful test to a real matrix with near-zero marginal engineering cost | MEDIUM | This is the project's core moat, not just an implementation detail |
+| Canvas share poster with QR | Matches the actual distribution behavior of Chinese social products better than plain link sharing | MEDIUM | Competitors emphasize reports; this product should emphasize social spread assets |
+| Cross-test recommendation graph | Turns each successful test into an acquisition surface for the next one | MEDIUM | Stronger when at least 2 tests exist, but the interface should be present from v1 |
+| Hidden personalities / rare triggers | Adds replayability, bragging rights, and easter-egg sharing | MEDIUM | Must be used carefully so the main result system still feels coherent |
+| Continuous-dimension scoring + cosine matching | Produces more nuanced results than a shallow A/B counting system | MEDIUM | Strong internal differentiator even if users never see the math directly |
+| Seasonal/topic packaging | Work, love, study, spending, travel, fitness map naturally to social moments and SEO topics | LOW | This is a matrix-level growth differentiator rather than a single-page feature |
 
 ### Anti-Features (Commonly Requested, Often Problematic)
 
 | Feature | Why Requested | Why Problematic | Alternative |
 |---------|---------------|-----------------|-------------|
-| 登录账号 / 云端历史记录 | 看起来“更完整” | 与纯静态路线冲突，且对早期传播无增益 | 本地缓存最近一次结果，后续再评估账号系统 |
-| 用户自建测试 / UGC 平台 | 听起来有平台想象力 | 直接把内容审核、编辑器、数据质量复杂度拉爆 | 先把官方 6 大测试模板跑顺 |
-| 实时个性化推荐引擎 | 感觉更智能 | 静态站没有必要上动态推荐，边际收益低 | 先用静态规则：按场景、节日、相邻主题互推 |
-| 伪科学包装过重 | 容易制造“准确感” | 一旦表述过头，信任和平台合规都有风险 | 用“行为风格/倾向”叙述，避免临床化或绝对化语言 |
-| 每个测试独立重写 UI | 看似更灵活 | 会破坏矩阵复制效率 | 共享 layout + 可覆盖主题 token |
+| Account system in v1 | Seems useful for saving history and retention | Breaks the zero-backend constraint and delays launch for little early proof | Use optional local progress/result persistence only |
+| Huge premium-style reports in the first release | Feels "more complete" | Slows copy production and makes the first template harder to finish | Start with a short result core plus 2-4 expandable sub-sections |
+| Complex CMS or admin authoring before WBTI ships | Sounds scalable | Premature platform work before the template is validated | Author JSON packs by hand first; build tooling only after the second test |
+| "Official MBTI" positioning | Appears credible | Trademark and trust risk; also clashes with the project's more playful tone | Use BTI-inspired branding and clear "inspired by / not official" framing |
+| One mega-site app shell with every test bundled together | Feels centralized | Hurts bundle size, weakens page-level SEO, and complicates matrix expansion | Keep a matrix registry plus one static entry per test |
 
 ## Feature Dependencies
 
 ```text
-题库数据 schema
-    └──requires──> 计分引擎
-                         └──requires──> 结果匹配器
-                                              └──requires──> 结果页模板
-                                                                   └──enhances──> 海报导出
+Quiz flow UI
+    └──requires──> validated question/personality schema
+                           └──requires──> shared engine contracts
 
-测试元数据 / quiz manifest
-    └──requires──> 目录路由生成
-                         └──enhances──> 主站聚合
-                         └──enhances──> 相关推荐
+Result page
+    └──requires──> scoring engine
+                           └──requires──> cosine matching + hidden-type rules
 
-维度分数与人格向量
-    └──enhances──> Top 2-3 相近人格展示
-    └──enhances──> 隐藏人格触发规则
+Poster generation
+    └──requires──> stable result payload
+                           └──requires──> canonical quiz/test metadata
+
+Cross-test recommendations
+    └──requires──> test registry
+                           └──requires──> at least 2 live tests
+
+Main navigation hub
+    └──enhances──> all test pages
+                           └──best after──> 2-3 tests are already live
 ```
 
 ### Dependency Notes
 
-- **题库 schema requires 计分引擎:** 没有统一数据契约，引擎无法保证每个测试都能复用。
-- **结果匹配器 requires 结果页模板:** 先有稳定的结果数据模型，结果页和海报才能共享一套渲染。
-- **quiz manifest enhances 主站聚合:** 主站晚做不代表现在可以不设计 manifest；否则后面很难自动聚合。
-- **维度分数 enhances 多结果展示:** 如果只有单结果 ID，就做不出“你还很像谁”的解释层。
+- **Quiz flow requires validated schemas:** this is what keeps new tests from breaking the engine as the matrix expands.
+- **Poster generation requires stable result payloads:** poster work should follow result-shape stabilization, not precede it.
+- **Cross-test recommendations require at least two tests:** build the slot in v1, but real recommendation quality starts in phase 3.
+- **Main navigation hub enhances the matrix, but should not block the template:** this matches the user's stated sequencing.
 
 ## MVP Definition
 
 ### Launch With (v1)
 
-- [ ] `WBTI` 独立测试落地页 — 先验证单个高优先级场景能否跑通
-- [ ] 通用答题引擎 + 连续维度计分 — 这是矩阵复制的根
-- [ ] 结果页基础解释 + 维度条 — 让结果不只是一个名字
-- [ ] 一键保存海报 — 内建传播动作
-- [ ] 结果页相关推荐 — 内建矩阵导流动作
-- [ ] GitHub Pages 自动部署 — 确保模板可以低成本稳定上线
+- [ ] `WBTI` intro, questions, progress, scoring, result, and restart flow — proves the full template
+- [ ] Shared engine with typed/validated data-pack loading — enables cloning, not just one-off success
+- [ ] Result page with memorable type identity and short behavior summary — validates whether users find the output share-worthy
+- [ ] Canvas poster export with QR — validates the product's core social distribution loop
+- [ ] Placeholder slot for "next test" recommendation — starts teaching users that this is a matrix, not a single quiz
+- [ ] Basic theory/disclaimer/SEO framing — gives enough trust and indexability without overbuilding
 
 ### Add After Validation (v1.x)
 
-- [ ] 隐藏人格与稀有徽章 — 当基础结果可信后再加彩蛋
-- [ ] Top 2-3 相近人格显示 — 增强解释力和讨论度
-- [ ] `LBTI` 第二个测试上线 — 验证模板扩张能力
-- [ ] 主站导航页最小版本 — 至少有两个测试后再聚合更合理
+- [ ] `LBTI` as the second test — proves the engine really clones cleanly
+- [ ] Matrix registry and real cross-test recommendation mapping — becomes meaningful once there are multiple tests
+- [ ] Main navigation landing page — worth doing after there is something to aggregate
+- [ ] Local progress persistence — useful, but not core to proof-of-concept
 
 ### Future Consideration (v2+)
 
-- [ ] SEO 内容层扩展（人格百科、对比文、节点专题页） — 在矩阵有一定量后再加
-- [ ] 更细的推荐策略 — 基于测试完成链路优化，而非提前做推荐系统
-- [ ] 更强的数据回收与分析能力 — 等流量成型后再评估统计方案
+- [ ] Visual/personality-content authoring tools — only after hand-authored JSON becomes a bottleneck
+- [ ] Team, comparison, or multi-user modes — outside the current static solo-user scope
+- [ ] Deeper analytics / experimentation system — useful later, but not needed to prove WBTI template viability
 
 ## Feature Prioritization Matrix
 
 | Feature | User Value | Implementation Cost | Priority |
 |---------|------------|---------------------|----------|
-| `WBTI` 测试流程 | HIGH | MEDIUM | P1 |
-| 连续维度计分 + 结果匹配 | HIGH | MEDIUM | P1 |
-| 结果页核心说明 | HIGH | MEDIUM | P1 |
-| 海报导出 | HIGH | MEDIUM | P1 |
-| 相关推荐 | HIGH | LOW | P1 |
-| quiz manifest / 扩展模板 | HIGH | MEDIUM | P1 |
-| 隐藏人格 | MEDIUM | MEDIUM | P2 |
-| Top 2-3 相近人格 | MEDIUM | MEDIUM | P2 |
-| 主站导航页 | MEDIUM | LOW | P2 |
-| SEO 内容扩展 | MEDIUM | HIGH | P3 |
+| Shared scoring engine | HIGH | MEDIUM | P1 |
+| WBTI quiz flow | HIGH | MEDIUM | P1 |
+| Result page identity | HIGH | LOW | P1 |
+| Poster export | HIGH | MEDIUM | P1 |
+| Cross-test recommendation slot | MEDIUM | LOW | P2 |
+| Second test clone (`LBTI`) | HIGH | MEDIUM | P2 |
+| Main navigation hub | MEDIUM | MEDIUM | P2 |
+| Authoring tools | MEDIUM | HIGH | P3 |
 
 **Priority key:**
 - P1: Must have for launch
-- P2: Should have, add when possible
+- P2: Should have after the template proves itself
 - P3: Nice to have, future consideration
 
 ## Competitor Feature Analysis
 
-| Feature | Competitor A | Competitor B | Our Approach |
-|---------|--------------|--------------|--------------|
-| 结果解释 | 16Personalities 强在完整类型说明与场景化解释 | MBTI Results 用多个子测试扩展同一人格体系 | 不追求百科厚度，先做 punchline + 场景化核心描述 + 维度解释 |
-| 多结果显示 | Interact 支持“Show Top Results”显示多个高匹配结果 | 多数轻量人格测只给单结果 | 用相似度排序自然支持 Top 2-3 结果，但默认仍突出主结果 |
-| 多测试矩阵 | MBTI Results 已展示工作、压力、关系等多子测试入口 | 16Personalities 更偏单主测 + 内容延展 | 把矩阵本身当产品，而不是把每个测试当一次性活动页 |
-| 分享动作 | 多数工具型 quiz 平台提供分享或结果 CTA | 16Personalities 更偏内容消费 | v1 直接把海报和二维码作为默认出口 |
+| Feature | 16Personalities | Truity | Our Approach |
+|---------|------------------|--------|--------------|
+| Test entry | Simple, fast, strongly branded | Many tests, category-driven | Single-template-first, then a curated six-test matrix |
+| Result model | Rich narrative identity plus career/team products | Free basic result plus deeper reports and adjacent test families | Short, sharp, highly shareable identity first; deeper modules later |
+| Library breadth | Narrower core universe plus products | Broad personality/career/work catalog | Medium breadth, but intentionally theme-curated around viral life scenarios |
+| Scientific framing | Strong confidence language and framework pages | Reviewer, documentation, theory framing | Concise evidence-inspired framing without "official" overreach |
+| Social distribution | Strong brand, but poster-led virality is not the main visible surface | Report/product-heavy | Canvas poster + QR as a first-class feature |
 
 ## Sources
 
-- https://www.16personalities.com/ — 观察人格测试首页的时长承诺、结果说明与内容延展方式
-- https://www.mbtiresults.com/ — 观察同一人格品牌下多测试矩阵入口与结果说明结构
-- https://help.tryinteract.com/en/articles/4143802-show-top-results-multiple-outcomes-to-quiz-takers — 验证多结果/相近结果展示已是成熟做法
-- https://help.tryinteract.com/en/articles/9971974-how-to-set-up-personality-quiz-logic-scoring — 验证人格测试常见的“答案与结果建立映射”逻辑
-- https://help.tryinteract.com/en/collections/45504-quiz-feature-tutorials — 观察 quiz builder 对封面、结果、分享、图片规格等模块化要求
+- 16Personalities home: https://www.16personalities.com/ — observed fast entry, identity-led results, relationship/career/team expansion
+- Truity home: https://www.truity.com/ — observed broad test library and business/workplace extensions
+- Truity TypeFinder: https://www.truity.com/test/type-finder-personality-test-new — observed 130-question / 10-15 minute expectation, free basic result, deeper report model
+- Truity 16-type tests index: https://www.truity.com/view/tests/personality-type — observed multi-test family structure across core, career, workplace, and love use cases
+- IDRlabs tests index: https://www.idrlabs.com/tests.php — observed library-scale test catalog and topic breadth
+- IDRlabs Jung Type Test: https://www.idrlabs.com/test.php — observed validation/disclaimer framing around free online personality tests
 
 ---
-*Feature research for: 静态 BTI 矩阵测试平台*
+*Feature research for: Personality quiz matrix platform*
 *Researched: 2026-04-13*

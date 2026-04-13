@@ -1,217 +1,198 @@
 # Pitfalls Research
 
-**Domain:** 静态 BTI 矩阵测试平台
+**Domain:** Static personality quiz matrix platform
 **Researched:** 2026-04-13
-**Confidence:** MEDIUM
+**Confidence:** HIGH
 
 ## Critical Pitfalls
 
-### Pitfall 1: “数据分离”只停留在口号
+### Pitfall 1: Building It Like an SPA Instead of a Matrix of Static Pages
 
 **What goes wrong:**
-表面上每个测试有自己的 `questions.json` 和 `personalities.json`，但实际计分字段、命名规范、隐藏人格规则各写各的，最终共享引擎充满例外分支。
+The project turns into one app-shell-heavy bundle with router workarounds and weak page-level SEO instead of a directory-based test matrix.
 
 **Why it happens:**
-团队一开始只关注跑通首个测试，没有建立强制 schema 和命名约定。
+SPA tooling feels familiar, and teams optimize for developer convenience before they optimize for the product's actual distribution model.
 
 **How to avoid:**
-在 Phase 1 就建立 quiz pack contract、schema 校验和样例数据；新增测试不符合 contract 就不能构建。
+Use one static entry per test, keep links crawlable, and let the URL structure mirror the matrix itself.
 
 **Warning signs:**
-- `if (quizSlug === "wbti")` 这类分支开始进入引擎层
-- 每个测试的维度命名风格不一致
-- 修改一个测试会顺带改共享逻辑
+- Needing client-side router rewrites to open basic pages
+- Refreshing a nested test URL breaks
+- Search metadata is mostly injected after page load
 
 **Phase to address:**
-Phase 1
+Phase 1 foundation
 
 ---
 
-### Pitfall 2: 结果算法写进 UI，无法验证
+### Pitfall 2: Fragile Poster Export
 
 **What goes wrong:**
-结果显示“看起来能跑”，但一改题目或人格权重后没人知道结果是否被破坏，隐藏人格尤其容易失效。
+Result posters fail on some devices, export blank/tainted images, or look different from the intended design because fonts and assets were not actually ready.
 
 **Why it happens:**
-为了图快，把状态、计分、匹配和渲染全塞在前端组件里。
+Teams often treat poster export as "just screenshot the result card" and underestimate CORS, font timing, and memory constraints.
 
 **How to avoid:**
-把计分与匹配抽成纯函数；为每个测试至少准备几组黄金样例答案；对隐藏人格写单测。
+Render posters directly on Canvas, keep assets same-origin where possible, use `document.fonts.ready`, and prefer `toBlob()` over `toDataURL()` for large exports.
 
 **Warning signs:**
-- 无法在不打开浏览器的情况下验证结果
-- 结果 bug 只能靠人工反复点击
-- 新增测试后不敢改引擎
+- Export succeeds on desktop but fails on mobile Safari or in-app browsers
+- External images/logos are used without explicit CORS handling
+- Poster generation depends on DOM screenshots instead of a stable payload
 
 **Phase to address:**
-Phase 1
+Phase 2 WBTI result and poster
 
 ---
 
-### Pitfall 3: 海报导出在真实设备上失效
+### Pitfall 3: Data-Pack Drift Across Tests
 
 **What goes wrong:**
-本地桌面浏览器能导出海报，但线上移动端出现字体错位、图片丢失、跨域资源导致 canvas 被污染。
+The first test works, but cloned tests gradually diverge in field names, scoring semantics, or edge-case handling until the "shared engine" is shared in name only.
 
 **Why it happens:**
-DOM 转图对字体、图片来源、尺寸和浏览器能力都更敏感；很多项目只在本机调一次。
+Copy-paste content work happens faster than schema discipline, especially once several tests are being prepared in parallel.
 
 **How to avoid:**
-海报模板尽量只依赖同源字体和图片；在移动端真机与 GitHub Pages 地址上验证；为大图导出预留降级方案。
+Create a strict schema for all quiz packs, validate packs on load/build, and add fixtures for representative edge cases before cloning WBTI into the second test.
 
 **Warning signs:**
-- 海报里引用了第三方图片/CDN 字体却没有 CORS 保证
-- 海报模板尺寸远超手机视口
-- 本地成功但预览环境失败
+- Test-specific conditionals appear inside scoring logic
+- Different tests require different JSON field names
+- Editors are unsure what fields are mandatory
 
 **Phase to address:**
-Phase 2
+Phase 1 foundation, then Phase 3 expansion
 
 ---
 
-### Pitfall 4: 为了简单做成单页应用，牺牲 SEO 和分享落地
+### Pitfall 4: Overclaiming Scientific Authority
 
 **What goes wrong:**
-所有测试都挂在一个客户端路由下，搜索引擎只看到同一个页面，朋友圈/小红书分享预览也无法针对具体测试定制。
+Marketing copy reads like an official clinical or trademarked assessment, creating legal/trust risk and making the product easier to attack as pseudoscience.
 
 **Why it happens:**
-SPA 最好上手，开发者容易把“静态前端”误解成“单入口应用”。
+Personality products perform better when they feel credible, so teams push the language too far.
 
 **How to avoid:**
-每个测试使用独立静态路径和 metadata；只把需要互动的区域做 hydration。
+Use "inspired by" framing, explain the dimension logic clearly, include concise disclaimers, and avoid presenting results as diagnosis or official MBTI output.
 
 **Warning signs:**
-- 公开 URL 只有 `/` 加 query/hash
-- OG、title、description 始终一样
-- 主站和子测试之间缺少清晰路由层次
+- Page copy says or implies "official MBTI"
+- Results speak in deterministic clinical language
+- There is no distinction between "self-discovery content" and "psychological assessment"
 
 **Phase to address:**
-Phase 1
+Phase 2 content and SEO framing
 
 ---
 
-### Pitfall 5: 过度承诺“科学准确”，引发信任问题
+### Pitfall 5: Trying to Launch the Full Matrix Before Proving the Template
 
 **What goes wrong:**
-文案把测试包装成心理诊断或绝对判断，一旦结果不准或表达过界，就会伤害信任甚至产生平台风险。
+Six partially-built tests exist, but none of them has a finished quiz flow, result experience, poster export, or deploy pipeline.
 
 **Why it happens:**
-人格测试产品天然容易靠“准到吓人”的语言获传播。
+The matrix idea is strategically compelling, so the team starts multiplying before the template is operational.
 
 **How to avoid:**
-坚持“行为风格 / 倾向 / 场景表现”叙述；在研究和内容设计阶段明确边界，不碰临床式断言。
+Honor the user's intended sequence: WBTI first, then one clone, then matrix navigation.
 
 **Warning signs:**
-- 使用“你就是”“你必然”“你本质上有问题”之类绝对表达
-- 把娱乐测试包装成专业评估
-- 结果文案只追求刺激，不考虑边界
+- New test folders appear before WBTI is publicly usable
+- Poster work is postponed "until later" on every test
+- Nobody can describe the exact clone steps from test 1 to test 2
 
 **Phase to address:**
-Phase 2
-
----
-
-### Pitfall 6: 主站太早做，反而浪费时间
-
-**What goes wrong:**
-还没跑通第一套模板，就先做导航页、品牌页、SEO 聚合页，最后发现模板层不稳定，需要全部返工。
-
-**Why it happens:**
-聚合入口看起来更像“平台”，很容易让人先做门面。
-
-**How to avoid:**
-把主站当成“模板复制被验证后”的第二顺位产物；先让 `WBTI` 与第二个测试证明扩张路径成立。
-
-**Warning signs:**
-- 主站页面比测试页面做得还完整
-- 还没有第二个测试，上来就写站内分类与专题系统
-- 导航信息架构反复变动
-
-**Phase to address:**
-Phase 3
+Phase 1 and Phase 2 sequencing
 
 ## Technical Debt Patterns
 
 | Shortcut | Immediate Benefit | Long-term Cost | When Acceptable |
 |----------|-------------------|----------------|-----------------|
-| 题库字段先不校验 | 首个测试接入更快 | 后续每加一个测试都可能悄悄破引擎 | Never |
-| 结果页先写死 `WBTI` 文案槽位 | 更快上线首测 | 第二个测试时发现模板无法复用 | 仅限非常短暂的原型，不能进入主线 |
-| 推荐位手工 hardcode 到组件里 | 马上能看到互荐卡片 | 主站和多个测试上线后维护混乱 | v1 可接受，但要集中在 manifest/config 中 |
-| 海报模板直接复用页面 DOM | 开发快 | 样式耦合，页面改版就把海报打坏 | MVP 可接受，但需独立容器和测试用例 |
+| Copying CSS into each test folder | Faster first page styling | Guaranteed visual drift and duplicated fixes | Never |
+| Hardcoding recommendation links in HTML | Quick manual linking | Becomes unmaintainable as tests multiply | Only in the first WBTI placeholder if replaced immediately in Phase 3 |
+| Storing raw full answer histories in `localStorage` | Easy persistence | Sync performance cost and messy data shape | Never for v1 |
+| Embedding test text directly in TS files | Fastest authoring | Makes cloning harder and content review painful | Acceptable only for tiny prototype spikes, not for the committed template |
 
 ## Integration Gotchas
 
 | Integration | Common Mistake | Correct Approach |
 |-------------|----------------|------------------|
-| GitHub Pages | 忘记 repo 子路径下的 `base` | 从一开始就按 `/<repo>/` 场景验证构建与资源路径 |
-| 海报导出 | 使用跨域字体/图片导致 canvas taint | 尽量同源资源，必要时验证 CORS 头与降级策略 |
-| 分享预览 | 以为 SPA 更新 `<title>` 就够了 | 每个测试页都生成静态 metadata/OG |
-| localStorage | 把关键业务逻辑依赖在本地缓存 | 缓存只做增强，不做唯一真相来源 |
+| GitHub Pages | Forgetting repo subpath `base` | Set the Vite `base` correctly for `/<REPO>/` deployments |
+| GitHub Pages | Assuming branch deploy with Jekyll defaults matches built assets | Prefer GitHub Actions workflow deployment; if bypassing Jekyll on branch deploys, use `.nojekyll` |
+| Canvas export | Drawing third-party images directly | Keep assets same-origin or set CORS explicitly before drawing |
+| Native share | Calling `navigator.share()` outside user activation | Trigger native share only from a user click/tap and provide fallback download/copy actions |
 
 ## Performance Traps
 
 | Trap | Symptoms | Prevention | When It Breaks |
 |------|----------|------------|----------------|
-| 所有页面都全量 hydration | 首屏 JS 大、移动端卡 | 只让答题器和结果组件 hydration | 测试数量增加、内容页增多后立即恶化 |
-| 一次性加载整个矩阵所有题库 | 首次进入任一测试都慢 | 每个测试只加载自己的数据包 | 2-3 个测试后就会明显感知 |
-| 海报 DOM 过重 | 生成海报时掉帧或失败 | 控制海报层级和图片尺寸，避免复杂滤镜 | 中低端移动端最先出问题 |
+| Loading all tests' JSON on every page | Slow first load and large bundles | Fetch only the current test pack; keep the registry minimal | Noticeable as soon as 2-3 tests exist |
+| Huge poster backgrounds/fonts | Export stutters or memory failures on mobile | Keep poster assets optimized and canvas dimensions controlled | Usually visible on mid-tier mobile devices first |
+| Heavy `localStorage` writes per answer | Janky answering flow | Buffer updates in memory and persist only occasionally or on milestone steps | Breaks once payloads or write frequency grow |
 
 ## Security Mistakes
 
 | Mistake | Risk | Prevention |
 |---------|------|------------|
-| 直接把 JSON 文案注入 HTML | 若未来内容来源扩展，存在 XSS 风险 | 结果文案默认纯文本渲染，富文本需白名单 |
-| 在前端嵌入第三方私钥或管理端凭据 | 静态站资源完全暴露 | v1 不接需要保密凭据的服务；后续走 serverless 中转 |
-| 用 query 参数直接拼结果文案 | 可能被恶意构造分享链接污染展示 | query 只传 ID/hash，不传可执行内容 |
+| Injecting unsanitized HTML from content JSON | XSS via content/config files | Treat content as text by default; sanitize any rich text explicitly |
+| Adding too many third-party scripts early | Data leakage and performance loss | Keep v1 nearly script-free beyond the required runtime libraries |
+| Publishing hidden/unlaunched tests in the public bundle | Premature discovery and confusing navigation | Control live tests via a registry and ship only what is ready to expose |
 
 ## UX Pitfalls
 
 | Pitfall | User Impact | Better Approach |
 |---------|-------------|-----------------|
-| 题目过长、文案太学术 | 做题疲劳，完播率下降 | 口语化、场景化、短句优先 |
-| 只有结果名，没有解释层 | 用户不觉得“准” | 至少提供核心描述 + 维度条 + 场景句 |
-| 海报过于营销化 | 用户不愿意保存或转发 | 更像“人格卡片”而不是广告页 |
-| 推荐位与当前情绪断裂 | 用户不点下一测 | 按场景和顺序推荐，例如职场测后推恋爱或压力测试 |
+| Result names are academic or bland | Low shareability and poor recall | Use sharp, meme-capable labels with short explanatory hooks |
+| Result page delays the reveal | Users bounce before feeling rewarded | Show the type name and one-line verdict immediately |
+| Test feels too long too early | Completion rate drops | Use fewer, higher-signal questions in the first public template |
+| No "what next" action | Matrix traffic leaks out after one test | Always show another relevant test or a poster/share CTA |
 
 ## "Looks Done But Isn't" Checklist
 
-- [ ] **Quiz Pack:** 经常缺少 schema 校验 — 验证非法题库能在构建阶段失败
-- [ ] **Scoring Engine:** 经常缺少黄金样例 — 验证至少 3-5 组固定答案能稳定命中预期人格
-- [ ] **Poster Export:** 经常缺少真机验证 — 验证移动端线上环境也能导出
-- [ ] **Static Routes:** 经常缺少 repo `base` 验证 — 验证 GitHub Pages 子路径资源不 404
-- [ ] **Result Page:** 经常缺少推荐链路 — 验证测完后至少能进入其他测试
-- [ ] **Hidden Persona:** 经常看起来写了却永远不可达 — 验证触发条件确实存在命中路径
+- [ ] **Pages deployment:** verify repo subpath URLs, not just localhost root paths
+- [ ] **Result poster:** verify export on desktop and mobile, not just on one browser
+- [ ] **Result matching:** verify hidden-type conditions and tie-breaking with fixtures
+- [ ] **SEO basics:** verify titles, descriptions, crawlable links, and 200/404 behavior on deployed pages
+- [ ] **Second test clone:** verify a non-WBTI pack can run without code changes
 
 ## Recovery Strategies
 
 | Pitfall | Recovery Cost | Recovery Steps |
 |---------|---------------|----------------|
-| 数据 contract 崩坏 | HIGH | 回收所有 quiz pack 到统一 schema，逐个修复字段并补测试 |
-| 海报导出不稳定 | MEDIUM | 降低模板复杂度，替换跨域资源，补真机回归 |
-| SPA 导致 SEO 不可用 | HIGH | 重建静态路由与 metadata 层，通常需要页面结构回退 |
-| 结果文案越界 | MEDIUM | 全量审校结果文本，补写内容边界规范 |
+| SPA-style architecture drift | HIGH | Split routes back into real static entries, rework navigation, and rebuild metadata handling |
+| Broken poster export | MEDIUM | Isolate poster into dedicated renderer, replace external assets, and add device verification steps |
+| Data-pack drift | MEDIUM | Freeze schema, add migration script/tests, normalize all packs to the contract |
+| Overclaimed scientific copy | LOW | Rewrite copy, add disclaimers, and remove problematic labels before broader distribution |
+| Premature matrix sprawl | MEDIUM | Pause new tests, finish WBTI, document clone recipe, then resume expansion |
 
 ## Pitfall-to-Phase Mapping
 
 | Pitfall | Prevention Phase | Verification |
 |---------|------------------|--------------|
-| 数据 contract 崩坏 | Phase 1 | 非法 quiz pack 构建失败；新增测试不改共享引擎 |
-| 结果逻辑不可验证 | Phase 1 | Vitest 覆盖计分与隐藏人格 |
-| 海报导出失效 | Phase 2 | 真机/Playwright 覆盖导出流程 |
-| SPA 牺牲 SEO | Phase 1 | 每个测试独立静态路由可直接访问 |
-| 结果文案越界 | Phase 2 | 内容审核清单通过，文本边界明确 |
-| 主站过早建设 | Phase 3 | 路线图先完成两个测试模板化，再聚合主站 |
+| SPA instead of static matrix | Phase 1 | Deployed nested routes work without rewrite hacks |
+| Fragile poster export | Phase 2 | Poster exports reliably with same-origin assets and loaded fonts |
+| Data-pack drift | Phase 1 and 3 | Second test runs on the same engine without special-case code |
+| Overclaiming science | Phase 2 | Landing/result copy clearly distinguishes inspiration vs. official assessment |
+| Premature matrix sprawl | Phase 1 and 2 | WBTI is live before any other test is treated as in-scope delivery |
 
 ## Sources
 
-- https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages — 静态托管边界
-- https://vite.dev/guide/static-deploy.html#github-pages — GitHub Pages 子路径与构建部署注意点
-- https://docs.astro.build/en/concepts/islands/ — 减少整页 hydration 的官方模式
-- https://docs.astro.build/en/guides/content-collections/ — schema、build-time collections 与静态生成边界
-- https://github.com/bubkoo/html-to-image — DOM 转图实现与浏览器限制
-- https://help.tryinteract.com/en/articles/9971974-how-to-set-up-personality-quiz-logic-scoring — 人格测试结果逻辑常见做法与准确性注意点
-- https://www.16personalities.com/ — 结果包装、准确性话术与内容边界观察
+- Vite static deploy guide: https://vite.dev/guide/static-deploy.html
+- GitHub Pages custom workflows: https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
+- GitHub Pages with Jekyll / `.nojekyll`: https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll
+- MDN `toDataURL()`: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
+- MDN `crossOrigin`: https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/crossOrigin
+- MDN `document.fonts`: https://developer.mozilla.org/en-US/docs/Web/API/Document/fonts
+- MDN Web Storage API: https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
+- MDN Web Share API: https://developer.mozilla.org/en-US/docs/Web/API/Web_Share_API
+- Google Search Central JS SEO basics: https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics
+- Truity and IDRlabs public test pages for domain framing/disclaimer patterns
 
 ---
-*Pitfalls research for: 静态 BTI 矩阵测试平台*
+*Pitfalls research for: Static BTI-style personality quiz matrix platform*
 *Researched: 2026-04-13*
