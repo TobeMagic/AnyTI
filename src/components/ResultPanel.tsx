@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { buildLbtiReport } from '@/lib/lbti-report';
 import { getAdjacentLoveFace, getLoveArchiveReading, getLoveFace, getLoveFaceImagePath, getLoveMeta, loveFaceTabs } from '@/lib/lbti-showcase';
 import { buildPosterBlob } from '@/lib/poster';
@@ -412,52 +413,55 @@ export function ResultPanel({
         </div>
       ) : null}
 
-      {sharePreviewOpen ? (
-        <div className="ref-share-preview-backdrop" onClick={() => setSharePreviewOpen(false)} role="presentation">
-          <div
-            aria-labelledby="lbti-share-preview-title"
-            aria-modal="true"
-            className="ref-share-preview"
-            onClick={(event) => event.stopPropagation()}
-            role="dialog"
-          >
-            <div className="ref-share-preview__head">
-              <div>
-                <p className="ref-type-detail-hero__eyebrow">分享图片</p>
-                <h3 className="ref-share-preview__title" id="lbti-share-preview-title">
-                  {loveMeta?.icon} {loveMeta?.faceLabel ?? '当前展示'} · {loveMeta?.code ?? pack.meta.slug.toUpperCase()}
-                </h3>
-              </div>
-              <button
-                aria-label="关闭分享图片"
-                className="ref-archive-drawer__close"
-                onClick={() => setSharePreviewOpen(false)}
-                type="button"
+      {sharePreviewOpen && typeof document !== 'undefined'
+        ? createPortal(
+            <div className="ref-share-preview-backdrop" onClick={() => setSharePreviewOpen(false)} role="presentation">
+              <div
+                aria-labelledby="lbti-share-preview-title"
+                aria-modal="true"
+                className="ref-share-preview"
+                onClick={(event) => event.stopPropagation()}
+                role="dialog"
               >
-                ×
-              </button>
-            </div>
-            {currentPosterUrl ? (
-              <img
-                alt={`${loveMeta?.name ?? result.name} 分享图片预览`}
-                className="ref-share-preview__image"
-                src={currentPosterUrl}
-              />
-            ) : (
-              <div className="ref-share-preview__loading">正在生成分享图片…</div>
-            )}
-            <p className="ref-share-preview__note">这就是最终分享图。保存图片后就可以直接转发。</p>
-            <div className="ref-actions ref-share-preview__actions">
-              <button className="ref-button ref-button--primary" onClick={handlePosterDownload} type="button">
-                保存图片
-              </button>
-              <button className="ref-button ref-button--ghost" onClick={() => setSharePreviewOpen(false)} type="button">
-                继续查看
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
+                <div className="ref-share-preview__head">
+                  <div>
+                    <p className="ref-type-detail-hero__eyebrow">分享图片</p>
+                    <h3 className="ref-share-preview__title" id="lbti-share-preview-title">
+                      {loveMeta?.icon} {loveMeta?.faceLabel ?? '当前展示'} · {loveMeta?.code ?? pack.meta.slug.toUpperCase()}
+                    </h3>
+                  </div>
+                  <button
+                    aria-label="关闭分享图片"
+                    className="ref-archive-drawer__close"
+                    onClick={() => setSharePreviewOpen(false)}
+                    type="button"
+                  >
+                    ×
+                  </button>
+                </div>
+                {currentPosterUrl ? (
+                  <img
+                    alt={`${loveMeta?.name ?? result.name} 分享图片预览`}
+                    className="ref-share-preview__image"
+                    src={currentPosterUrl}
+                  />
+                ) : (
+                  <div className="ref-share-preview__loading">正在生成分享图片…</div>
+                )}
+                <p className="ref-share-preview__note">这就是最终分享图。保存图片后就可以直接转发。</p>
+                <div className="ref-actions ref-share-preview__actions">
+                  <button className="ref-button ref-button--primary" onClick={handlePosterDownload} type="button">
+                    保存图片
+                  </button>
+                  <button className="ref-button ref-button--ghost" onClick={() => setSharePreviewOpen(false)} type="button">
+                    继续查看
+                  </button>
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </section>
   );
 }
