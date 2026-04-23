@@ -1,4 +1,5 @@
 import type { Personality } from './types';
+import { buildSiteHref } from './routes';
 
 export type LoveFaceKey = 'selfMock' | 'animal' | 'sweet';
 
@@ -589,7 +590,7 @@ export function getLoveFaceImagePath(personalityId: string, faceKey: LoveFaceKey
   const filename = faceImages[faceKey];
   if (!filename) return undefined;
   const folder = faceKey === 'selfMock' ? 'self' : faceKey;
-  return `/images/lbti/individual/${folder}/${filename}.png`;
+  return buildSiteHref(`images/lbti/individual/${folder}/${filename}.png`);
 }
 
 export function getLoveArchiveReading(personality: Personality, faceKey: LoveFaceKey): LoveArchiveReading | undefined {
