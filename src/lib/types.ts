@@ -75,6 +75,26 @@ export type DimensionDetail = {
   title: string;
   leftLabel: string;
   rightLabel: string;
+  scienceTag?: string;
+  coverage?: string;
+  sourceIds?: string[];
+};
+
+export type SourceReference = {
+  id: string;
+  title: string;
+  citation?: string;
+  publisher: string;
+  url: string;
+  takeaway: string;
+  appliesTo: string[];
+};
+
+export type QuestionPrinciple = {
+  key: string;
+  title: string;
+  text: string;
+  sourceIds: string[];
 };
 
 export type TestMeta = {
@@ -97,6 +117,8 @@ export type TestMeta = {
     inspiration: string[];
     scoring: string;
     disclaimer: string;
+    questionPrinciples?: QuestionPrinciple[];
+    sources?: SourceReference[];
   };
   recommendationIds: string[];
 };

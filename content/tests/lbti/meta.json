@@ -3,33 +3,176 @@
   "slug": "lbti",
   "category": "love",
   "status": "live",
-  "title": "LBTI 恋爱关系类型测试",
-  "hook": "30 道题，测你在关系里到底是浪漫审计员、正面开麦人，还是薛定谔恋人。",
-  "summary": "30 道题、6 个连续关系模型，把你的连结需求、示爱方式、修复习惯、边界节奏、确定性需求和撤离逻辑，压缩成一张更像当代活人状态的恋爱标签。",
-  "seoTitle": "LBTI 恋爱关系类型测试｜测你在关系里是哪种高传播活人状态",
-  "seoDescription": "基于 6 个连续关系模型与向量匹配，测出你的恋爱类型。30 道题结果支持海报导出，适合手机端分享。",
+  "title": "LBTI 恋爱系人格测试",
+  "hook": "用现实关系场景题，测你在关系里到底更像 TIAN-G 舔者、99+ 消息免打扰体，还是 BETA-01 试用期人。",
+  "summary": "从伴侣回应、示爱与脆弱表达、冲突修复、边界协商、承诺清晰和撤离防御这些真实情侣机制出发，把你的关系习惯压成一张恋爱标签。",
+  "seoTitle": "LBTI 恋爱系人格测试｜测你在关系里是哪种高传播活人状态",
+  "seoDescription": "基于 6 个连续关系模型与向量匹配的恋爱人格测试。当前版本使用一组现实场景题，结果支持海报导出，适合手机端分享。",
   "posterTheme": "love-editorial-rose",
   "accentLabel": "玫瑰频道 Edition 01",
   "durationLabel": "约 6 分钟",
   "questionCount": 30,
   "dimensions": ["attunement", "signal", "repair", "boundary", "certainty", "retreat"],
   "dimensionDetails": [
-    { "key": "attunement", "title": "连结需求", "leftLabel": "自稳低敏", "rightLabel": "在场高需" },
-    { "key": "signal", "title": "示爱表达", "leftLabel": "含蓄试探", "rightLabel": "直接给到" },
-    { "key": "repair", "title": "冲突修复", "leftLabel": "冷却静音", "rightLabel": "正面修复" },
-    { "key": "boundary", "title": "边界节奏", "leftLabel": "融进关系", "rightLabel": "边界优先" },
-    { "key": "certainty", "title": "确定性需求", "leftLabel": "慢看再说", "rightLabel": "先要定心" },
-    { "key": "retreat", "title": "撤离倾向", "leftLabel": "留场硬扛", "rightLabel": "体面后撤" }
+    {
+      "key": "attunement",
+      "title": "回应敏感",
+      "leftLabel": "自稳低敏",
+      "rightLabel": "高需回应",
+      "scienceTag": "Attachment / Responsiveness",
+      "coverage": "覆盖依恋安全感、被理解被在意、日常 bid 有没有被接住",
+      "sourceIds": ["fraley-2019", "reis-2023", "gottman-bids"]
+    },
+    {
+      "key": "signal",
+      "title": "表达与脆弱",
+      "leftLabel": "含蓄试探",
+      "rightLabel": "直接给到",
+      "scienceTag": "Disclosure / Bids",
+      "coverage": "覆盖示爱方式、主动开口、公开表达与脆弱分享",
+      "sourceIds": ["reis-2023", "gottman-bids"]
+    },
+    {
+      "key": "repair",
+      "title": "冲突修复",
+      "leftLabel": "静音冷却",
+      "rightLabel": "正面修复",
+      "scienceTag": "Repair / Dyadic Coping",
+      "coverage": "覆盖争执后修复、共同扛压、递台阶和复盘能力",
+      "sourceIds": ["gottman-repair", "hilpert-2016"]
+    },
+    {
+      "key": "boundary",
+      "title": "自主边界",
+      "leftLabel": "关系融合",
+      "rightLabel": "自主优先",
+      "scienceTag": "Autonomy / Boundaries",
+      "coverage": "覆盖报备、相处频率、空间需求与控制感",
+      "sourceIds": ["reis-2023", "fraley-2019"]
+    },
+    {
+      "key": "certainty",
+      "title": "承诺清晰",
+      "leftLabel": "模糊可活",
+      "rightLabel": "关系要明",
+      "scienceTag": "Commitment / Investment",
+      "coverage": "覆盖关系定义、排他性、稳定预期和兑现感",
+      "sourceIds": ["le-agnew-2003"]
+    },
+    {
+      "key": "retreat",
+      "title": "撤离防御",
+      "leftLabel": "留场硬扛",
+      "rightLabel": "先撤自保",
+      "scienceTag": "Withdrawal / Defense",
+      "coverage": "覆盖冷处理、回避、体面退出和复联策略",
+      "sourceIds": ["fraley-2019", "gottman-repair"]
+    }
   ],
   "methodology": {
     "inspiration": [
-      "依恋理论：焦虑、回避与安全感差异，往往首先体现在回应敏感度和靠近方式上",
-      "Gottman 冲突修复研究：关系好不好，不只看会不会吵，更看会不会修",
-      "不确定性降低与承诺推进：很多恋爱痛感，来自长期模糊而不是单次争执",
-      "边界协商与自主需求：亲密和独立不是二选一，而是需要被调频的连续谱"
+      "成人依恋与伴侣回应：回应是否稳定、是否能在压力下提供安全感，会直接影响靠近与退缩",
+      "Gottman 研究中的 bids 与 repair：关系质量不只看冲突强度，更看有没有接住靠近和修复尝试",
+      "承诺与投资模型：满意度、替代选项、投入感和关系定义，会影响人为什么留下或后撤",
+      "自主与边界协商：亲密关系不是融成一个人，而是持续协商空间、节奏、透明度和控制感",
+      "压力下的双人应对：很多关系问题不是平时不爱，而是扛压时不会一起处理"
     ],
-    "scoring": "30 道题会同时记录你的 6 个关系模型分数，再用向量余弦相似度匹配 16 个公开原型。隐藏人格会额外读取矛盾题模式，捕捉“又想被懂、又怕被围住”的状态。",
-    "disclaimer": "这是娱乐化的关系行为测试，不是专业诊断。它更适合描述你最近一段时间的互动习惯，而不是宣判你永远是谁。"
+    "scoring": "当前题库会同时记录你的 6 个关系机制分数，再用向量余弦相似度匹配 16 个核心角色。题量会随着覆盖缺口继续扩展；结果前台会再把同一个角色翻译成自嘲面、动物面和甜心面三种展示。",
+    "disclaimer": "这是娱乐化的关系行为测试，不是专业诊断。它更适合描述你最近一段时间的互动习惯，而不是宣判你永远是谁。",
+    "questionPrinciples": [
+      {
+        "key": "attunement",
+        "title": "回应题组",
+        "text": "通过已读未回、联系频率、情绪低谷时是否被接住这些场景，读取你对稳定回应和安全感的需要。",
+        "sourceIds": ["fraley-2019", "reis-2023", "gottman-bids"]
+      },
+      {
+        "key": "signal",
+        "title": "表达题组",
+        "text": "通过示爱、公开表达、脆弱袒露和吵后重连方式，读取你会不会主动把需要说出来。",
+        "sourceIds": ["reis-2023", "gottman-bids"]
+      },
+      {
+        "key": "repair",
+        "title": "修复题组",
+        "text": "通过争执、静默上限、递台阶和复盘习惯，读取你是靠冷却拖过去，还是靠 repair 真正把关系拉回来。",
+        "sourceIds": ["gottman-repair", "hilpert-2016"]
+      },
+      {
+        "key": "boundary",
+        "title": "边界题组",
+        "text": "通过报备、定位、相处频率和个人空间这些题，读取你在亲密与自主之间更想怎么调频。",
+        "sourceIds": ["reis-2023", "fraley-2019"]
+      },
+      {
+        "key": "certainty",
+        "title": "承诺题组",
+        "text": "通过关系定义、排他性、细节兑现和未来安排这些题，读取你对明确关系和可预期承诺的需求。",
+        "sourceIds": ["le-agnew-2003"]
+      },
+      {
+        "key": "retreat",
+        "title": "撤离题组",
+        "text": "通过降温、断联、复联、收尾这些题，读取你遇到不稳定关系时会继续扛，还是更习惯先撤自保。",
+        "sourceIds": ["fraley-2019", "gottman-repair"]
+      }
+    ],
+    "sources": [
+      {
+        "id": "fraley-2019",
+        "title": "Attachment in Adulthood: Recent Developments, Emerging Debates, and Future Directions",
+        "citation": "Fraley & Roisman, 2019 · Annual Review of Psychology",
+        "publisher": "Annual Review of Psychology",
+        "url": "https://www.annualreviews.org/doi/10.1146/annurev-psych-010418-102813",
+        "takeaway": "成人依恋能解释伴侣为什么会在回应缺失、靠近和后撤上表现出稳定差异。",
+        "appliesTo": ["attunement", "boundary", "retreat"]
+      },
+      {
+        "id": "reis-2023",
+        "title": "Perceived Partner Responsiveness and Wellbeing",
+        "citation": "Reis, 2023 · Oxford University Press",
+        "publisher": "Oxford University Press",
+        "url": "https://academic.oup.com/book/46095/chapter/404618236/chapter-pdf/58126888/oso-9780197567579-chapter-6.pdf",
+        "takeaway": "被理解、被尊重、被照顾的主观体验，是关系满意度和安全感的核心机制。",
+        "appliesTo": ["attunement", "signal", "boundary"]
+      },
+      {
+        "id": "gottman-bids",
+        "title": "3 Ways to Make a Better Bid for Connection",
+        "citation": "Gottman Institute · Bids for Connection",
+        "publisher": "The Gottman Institute",
+        "url": "https://www.gottman.com/blog/3-ways-to-make-a-better-bid-for-connection/",
+        "takeaway": "情侣间很多互动的最小单位，其实是一个个“bid for connection”有没有被接住。",
+        "appliesTo": ["attunement", "signal"]
+      },
+      {
+        "id": "gottman-repair",
+        "title": "Homework Assignment: Repair Attempts",
+        "citation": "Gottman Institute · Repair Attempts",
+        "publisher": "The Gottman Institute",
+        "url": "https://www.gottman.com/blog/weekend-homework-assignment-repair-attempts/",
+        "takeaway": "关系稳定不只看会不会吵，更看冲突升温时有没有 repair attempt 能被对方接住。",
+        "appliesTo": ["repair", "retreat"]
+      },
+      {
+        "id": "le-agnew-2003",
+        "title": "Commitment and Its Theorized Determinants: A Meta-Analysis of the Investment Model",
+        "citation": "Le & Agnew, 2003 · Personal Relationships",
+        "publisher": "Personal Relationships",
+        "url": "https://static1.1.sqspcdn.com/static/f/984219/13434258/1311966710690/Le_Agnew_2003_PR.pdf",
+        "takeaway": "承诺主要受满意度、替代选项和投入影响，解释了为什么有人会要定义、要排他、要兑现。",
+        "appliesTo": ["certainty"]
+      },
+      {
+        "id": "hilpert-2016",
+        "title": "The Associations of Dyadic Coping and Relationship Satisfaction Vary between and within Nations: A 35-Nation Study",
+        "citation": "Hilpert et al., 2016 · Frontiers in Psychology",
+        "publisher": "Frontiers in Psychology",
+        "url": "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2016.01106/full",
+        "takeaway": "伴侣能否一起应对压力、分担情绪和共同扛事，与关系满意度持续相关。",
+        "appliesTo": ["repair"]
+      }
+    ]
   },
-  "recommendationIds": ["wbti", "sbti", "tbti"]
+  "recommendationIds": []
 }

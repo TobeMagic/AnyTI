@@ -1,5 +1,5 @@
 import { SiteChrome } from '@/components/SiteChrome';
-import { getHomeHref, getTestHref } from '@/lib/routes';
+import { getHomeHref, getTypesHref } from '@/lib/routes';
 
 export function NotFoundPage() {
   return (
@@ -10,13 +10,13 @@ export function NotFoundPage() {
           <div className="cta-panel">
             <p className="eyebrow">404</p>
             <h1>这个入口暂时没接上</h1>
-            <p>回首页重新选类别，或者直接进已经上线的 `WBTI` / `LBTI`。</p>
+            <p>这个版本现在只保留了 LBTI 主站，先回测试页或者继续翻人格图鉴。</p>
             <div className="result-actions">
               <a className="primary-button primary-button--link" href={getHomeHref()}>
-                回到首页
+                回到 LBTI
               </a>
-              <a className="ghost-button ghost-button--link" href={getTestHref('wbti')}>
-                直接去 WBTI
+              <a className="ghost-button ghost-button--link" href={getTypesHref()}>
+                去看图鉴
               </a>
             </div>
           </div>

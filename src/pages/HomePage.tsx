@@ -1,175 +1,255 @@
+import { useState } from 'react';
 import type { CSSProperties } from 'react';
-import { groupPersonalities, getVisiblePersonalities } from '@/lib/archetypes';
-import { categories, getCategoryBySlug, getPackBySlug, getTestsForCategory } from '@/lib/content';
-import { getCategoryHref, getTestHref } from '@/lib/routes';
+import { PlaceholderPortrait } from '@/components/PlaceholderPortrait';
 import { SiteChrome } from '@/components/SiteChrome';
+import { SiteFooter } from '@/components/SiteFooter';
+import { getVisiblePersonalities } from '@/lib/archetypes';
+import { getPackBySlug } from '@/lib/content';
+import { getPreferredLocale, pickLocale } from '@/lib/locale';
+import { getAboutHref, getRankingsHref, getStartTestHref, getTypesHref } from '@/lib/routes';
+import {
+  getAdjacentLoveFace,
+  getLoveFace,
+  getLoveFaceImagePath,
+  getLoveMeta,
+  loveLeaderboard,
+  loveOfficialNotes,
+} from '@/lib/lbti-showcase';
 
 export function HomePage() {
-  const loveCategory = getCategoryBySlug('love');
-  const lovePack = getPackBySlug('lbti');
-  const liveTests = categories.flatMap((category) =>
-    getTestsForCategory(category.id).filter((test) => test.status === 'live'),
-  );
-  const loveGroups = lovePack ? groupPersonalities(lovePack.personalities) : [];
-  const loveFeatured = lovePack ? getVisiblePersonalities(lovePack.personalities).slice(0, 4) : [];
+  const locale = getPreferredLocale();
+  const pack = getPackBySlug('lbti');
+  const [activeFace, setActiveFace] = useState<'selfMock' | 'animal' | 'sweet'>('selfMock');
+  if (!pack) return null;
+
+  const visibleTypes = getVisiblePersonalities(pack.personalities);
+  const sourceMap = new Map((pack.meta.methodology.sources ?? []).map((source) => [source.id, source]));
+  const sources = pack.meta.methodology.sources ?? [];
+  const displayTypes = [...visibleTypes].sort((left, right) => {
+    const leftHeat = getLoveMeta(left.id)?.heat ?? 999;
+    const rightHeat = getLoveMeta(right.id)?.heat ?? 999;
+    return leftHeat - rightHeat;
+  });
 
   return (
-    <div
-      className="page-shell page-shell--home"
-      style={
-        loveCategory
-          ? ({
-              '--accent': loveCategory.theme.accent,
-              '--accent-soft': loveCategory.theme.accentSoft,
-              '--surface': loveCategory.theme.surface,
-              '--ink': loveCategory.theme.ink,
-            } as CSSProperties)
-          : undefined
-      }
-    >
-      <SiteChrome />
-      <main className="page-shell__main">
-        <section className="hero hero--home-page">
-          <div className="hero__copy">
-            <p className="eyebrow">Love-first Edition 01</p>
-            <h1>
-              先别分析爱情，
-              <br />
-              先看你在关系里
-              <br />
-              到底是哪种活人。
-            </h1>
-            <p className="hero__lede">
-              这一版直接按 `16Personalities` 的可信层级和 `SBTI` 的社交流量语法来做。
-              首页是入口广场，但主角先给 `LBTI`。用户先逛名册、再进频道、最后进测试。
+    <div className="ref-shell">
+      <SiteChrome current="home" />
+      <main className="ref-page ref-page--home">
+        <section className="cbti-home cbti-home--embedded">
+          <div className="cbti-home__hero">
+            <div className="cbti-home__matrix" data-testid="home-type-wall" key={activeFace}>
+              {displayTypes.map((personality, index) => {
+                const face = getLoveFace(personality.id, activeFace);
+                return (
+                  <button
+                    className={`cbti-home__matrix-card cbti-home__matrix-card--${activeFace}`}
+                    key={personality.id}
+                    onClick={() => setActiveFace((previous) => getAdjacentLoveFace(previous, 'next'))}
+                    style={{ '--flip-delay': `${index * 18}ms` } as CSSProperties}
+                    type="button"
+                  >
+                    <div className="cbti-home__matrix-media">
+                      <PlaceholderPortrait accent="#d36d4b" soft="#f7dfd4" label={face?.name ?? personality.name} imagePath={getLoveFaceImagePath(personality.id, activeFace)} size="72px" />
+                    </div>
+                    <strong>{face?.code ?? 'LBTI'}</strong>
+                    <b>{face?.name ?? personality.name}</b>
+                  </button>
+                );
+              })}
+            </div>
+
+            <p className="cbti-home__meta">
+              {pickLocale(
+                {
+                  zh: `🧪 ${pack.meta.questionCount}道题 · ${pack.meta.durationLabel} · ${visibleTypes.length}种恋爱人格`,
+                  en: `🧪 ${pack.meta.questionCount} questions · ${pack.meta.durationLabel} · ${visibleTypes.length} love types`,
+                },
+                locale,
+              )}
             </p>
-            <div className="hero__actions">
-              <a className="primary-button primary-button--link" href={getTestHref('lbti')}>
-                先测 LBTI
+
+            <h1 className="cbti-home__title">
+              <span>{pickLocale({ zh: 'MBTI测不出你', en: 'MBTI will not tell you' }, locale)}</span>
+              <span className="is-accent">
+                {pickLocale({ zh: '为什么总在恋爱里内耗', en: 'why you keep overthinking in love' }, locale)}
+              </span>
+              <span>{pickLocale({ zh: '但这套可以。', en: 'but this one can.' }, locale)}</span>
+            </h1>
+
+            <p className="cbti-home__lede">
+              {pickLocale(
+                {
+                  zh: '用六个亲密关系维度，测出你在回应、边界、修复、承诺和撤离里的默认恋爱模式。',
+                  en: 'A six-dimension relationship test for your default pattern in intimacy, repair, boundaries, commitment, and retreat.',
+                },
+                locale,
+              )}
+            </p>
+
+            <div className="cbti-home__actions">
+              <a className="cbti-home__start" data-testid="hero-start" href={getStartTestHref()}>
+                {pickLocale({ zh: '开始测试 →', en: 'Start Test →' }, locale)}
               </a>
-              <a className="ghost-button ghost-button--link" href={getCategoryHref('love')}>
-                进入恋爱频道
-              </a>
+            </div>
+
+            <p className="cbti-home__count">
+              {pickLocale(
+                {
+                  zh: `当前版本已开放 ${visibleTypes.length} 种人格档案`,
+                  en: `${visibleTypes.length} public profiles are available in this version`,
+                },
+                locale,
+              )}
+            </p>
+
+            <div className="cbti-home__links">
+              <a href={getTypesHref()}>{pickLocale({ zh: '人格图鉴', en: 'Types' }, locale)}</a>
+              <a href={getAboutHref()}>{pickLocale({ zh: '关于测试', en: 'About' }, locale)}</a>
             </div>
           </div>
-
-          <aside className="hero-side">
-            <div className="stat-strip">
-              <div className="stat-strip__item">
-                <strong>{liveTests.length}</strong>
-                <span>Live Tests</span>
-              </div>
-              <div className="stat-strip__item">
-                <strong>30</strong>
-                <span>Love Questions</span>
-              </div>
-              <div className="stat-strip__item">
-                <strong>16</strong>
-                <span>Love Types</span>
-              </div>
-              <div className="stat-strip__item">
-                <strong>06</strong>
-                <span>Love Models</span>
-              </div>
-            </div>
-
-            <div className="hero-list">
-              <p className="hero-list__label">恋爱频道热搜标签</p>
-              {loveFeatured.map((personality) => (
-                <div className="hero-list__item" key={personality.id}>
-                  <strong>{personality.name}</strong>
-                  <span>{personality.vibe}</span>
-                </div>
-              ))}
-            </div>
-          </aside>
         </section>
 
-        <section className="section-block section-block--clean">
-          <div className="section-heading">
-            <h2>入口不是测试，是频道</h2>
-            <p>主页负责挑起情绪和兴趣，类别页负责承接主题，测试页才负责给答案。这才像矩阵产品，不像散落问卷。</p>
+        <section className="ref-section">
+          <div className="ref-section__head">
+            <div>
+              <h2>{pickLocale({ zh: '🪞 情侣互动的 6 个核心机制', en: '🪞 Six Core Relationship Mechanisms' }, locale)}</h2>
+              <p className="ref-section__lede">
+                {pickLocale(
+                  {
+                    zh: '不是只看谁先回消息，而是覆盖情侣关系里最常见的回应、安全感、修复、边界、承诺与撤离。',
+                    en: 'This model covers responsiveness, repair, autonomy, commitment, and withdrawal rather than just surface behavior.',
+                  },
+                  locale,
+                )}
+              </p>
+            </div>
           </div>
-          <div className="channel-list" data-testid="home-category-grid">
-            {categories.map((category) => {
-              const tests = getTestsForCategory(category.id);
-              const liveCount = tests.filter((test) => test.status === 'live').length;
+          <div className="ref-model-grid">
+            {pack.meta.dimensionDetails.map((detail) => (
+              <article className="ref-model-card" key={detail.key}>
+                {detail.scienceTag ? <small className="ref-model-card__tag">{detail.scienceTag}</small> : null}
+                <h3>{detail.title}</h3>
+                <p>
+                  {detail.leftLabel} <span>/</span> {detail.rightLabel}
+                </p>
+                {detail.coverage ? <span className="ref-model-card__note">📌 {detail.coverage}</span> : null}
+                {detail.sourceIds?.length ? (
+                  <div className="ref-card-links">
+                    {detail.sourceIds
+                      .map((sourceId) => sourceMap.get(sourceId))
+                      .filter((source): source is NonNullable<typeof source> => Boolean(source))
+                      .map((source) => (
+                        <a
+                          className="ref-card-link"
+                          href={source.url}
+                          key={source.id}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          🔗 {source.publisher}
+                        </a>
+                      ))}
+                  </div>
+                ) : null}
+              </article>
+            ))}
+          </div>
+        </section>
 
-              return (
-                <a
-                  className="channel-row"
-                  href={getCategoryHref(category.slug)}
-                  key={category.id}
-                  style={
+        {sources.length ? (
+          <section className="ref-section ref-section--tight" data-testid="home-references" id="research">
+            <div className="ref-section__head ref-section__head--split">
+              <div>
+                <h2>{pickLocale({ zh: '🔬 学术依据与参考文献', en: '🔬 Research Basis & References' }, locale)}</h2>
+                <p className="ref-section__lede">
+                  {pickLocale(
                     {
-                      '--accent': category.theme.accent,
-                      '--accent-soft': category.theme.accentSoft,
-                      '--surface': category.theme.surface,
-                      '--ink': category.theme.ink,
-                    } as CSSProperties
-                  }
-                >
-                  <div className="channel-row__title">
-                    <p className="eyebrow">{category.slug.toUpperCase()}</p>
-                    <strong>{category.title}</strong>
-                  </div>
-                  <p>{category.subtitle}</p>
-                  <div className="channel-row__meta">
-                    <span>{liveCount > 0 ? `${liveCount} 个已上线测试` : '筹备中'}</span>
-                    <span>进入这个频道</span>
-                  </div>
-                </a>
-              );
-            })}
-          </div>
-        </section>
-
-        {lovePack ? (
-          <section className="section-block section-block--clean">
-            <div className="section-heading">
-              <h2>LBTI 全部角色名册</h2>
-              <p>先把角色体系定住，前端才有可展示的骨架。这里不是卡片墙，而是像官方站的类型名册。</p>
+                      zh: 'LBTI 的六维和场景题不是空口整活。下面直接列出它依赖的关系科学来源、学术依据和参考文献。',
+                      en: 'The LBTI dimensions are grounded in recurring findings from relationship science.',
+                    },
+                    locale,
+                  )}
+                </p>
+              </div>
+              <a className="ref-link" href={getAboutHref()}>
+                {pickLocale({ zh: '查看全部来源 →', en: 'View All Sources →' }, locale)}
+              </a>
             </div>
-            <div className="roster-board" data-testid="home-type-wall">
-              {loveGroups.map(({ group, items }) => (
-                <section className="roster-group" key={group}>
-                  <div className="roster-group__header">
-                    <p className="eyebrow">{group}</p>
+            <div className="ref-source-list">
+              {sources.slice(0, 4).map((source, index) => (
+                <article className="ref-source-card" key={source.id}>
+                  <small>{String(index + 1).padStart(2, '0')}</small>
+                  <div>
+                    <strong>{source.title}</strong>
+                    {source.citation ? <span className="ref-source-card__citation">📚 {source.citation}</span> : null}
+                    <p>{source.takeaway}</p>
+                    <div className="ref-card-links">
+                      <a className="ref-card-link" href={source.url} rel="noreferrer" target="_blank">
+                        🔗 {source.publisher}
+                      </a>
+                      <span className="ref-source-card__topics">🧬 {source.appliesTo.join(' / ')}</span>
+                    </div>
                   </div>
-                  <div className="roster-group__list">
-                    {items.map((personality) => (
-                      <article className="roster-row" key={personality.id}>
-                        <div className="roster-row__title">
-                          <strong>{personality.name}</strong>
-                          <span>{personality.badge}</span>
-                        </div>
-                        <p>{personality.vibe}</p>
-                      </article>
-                    ))}
-                  </div>
-                </section>
+                </article>
               ))}
             </div>
           </section>
         ) : null}
 
-        <section className="section-block section-block--clean">
-          <div className="story-band">
-            <article className="story-band__item">
-              <small>为什么像 16P</small>
-              <p>因为层级、可信度和方法说明必须像一个真正的官方产品站，而不是只靠一句梗撑全页。</p>
-            </article>
-            <article className="story-band__item">
-              <small>为什么像 SBTI</small>
-              <p>因为结果名必须能截图、能互相 @、能在群里一句话讲清楚自己是哪一挂。</p>
-            </article>
-            <article className="story-band__item">
-              <small>为什么先做恋爱</small>
-              <p>恋爱类最适合先验证角色命名、海报传播和手机端阅读节奏，打通后再复制到其他频道。</p>
-            </article>
+        <section className="ref-section">
+          <div className="ref-section__head ref-section__head--split">
+            <div>
+              <h2>{pickLocale({ zh: '🏆 真实提交排行榜', en: '🏆 Real Submission Rankings' }, locale)}</h2>
+            </div>
+            <a className="ref-link" href={getRankingsHref()}>
+              {pickLocale({ zh: '查看完整排行榜 →', en: 'View Full Rankings →' }, locale)}
+            </a>
+          </div>
+          <div className="ref-rank-table">
+            {loveLeaderboard.slice(0, 5).map((entry, index) => {
+              const personality = visibleTypes.find((item) => item.id === entry.id);
+              const meta = getLoveMeta(entry.id);
+              if (!personality) return null;
+
+              return (
+                <article className="ref-rank-row" key={entry.id}>
+                  <span className="ref-rank-row__index">{index + 1}</span>
+                  <div className="ref-rank-row__type">
+                    <div className="ref-rank-row__thumb">
+                      <PlaceholderPortrait accent="#d36d4b" soft="#f7dfd4" label={meta?.name ?? personality.name} imagePath={getLoveFaceImagePath(entry.id, 'selfMock')} size="48px" />
+                    </div>
+                    <div>
+                      <strong>{meta?.emoji} {meta?.code}</strong>
+                      <b>{meta?.emoji} {meta?.name ?? personality.name}</b>
+                      <p>💬 {meta?.preview ?? personality.badge}</p>
+                    </div>
+                  </div>
+                  <div className="ref-rank-row__bar">
+                    <span style={{ width: entry.share }} />
+                  </div>
+                  <em>{entry.share}</em>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="ref-section">
+          <div className="ref-section__head">
+            <h2>📜 官方说明</h2>
+          </div>
+          <div className="ref-note-list">
+            {loveOfficialNotes.map((item) => (
+              <article className="ref-note-card" key={item.title}>
+                <small>{item.eyebrow}</small>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))}
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

@@ -41,6 +41,25 @@ const methodologySchema = z.object({
   inspiration: z.array(z.string()).min(1),
   scoring: z.string(),
   disclaimer: z.string(),
+  questionPrinciples: z.array(
+    z.object({
+      key: z.string(),
+      title: z.string(),
+      text: z.string(),
+      sourceIds: z.array(z.string()).min(1),
+    }),
+  ).optional(),
+  sources: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string(),
+      citation: z.string().optional(),
+      publisher: z.string(),
+      url: z.string().url(),
+      takeaway: z.string(),
+      appliesTo: z.array(z.string()).min(1),
+    }),
+  ).optional(),
 });
 
 const questionSchema = z.object({
@@ -111,6 +130,9 @@ const metaSchema = z.object({
       title: z.string(),
       leftLabel: z.string(),
       rightLabel: z.string(),
+      scienceTag: z.string().optional(),
+      coverage: z.string().optional(),
+      sourceIds: z.array(z.string()).optional(),
     }),
   ),
   methodology: methodologySchema,
@@ -147,13 +169,7 @@ function getSlugFromPath(path: string) {
   return match[1];
 }
 
-const packSlugs = Array.from(
-  new Set([
-    ...Object.keys(metaModules).map(getSlugFromPath),
-    ...Object.keys(questionModules).map(getSlugFromPath),
-    ...Object.keys(personalityModules).map(getSlugFromPath),
-  ]),
-);
+const packSlugs = Array.from(new Set(registryTests.map((entry) => entry.slug)));
 
 export const testPacks: Record<string, TestPack> = Object.fromEntries(
   packSlugs.map((slug) => {

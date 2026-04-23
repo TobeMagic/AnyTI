@@ -28,7 +28,7 @@ const demoPack: TestPack = {
       scoring: 'Weighted vector matching',
       disclaimer: 'Demo disclaimer',
     },
-    recommendationIds: ['wbti'],
+    recommendationIds: [],
   },
   questions: [
     {
@@ -145,7 +145,7 @@ describe('content registry', () => {
       .map((entry) => entry.slug)
       .sort();
 
-    expect(liveSlugs).toEqual(['lbti', 'wbti']);
-    expect(Object.keys(testPacks).sort()).toEqual(['lbti', 'wbti']);
+    expect(liveSlugs).toEqual(['lbti']);
+    expect(Object.keys(testPacks).sort()).toEqual(['lbti']);
   });
 });

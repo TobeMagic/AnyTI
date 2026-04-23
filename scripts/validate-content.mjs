@@ -73,6 +73,9 @@ const metaSchema = z.object({
         title: z.string(),
         leftLabel: z.string(),
         rightLabel: z.string(),
+        scienceTag: z.string().optional(),
+        coverage: z.string().optional(),
+        sourceIds: z.array(z.string()).optional(),
       }),
     )
     .min(3),
@@ -80,8 +83,27 @@ const metaSchema = z.object({
     inspiration: z.array(z.string()).min(1),
     scoring: z.string(),
     disclaimer: z.string(),
+    questionPrinciples: z.array(
+      z.object({
+        key: z.string(),
+        title: z.string(),
+        text: z.string(),
+        sourceIds: z.array(z.string()).min(1),
+      }),
+    ).min(1).optional(),
+    sources: z.array(
+      z.object({
+        id: z.string(),
+        title: z.string(),
+        citation: z.string().optional(),
+        publisher: z.string(),
+        url: z.string().url(),
+        takeaway: z.string(),
+        appliesTo: z.array(z.string()).min(1),
+      }),
+    ).min(1).optional(),
   }),
-  recommendationIds: z.array(z.string()).min(1),
+  recommendationIds: z.array(z.string()),
 });
 
 async function readJson(file) {

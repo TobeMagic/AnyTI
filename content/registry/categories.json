@@ -1,86 +1,16 @@
 [
   {
-    "id": "work",
-    "slug": "work",
-    "title": "职场系人格",
-    "subtitle": "把开会、背锅、抢功、装忙这些现实动作，翻译成可传播的人格标签。",
-    "theme": {
-      "accent": "#2D5E83",
-      "accentSoft": "#B8CEDD",
-      "surface": "#E8F0F6",
-      "ink": "#13202A"
-    },
-    "liveTestIds": ["wbti"],
-    "upcomingTestIds": []
-  },
-  {
     "id": "love",
     "slug": "love",
     "title": "恋爱系人格",
-    "subtitle": "不讲依恋理论黑话，直接讲你到底是秒回幻觉师还是体面失联人。",
+    "subtitle": "不讲依恋理论黑话，直接看你到底更像 99+、TIAN-G、BETA-01 还是别的恋爱角色。",
     "theme": {
-      "accent": "#D86A9A",
-      "accentSoft": "#F5D5E4",
-      "surface": "#FFF3F7",
-      "ink": "#341A24"
+      "accent": "#E2A7BC",
+      "accentSoft": "#F8E3EB",
+      "surface": "#FFF8FB",
+      "ink": "#6B4654"
     },
     "liveTestIds": ["lbti"],
     "upcomingTestIds": []
-  },
-  {
-    "id": "spend",
-    "slug": "spend",
-    "title": "消费系人格",
-    "subtitle": "你到底是钱包纵火犯，还是看到满减也能毫无波澜的人。",
-    "theme": {
-      "accent": "#D98A3F",
-      "accentSoft": "#F6E1CA",
-      "surface": "#FFF8F0",
-      "ink": "#382410"
-    },
-    "liveTestIds": [],
-    "upcomingTestIds": ["sbti"]
-  },
-  {
-    "id": "study",
-    "slug": "study",
-    "title": "学习系人格",
-    "subtitle": "不是你会不会学，是你会不会把努力演成一种有戏的生活方式。",
-    "theme": {
-      "accent": "#C8A11E",
-      "accentSoft": "#F2E7B7",
-      "surface": "#FFFBED",
-      "ink": "#32280A"
-    },
-    "liveTestIds": [],
-    "upcomingTestIds": ["stbi"]
-  },
-  {
-    "id": "fitness",
-    "slug": "fitness",
-    "title": "健身系人格",
-    "subtitle": "你去健身房到底是为了练成线条，还是为了拍一张今天我也没放弃。",
-    "theme": {
-      "accent": "#6DA05B",
-      "accentSoft": "#D5E8CE",
-      "surface": "#F4FAF1",
-      "ink": "#182314"
-    },
-    "liveTestIds": [],
-    "upcomingTestIds": ["fbti"]
-  },
-  {
-    "id": "travel",
-    "slug": "travel",
-    "title": "旅行系人格",
-    "subtitle": "有人带着 Excel 出发，有人带着情绪出发，你是哪一挂。",
-    "theme": {
-      "accent": "#2FA0A8",
-      "accentSoft": "#CFECEE",
-      "surface": "#EFFBFB",
-      "ink": "#102629"
-    },
-    "liveTestIds": [],
-    "upcomingTestIds": ["tbti"]
   }
 ]
