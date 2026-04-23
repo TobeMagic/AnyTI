@@ -1,8 +1,8 @@
 """
 Crop individual character images from 3 source sheets:
-  1. 侧面4_4.png        → self-mock characters (SBTI)
-  2. 唯美设定稿4_4.jpeg → animal characters
-  3. 甜心面4_4.jpeg     → sweet characters
+  1. 纯白背景最终版刺面.png → self-mock characters
+  2. 唯美设定稿4_4.jpeg     → animal characters
+  3. 甜心面白底.png         → sweet characters
 
 Layout for all sheets: 4 columns × 4 rows, left-to-right, top-to-bottom.
 Order maps to lbti-personality-system.md table row 1→16.
@@ -68,17 +68,17 @@ from pathlib import Path
 from PIL import Image, ImageFilter
 import numpy as np
 
-BASE_DIR = Path(r"D:\Growth_up_youth\repo\AnyTI")
+BASE_DIR = Path(__file__).resolve().parents[1]
 
 # ─── Source files ──────────────────────────────────────────────────────────────
-SELF_SHEET = BASE_DIR / "docs/image_w2048_h2048_16角色_纯角色_透明背景 侧面4_4.png"
+SELF_SHEET = BASE_DIR / "docs/image_w2048_h2048_纯白背景最终版刺面.png"
 ANIMAL_SHEET = BASE_DIR / "docs/image_w2048_h2048_16角色合集_唯美设定稿_无文字_表情更丰富_局部更锐利4_4.jpeg"
-SWEET_SHEET = BASE_DIR / "docs/image_w2400_h1792_甜心面4_4绿色背景.jpeg"
+SWEET_SHEET = BASE_DIR / "docs/image_w2400_h1792_甜心面白底.png"
 
 # ─── Output dirs ──────────────────────────────────────────────────────────────
-OUT_SELF   = BASE_DIR / "images/lbti/individual/self"
-OUT_ANIMAL = BASE_DIR / "images/lbti/individual/animal"
-OUT_SWEET  = BASE_DIR / "images/lbti/individual/sweet"
+OUT_SELF   = BASE_DIR / "public/images/lbti/individual/self"
+OUT_ANIMAL = BASE_DIR / "public/images/lbti/individual/animal"
+OUT_SWEET  = BASE_DIR / "public/images/lbti/individual/sweet"
 
 # ─── Character names (by row/col order 0-indexed) ────────────────────────────
 SELF_NAMES = [
@@ -120,127 +120,85 @@ def get_cell_coords(idx, grid_cols, cell_w, cell_h):
     return col * cell_w, row * cell_h
 
 
-def flood_fill_transparent(img: Image.Image) -> Image.Image:
+def flood_fill_to_transparent(
+    img: Image.Image,
+    target_bg: np.ndarray | None = None,
+    threshold: float = 28.0,
+    blur_radius: float = 0.8,
+) -> Image.Image:
     """
-    Remove background using flood fill from corners, with alpha-matte edge smoothing.
-
-    1. Flood-fill from corners, replacing matching pixels with page background color.
-       Tight tolerance (~3*sigma) preserves character pixels that overlap with bg color.
-    2. Build an alpha-matte: pixels far from the character (deep background) get full
-       opacity (page bg), pixels near the character boundary get a soft transition
-       from transparent to opaque, so the page background shows through naturally.
-    3. Composite character over page background for clean output.
-
-    This eliminates JPEG compression artifacts at the fill boundary and prevents
-    the dark fringe artifacts that occur when character pixels nearly match the bg color.
+    Remove connected edge background into true transparency.
+    This keeps inner highlights/details because only edge-connected pixels are removed.
     """
-    PAGE_BG = (250, 245, 240)
+    rgba = img.convert("RGBA")
+    arr = np.array(rgba, dtype=np.float32)
+    h, w = arr.shape[:2]
 
-    img = img.convert("RGBA")
-    arr = np.array(img, dtype=np.float32)
-    H, W = arr.shape[:2]
+    if target_bg is None:
+        target_bg = np.array([
+            arr[0, 0, :3],
+            arr[0, w - 1, :3],
+            arr[h - 1, 0, :3],
+            arr[h - 1, w - 1, :3],
+        ], dtype=np.float32).mean(axis=0)
 
-    # Step 1: Get background color from corners
-    corner_colors = np.array([
-        arr[0, 0, :3],
-        arr[0, W - 1, :3],
-        arr[H - 1, 0, :3],
-        arr[H - 1, W - 1, :3],
-    ])
-    bg_color = corner_colors.mean(axis=0)
+    thr_sq = threshold * threshold
+    visited = np.zeros((h, w), dtype=bool)
+    queue: list[tuple[int, int]] = []
 
-    # Flood fill: mark background pixels
-    tolerance_sq = 12.0 ** 2  # very tight: only exact background
-
-    visited = np.zeros((H, W), dtype=bool)
-    queue = []
-    for cy, cx in [(0, 0), (0, W - 1), (H - 1, 0), (H - 1, W - 1)]:
-        if arr[cy, cx, 3] > 0:
-            queue.append((cy, cx))
-            visited[cy, cx] = True
+    for y, x in ((0, 0), (0, w - 1), (h - 1, 0), (h - 1, w - 1)):
+        visited[y, x] = True
+        queue.append((y, x))
 
     dirs = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
     idx = 0
     while idx < len(queue):
         cy, cx = queue[idx]
         idx += 1
-        for dc, dr in dirs:
-            ny, nx = cy + dr, cx + dc
-            if 0 <= ny < H and 0 <= nx < W and not visited[ny, nx]:
-                if arr[ny, nx, 3] > 0:
-                    dc_c = arr[ny, nx, 0] - bg_color[0]
-                    dg_c = arr[ny, nx, 1] - bg_color[1]
-                    db_c = arr[ny, nx, 2] - bg_color[2]
-                    dist_sq = dc_c * dc_c + dg_c * dg_c + db_c * db_c
-                    if dist_sq < tolerance_sq:
-                        visited[ny, nx] = True
-                        queue.append((ny, nx))
+        for dy, dx in dirs:
+            ny, nx = cy + dy, cx + dx
+            if ny < 0 or ny >= h or nx < 0 or nx >= w or visited[ny, nx]:
+                continue
 
-    # Step 2: Replace background with page bg color
+            dr = arr[ny, nx, 0] - target_bg[0]
+            dg = arr[ny, nx, 1] - target_bg[1]
+            db = arr[ny, nx, 2] - target_bg[2]
+            if (dr * dr + dg * dg + db * db) <= thr_sq:
+                visited[ny, nx] = True
+                queue.append((ny, nx))
+
     bg_mask = visited
-    arr_out = arr.copy()
-    arr_out[bg_mask, 0] = PAGE_BG[0]
-    arr_out[bg_mask, 1] = PAGE_BG[1]
-    arr_out[bg_mask, 2] = PAGE_BG[2]
+    fg_mask = ~bg_mask
 
-    # Step 3: Alpha matte — blur the character/background boundary for smooth transition
-    # Create a grayscale image: character=255 (white), background=0 (black)
-    char_mask = ~bg_mask
-    gray_arr = np.where(char_mask, 255, 0).astype(np.uint8)
-    gray_img = Image.fromarray(gray_arr, mode="L")
+    # Soft alpha edge to reduce hard jaggies
+    alpha = np.where(fg_mask, 255, 0).astype(np.uint8)
+    alpha_img = Image.fromarray(alpha, mode="L").filter(ImageFilter.GaussianBlur(radius=blur_radius))
+    alpha_arr = np.array(alpha_img, dtype=np.uint8)
 
-    # Gaussian blur with radius=1 creates ~3px soft transition at boundary
-    gray_blurred = gray_img.filter(ImageFilter.GaussianBlur(radius=1))
-    alpha_arr = np.array(gray_blurred, dtype=np.float32)
-
-    # Build RGBA output: character pixels keep their color, background shows page bg
-    bg_r, bg_g, bg_b = PAGE_BG
-    out_r = np.where(char_mask, arr[:, :, 0], bg_r)
-    out_g = np.where(char_mask, arr[:, :, 1], bg_g)
-    out_b = np.where(char_mask, arr[:, :, 2], bg_b)
-    out_a = (alpha_arr).clip(0, 255).astype(np.uint8)
-
-    out_arr = np.stack([out_r, out_g, out_b, out_a], axis=2).astype(np.uint8)
-    return Image.fromarray(out_arr, mode="RGBA")
+    out = np.array(rgba, dtype=np.uint8)
+    out[:, :, 3] = alpha_arr
+    out[bg_mask, 0:3] = 0
+    return Image.fromarray(out, mode="RGBA")
 
 
-def remove_green_bg(img: Image.Image) -> Image.Image:
-    """
-    Remove green background and replace with page background color (#faf5f0).
-    Returns an RGBA image with the green background replaced by the page bg color.
-    """
-    PAGE_BG = np.array([250, 245, 240], dtype=np.float32)
+def remove_white_bg(img: Image.Image) -> Image.Image:
+    """White studio background => transparent PNG."""
+    return flood_fill_to_transparent(
+        img,
+        target_bg=np.array([255.0, 255.0, 255.0], dtype=np.float32),
+        threshold=34.0,
+        blur_radius=0.7,
+    )
 
-    img = img.convert("RGBA")
-    arr = np.array(img, dtype=np.float32)
 
-    r, g, b, a = arr[:, :, 0], arr[:, :, 1], arr[:, :, 2], arr[:, :, 3]
-
-    # Reference greens
-    ref_green      = np.array([0.0, 255.0, 0.0])
-    ref_dark_green = np.array([46.0, 139.0, 87.0])  # sea green #2E8B57
-    ref_forest     = np.array([34.0, 139.0, 34.0])  # forest green #228B22
-    ref_moss       = np.array([80.0, 125.0, 42.0])  # moss green
-
-    refs = np.array([ref_green, ref_dark_green, ref_forest, ref_moss])
-
-    # Compute minimum distance to any green reference
-    pixels = np.stack([r, g, b], axis=-1)   # shape: (H, W, 3)
-    dists = np.linalg.norm(pixels[:, :, np.newaxis, :] - refs[np.newaxis, np.newaxis, :, :], axis=3)
-    dist = dists.min(axis=2)
-
-    threshold = 75.0
-    # Identify green pixels (where dist < threshold and alpha > 0)
-    is_green = (dist < threshold) & (a > 50)
-
-    # Replace green pixels with page background color
-    arr[is_green, 0] = PAGE_BG[0]
-    arr[is_green, 1] = PAGE_BG[1]
-    arr[is_green, 2] = PAGE_BG[2]
-    # Keep alpha at 255 (opaque)
-    arr[:, :, 3] = 255
-
-    return Image.fromarray(arr.clip(0, 255).astype(np.uint8), mode="RGBA")
+def remove_corner_bg(img: Image.Image) -> Image.Image:
+    """Auto infer corner color for non-white sheets (animal set)."""
+    return flood_fill_to_transparent(
+        img,
+        target_bg=None,
+        threshold=24.0,
+        blur_radius=0.8,
+    )
 
 
 def process_sheet(
@@ -291,7 +249,7 @@ def main():
     results_self = process_sheet(
         SELF_SHEET, OUT_SELF, SELF_NAMES,
         SELF_CELL, SELF_GRID, SELF_SHEET_SIZE,
-        flood_fill_transparent,
+        remove_white_bg,
     )
 
     # ── 2. Animal characters ────────────────────────────────────────────────
@@ -299,7 +257,7 @@ def main():
     results_animal = process_sheet(
         ANIMAL_SHEET, OUT_ANIMAL, ANIMAL_NAMES,
         ANIMAL_CELL, ANIMAL_GRID, ANIMAL_SHEET_SIZE,
-        flood_fill_transparent,
+        remove_corner_bg,
     )
 
     # ── 3. Sweet characters ────────────────────────────────────────────────
@@ -307,7 +265,7 @@ def main():
     results_sweet = process_sheet(
         SWEET_SHEET, OUT_SWEET, SWEET_NAMES,
         SWEET_CELL, SWEET_GRID, SWEET_SHEET_SIZE,
-        remove_green_bg,
+        remove_white_bg,
     )
 
     print("============================================================")

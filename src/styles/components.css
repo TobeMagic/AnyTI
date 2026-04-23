@@ -3911,6 +3911,8 @@ a,
   border: 0;
   padding: 0;
   box-shadow: none;
+  width: 44px !important;
+  height: 44px !important;
 }
 
 .cbti-home__matrix-media .portrait-card:has(.portrait-card__image) {
@@ -3924,6 +3926,10 @@ a,
 
 .cbti-home__matrix-media .portrait-card__svg {
   border-radius: 12px;
+}
+
+.cbti-home__matrix-media .portrait-card__label {
+  display: none;
 }
 
 .portrait-card {

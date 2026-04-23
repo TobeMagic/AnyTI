@@ -49,7 +49,13 @@ export function HomePage() {
                     type="button"
                   >
                     <div className="cbti-home__matrix-media">
-                      <PlaceholderPortrait accent="#d36d4b" soft="#f7dfd4" label={face?.name ?? personality.name} imagePath={getLoveFaceImagePath(personality.id, activeFace)} size="72px" />
+                      <PlaceholderPortrait
+                        accent="#d36d4b"
+                        soft="#f7dfd4"
+                        label={face?.name ?? personality.name}
+                        imagePath={getLoveFaceImagePath(personality.id, activeFace)}
+                        size="44px"
+                      />
                     </div>
                     <strong>{face?.code ?? 'LBTI'}</strong>
                     <b>{face?.name ?? personality.name}</b>
