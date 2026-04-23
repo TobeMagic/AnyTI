@@ -2,6 +2,10 @@
 
 > 面向移动端传播的恋爱人格测试站点：三面人格展示、可分享结果图、纯静态部署到 GitHub Pages。
 
+<p align="center">
+  <img src="./docs/screenshots/readme-hero.png" alt="AnyTI README Hero" width="100%" />
+</p>
+
 [![Deploy AnyTI](https://github.com/TobeMagic/AnyTI/actions/workflows/deploy.yml/badge.svg)](https://github.com/TobeMagic/AnyTI/actions/workflows/deploy.yml)
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Online-EA7A70?logo=github)](https://tobemagic.github.io/AnyTI/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
@@ -139,4 +143,3 @@ AnyTI/
 ## 许可证
 
 当前仓库尚未附带明确的开源许可证文件（`LICENSE`）。如需对外开源，请先补充许可证后再分发使用。
-

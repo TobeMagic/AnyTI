@@ -2,6 +2,10 @@
 
 > A mobile-first, shareable relationship personality test site with static deployment on GitHub Pages.
 
+<p align="center">
+  <img src="./docs/screenshots/readme-hero.png" alt="AnyTI README Hero" width="100%" />
+</p>
+
 [![Deploy AnyTI](https://github.com/TobeMagic/AnyTI/actions/workflows/deploy.yml/badge.svg)](https://github.com/TobeMagic/AnyTI/actions/workflows/deploy.yml)
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Online-EA7A70?logo=github)](https://tobemagic.github.io/AnyTI/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
@@ -130,4 +134,3 @@ Outputs:
 ## License
 
 No explicit open-source license file is present yet (`LICENSE` not found). Add one before public redistribution.
-
