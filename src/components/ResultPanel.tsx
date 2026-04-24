@@ -65,14 +65,55 @@ export function ResultPanel({
     if (typeof document === 'undefined') return undefined;
 
     const originalOverflow = document.body.style.overflow;
-    if (drawerOpen || sharePreviewOpen) {
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+    const originalPosition = document.body.style.position;
+    const originalTop = document.body.style.top;
+    const originalWidth = document.body.style.width;
+    const scrollY = window.scrollY;
+
+    if (sharePreviewOpen) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+    } else if (drawerOpen) {
       document.body.style.overflow = 'hidden';
     }
 
     return () => {
       document.body.style.overflow = originalOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.body.style.position = originalPosition;
+      document.body.style.top = originalTop;
+      document.body.style.width = originalWidth;
+      if (sharePreviewOpen) {
+        window.scrollTo(0, scrollY);
+      }
     };
   }, [drawerOpen, sharePreviewOpen]);
+
+  useEffect(() => {
+    if (!sharePreviewOpen || typeof document === 'undefined') return undefined;
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setSharePreviewOpen(false);
+      }
+    }
+
+    function preventScroll(event: TouchEvent) {
+      event.preventDefault();
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('touchmove', preventScroll, { passive: false });
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('touchmove', preventScroll);
+    };
+  }, [sharePreviewOpen]);
 
   useEffect(() => {
     void ensurePoster(activeFace);
@@ -133,7 +174,6 @@ export function ResultPanel({
   }
 
   async function handleOpenSharePreview() {
-    setSharePreviewOpen(true);
     try {
       setStatus('正在准备图片…');
       await ensurePoster(activeFace);
@@ -415,49 +455,21 @@ export function ResultPanel({
 
       {sharePreviewOpen && typeof document !== 'undefined'
         ? createPortal(
-            <div className="ref-share-preview-backdrop" onClick={() => setSharePreviewOpen(false)} role="presentation">
-              <div
-                aria-labelledby="lbti-share-preview-title"
-                aria-modal="true"
-                className="ref-share-preview"
-                onClick={(event) => event.stopPropagation()}
-                role="dialog"
-              >
-                <div className="ref-share-preview__head">
-                  <div>
-                    <p className="ref-type-detail-hero__eyebrow">分享图片</p>
-                    <h3 className="ref-share-preview__title" id="lbti-share-preview-title">
-                      {loveMeta?.icon} {loveMeta?.faceLabel ?? '当前展示'} · {loveMeta?.code ?? pack.meta.slug.toUpperCase()}
-                    </h3>
-                  </div>
-                  <button
-                    aria-label="关闭分享图片"
-                    className="ref-archive-drawer__close"
-                    onClick={() => setSharePreviewOpen(false)}
-                    type="button"
-                  >
-                    ×
-                  </button>
-                </div>
-                {currentPosterUrl ? (
-                  <img
-                    alt={`${loveMeta?.name ?? result.name} 分享图片预览`}
-                    className="ref-share-preview__image"
-                    src={currentPosterUrl}
-                  />
-                ) : (
-                  <div className="ref-share-preview__loading">正在生成分享图片…</div>
-                )}
-                <p className="ref-share-preview__note">这就是最终分享图。保存图片后就可以直接转发。</p>
-                <div className="ref-actions ref-share-preview__actions">
-                  <button className="ref-button ref-button--primary" onClick={handlePosterDownload} type="button">
-                    保存图片
-                  </button>
-                  <button className="ref-button ref-button--ghost" onClick={() => setSharePreviewOpen(false)} type="button">
-                    继续查看
-                  </button>
-                </div>
-              </div>
+            <div
+              aria-label="分享图片预览"
+              aria-modal="true"
+              className="ref-share-preview-backdrop"
+              onClick={() => setSharePreviewOpen(false)}
+              role="dialog"
+            >
+              {currentPosterUrl ? (
+                <img
+                  alt={`${loveMeta?.name ?? result.name} 分享图片预览`}
+                  className="ref-share-preview__image"
+                  onClick={(event) => event.stopPropagation()}
+                  src={currentPosterUrl}
+                />
+              ) : null}
             </div>,
             document.body,
           )
