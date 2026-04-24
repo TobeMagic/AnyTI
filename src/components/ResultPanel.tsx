@@ -463,12 +463,14 @@ export function ResultPanel({
               role="dialog"
             >
               {currentPosterUrl ? (
-                <img
-                  alt={`${loveMeta?.name ?? result.name} 分享图片预览`}
-                  className="ref-share-preview__image"
-                  onClick={(event) => event.stopPropagation()}
-                  src={currentPosterUrl}
-                />
+                <div className="ref-share-preview__stage" onClick={(event) => event.stopPropagation()}>
+                  <img
+                    alt={`${loveMeta?.name ?? result.name} 分享图片预览`}
+                    className="ref-share-preview__image"
+                    src={currentPosterUrl}
+                  />
+                  <p className="ref-share-preview__hint">长按保存图片并转发</p>
+                </div>
               ) : null}
             </div>,
             document.body,

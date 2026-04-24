@@ -1693,17 +1693,36 @@
   backdrop-filter: blur(10px);
 }
 
+.ref-share-preview__stage {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  max-width: calc(100vw - 16px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  max-height: calc(100vh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+
 .ref-share-preview__image {
   display: block;
   width: auto;
   height: auto;
   max-width: calc(100vw - 16px - env(safe-area-inset-left) - env(safe-area-inset-right));
-  max-height: calc(100vh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  max-height: calc(100vh - 50px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   border-radius: 24px;
   box-shadow: 0 30px 80px rgba(20, 14, 14, 0.34);
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+.ref-share-preview__hint {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.28);
+  user-select: none;
 }
 
 @keyframes triptych-card-enter {
@@ -2445,10 +2464,6 @@
 
   .ref-archive-drawer__grid {
     grid-template-columns: 1fr;
-  }
-
-  .ref-share-preview {
-    padding: 22px;
   }
 
   .ref-nav {
