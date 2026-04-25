@@ -4,7 +4,7 @@ import { SiteFooter } from '@/components/SiteFooter';
 import { getVisiblePersonalities } from '@/lib/archetypes';
 import { getPackBySlug } from '@/lib/content';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
-import { getLoveMeta, getLoveFaceImagePath, loveLeaderboard } from '@/lib/lbti-showcase';
+import { getLoveFaceThumbPath, getLoveMeta, loveLeaderboard } from '@/lib/lbti-showcase';
 
 export function RankingsPage() {
   const locale = getPreferredLocale();
@@ -46,7 +46,7 @@ export function RankingsPage() {
                 <span className="ref-rank-row__index">{index + 1}</span>
                 <div className="ref-rank-row__type">
                   <div className="ref-rank-row__thumb">
-                    <PlaceholderPortrait accent="#d36d4b" soft="#f7dfd4" label={meta?.name ?? personality.name} imagePath={getLoveFaceImagePath(entry.id, 'selfMock')} size="48px" />
+                    <PlaceholderPortrait accent="#d36d4b" soft="#f7dfd4" label={meta?.name ?? personality.name} imagePath={getLoveFaceThumbPath(entry.id, 'selfMock')} size="48px" />
                   </div>
                     <div>
                       <strong>{meta?.emoji} {meta?.code}</strong>

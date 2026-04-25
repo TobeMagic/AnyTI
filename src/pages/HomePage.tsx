@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
+import { AuthorWechatLink } from '@/components/AuthorWechatLink';
 import { PlaceholderPortrait } from '@/components/PlaceholderPortrait';
 import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
@@ -10,7 +11,7 @@ import { getAboutHref, getRankingsHref, getStartTestHref, getTypesHref } from '@
 import {
   getAdjacentLoveFace,
   getLoveFace,
-  getLoveFaceImagePath,
+  getLoveFaceThumbPath,
   getLoveMeta,
   loveLeaderboard,
   loveOfficialNotes,
@@ -19,7 +20,6 @@ import {
 export function HomePage() {
   const locale = getPreferredLocale();
   const pack = getPackBySlug('lbti');
-  const wechatHref = 'weixin://profile/gh_1ab72c968bef';
   const [activeFace, setActiveFace] = useState<'selfMock' | 'animal' | 'sweet'>('selfMock');
   if (!pack) return null;
 
@@ -54,7 +54,9 @@ export function HomePage() {
                         accent="#d36d4b"
                         soft="#f7dfd4"
                         label={face?.name ?? personality.name}
-                        imagePath={getLoveFaceImagePath(personality.id, activeFace)}
+                        imageFetchPriority={index < 8 ? 'high' : 'auto'}
+                        imageLoading="eager"
+                        imagePath={getLoveFaceThumbPath(personality.id, activeFace)}
                         size="44px"
                       />
                     </div>
@@ -116,15 +118,7 @@ export function HomePage() {
 
             <p className="cbti-home__author">
               <span>{pickLocale({ zh: '作者（公众号）：', en: 'Author (WeChat): ' }, locale)}</span>
-              <a
-                aria-label={pickLocale({ zh: '点击一键关注计算机魔术师公众号', en: 'Follow 计算机魔术师 on WeChat' }, locale)}
-                className="author-wechat-link"
-                href={wechatHref}
-              >
-                {pickLocale({ zh: '点击一键关注『', en: 'Follow 『' }, locale)}
-                <span className="author-wechat-link__name">计算机魔术师</span>
-                』
-              </a>
+              <AuthorWechatLink />
             </p>
           </div>
         </section>
@@ -236,7 +230,7 @@ export function HomePage() {
                   <span className="ref-rank-row__index">{index + 1}</span>
                   <div className="ref-rank-row__type">
                     <div className="ref-rank-row__thumb">
-                      <PlaceholderPortrait accent="#d36d4b" soft="#f7dfd4" label={meta?.name ?? personality.name} imagePath={getLoveFaceImagePath(entry.id, 'selfMock')} size="48px" />
+                      <PlaceholderPortrait accent="#d36d4b" soft="#f7dfd4" label={meta?.name ?? personality.name} imagePath={getLoveFaceThumbPath(entry.id, 'selfMock')} size="48px" />
                     </div>
                     <div>
                       <strong>{meta?.emoji} {meta?.code}</strong>

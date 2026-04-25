@@ -1,8 +1,12 @@
+import type { CSSProperties, ImgHTMLAttributes } from 'react';
+
 type PlaceholderPortraitProps = {
   accent: string;
   soft: string;
   label: string;
   imagePath?: string;
+  imageLoading?: ImgHTMLAttributes<HTMLImageElement>['loading'];
+  imageFetchPriority?: ImgHTMLAttributes<HTMLImageElement>['fetchPriority'];
   size?: string;
 };
 
@@ -11,10 +15,12 @@ export function PlaceholderPortrait({
   soft,
   label,
   imagePath,
+  imageLoading = 'lazy',
+  imageFetchPriority,
   size = '240px',
 }: PlaceholderPortraitProps) {
   const glyph = Array.from(label)[0] ?? 'A';
-  const cardStyle: React.CSSProperties = {
+  const cardStyle: CSSProperties = {
     width: size,
     height: size,
   };
@@ -23,7 +29,14 @@ export function PlaceholderPortrait({
     <div className="portrait-card" style={cardStyle} aria-hidden="true">
       {imagePath ? (
         <>
-          <img alt={label} className="portrait-card__image" src={imagePath} />
+          <img
+            alt={label}
+            className="portrait-card__image"
+            decoding="async"
+            fetchPriority={imageFetchPriority}
+            loading={imageLoading}
+            src={imagePath}
+          />
           <svg className="portrait-card__svg portrait-card__svg--hidden" viewBox="0 0 240 240" style={{ display: 'none' }} />
         </>
       ) : (

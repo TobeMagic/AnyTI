@@ -593,6 +593,15 @@ export function getLoveFaceImagePath(personalityId: string, faceKey: LoveFaceKey
   return buildSiteHref(`images/lbti/individual/${folder}/${filename}.png`);
 }
 
+export function getLoveFaceThumbPath(personalityId: string, faceKey: LoveFaceKey): string | undefined {
+  const faceImages = loveFaceImageMap[personalityId];
+  if (!faceImages) return undefined;
+  const filename = faceImages[faceKey];
+  if (!filename) return undefined;
+  const folder = faceKey === 'selfMock' ? 'self' : faceKey;
+  return buildSiteHref(`images/lbti/thumbs/${folder}/${filename}.webp`);
+}
+
 export function getLoveArchiveReading(personality: Personality, faceKey: LoveFaceKey): LoveArchiveReading | undefined {
   const face = getLoveFace(personality.id, faceKey);
   if (!face) return undefined;

@@ -2,8 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 30;
-  background: rgba(245, 244, 237, 0.94);
-  backdrop-filter: blur(14px);
+  background: var(--ref-bg);
   border-bottom: 1px solid var(--ref-line);
 }
 
@@ -716,16 +715,40 @@
   justify-items: center;
 }
 
+.ref-type-card__faces {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 6px;
+  width: 100%;
+}
+
+.ref-type-card__face {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ref-type-card__face span {
+  color: rgba(94, 93, 89, 0.72);
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
 .ref-type-card__art .portrait-card {
-  --portrait-size: 84px;
-  padding: 8px;
+  --portrait-size: 58px;
+  padding: 0;
   border-radius: 12px;
-  background: #fff;
+  background: transparent;
 }
 
 .ref-type-card__art .portrait-card__svg {
-  width: 84px;
-  height: 84px;
+  width: 58px;
+  height: 58px;
 }
 
 .ref-type-card__art .portrait-card__label {
@@ -2103,8 +2126,13 @@
 }
 
 .author-wechat-link {
+  appearance: none;
   display: inline;
+  padding: 0;
+  border: 0;
   color: rgba(198, 76, 126, 0.78);
+  background: none;
+  font: inherit;
   text-decoration: none;
   border-bottom: 1px solid rgba(216, 118, 106, 0.28);
   cursor: pointer;
@@ -2120,7 +2148,7 @@
 }
 
 .author-wechat-link::after {
-  content: '↗';
+  content: '⧉';
   margin-left: 2px;
   color: rgba(198, 76, 126, 0.48);
   font-size: 0.9em;
@@ -2137,6 +2165,25 @@
   background-clip: text;
   color: transparent;
   font-weight: 700;
+}
+
+.author-copy-toast {
+  position: fixed;
+  left: 50%;
+  bottom: max(22px, env(safe-area-inset-bottom));
+  z-index: 80;
+  width: max-content;
+  max-width: min(360px, calc(100vw - 32px));
+  padding: 9px 13px;
+  border: 1px solid rgba(216, 118, 106, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 250, 247, 0.96);
+  box-shadow: 0 16px 38px rgba(103, 76, 84, 0.14);
+  color: var(--ref-text);
+  text-align: center;
+  font-size: 12px;
+  line-height: 17px;
+  transform: translateX(-50%);
 }
 
 .ref-footer__author .ref-footer__blog-link {

@@ -5,7 +5,7 @@ import { getVisiblePersonalities } from '@/lib/archetypes';
 import { getPackBySlug } from '@/lib/content';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
 import { getTypeDetailHref } from '@/lib/routes';
-import { getLoveMeta, getLoveFaceImagePath } from '@/lib/lbti-showcase';
+import { getLoveFace, getLoveFaceThumbPath, getLoveMeta, loveFaceTabs } from '@/lib/lbti-showcase';
 
 export function TypesPage() {
   const locale = getPreferredLocale();
@@ -22,12 +22,12 @@ export function TypesPage() {
       <SiteChrome current="types" />
       <main className="ref-page ref-page--sub">
         <section className="ref-centered-hero">
-          <h1>{pickLocale({ zh: '🫧 全部 16 只恋爱小怪物', en: '🫧 All 16 Love Creatures' }, locale)}</h1>
+          <h1>{pickLocale({ zh: '🫧 16 只恋爱小怪物图鉴', en: '🫧 16 Love Creature Profiles' }, locale)}</h1>
           <p>
             {pickLocale(
               {
-                zh: '💘 这里展示 LBTI 的公开小怪物图鉴。先看看有没有你的同类，再决定要不要去测。',
-                en: 'Browse the public LBTI creature archive first and see whether one of these types already feels familiar.',
+                zh: '💘 每只都有自嘲面、动物面和甜心面三种状态。先认领你的同类，再去测试看系统会把你分到哪一只。',
+                en: 'Each type includes a self-mock face, an animal face, and a sweet face. Browse first, then take the test to see which one catches you.',
               },
               locale,
             )}
@@ -41,7 +41,24 @@ export function TypesPage() {
               <a className="ref-type-card" href={getTypeDetailHref(meta?.routeSlug ?? personality.slug)} key={personality.id}>
                 <small>{meta?.emoji} {meta?.code}</small>
                 <div className="ref-type-card__art">
-                  <PlaceholderPortrait accent="#d36d4b" soft="#f7dfd4" label={meta?.name ?? personality.name} imagePath={getLoveFaceImagePath(personality.id, 'selfMock')} size="84px" />
+                  <div className="ref-type-card__faces" aria-label={pickLocale({ zh: '三面人格预览', en: 'Three-face preview' }, locale)}>
+                    {loveFaceTabs.map((tab) => {
+                      const face = getLoveFace(personality.id, tab.key);
+                      return (
+                        <div className="ref-type-card__face" key={tab.key}>
+                          <PlaceholderPortrait
+                            accent="#d36d4b"
+                            imagePath={getLoveFaceThumbPath(personality.id, tab.key)}
+                            imageLoading="lazy"
+                            label={face?.name ?? personality.name}
+                            size="58px"
+                            soft="#f7dfd4"
+                          />
+                          <span>{tab.label}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
                 <div className="ref-type-card__copy">
                   <h2>{meta?.emoji} {meta?.name ?? personality.name}</h2>
