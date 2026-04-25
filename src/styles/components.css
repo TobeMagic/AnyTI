@@ -2416,11 +2416,17 @@
   gap: 16px;
 }
 
-.cbti-home__links a {
+.cbti-home__links a,
+.cbti-home__author {
   color: rgba(83, 69, 74, 0.42);
   font-size: 11px;
   line-height: 16px;
   transition: color 180ms ease;
+}
+
+.cbti-home__author {
+  margin: -2px 0 0;
+  font-weight: 500;
 }
 
 .cbti-home__links a:hover {

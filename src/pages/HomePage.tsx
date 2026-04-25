@@ -112,6 +112,16 @@ export function HomePage() {
               <a href={getTypesHref()}>{pickLocale({ zh: '人格图鉴', en: 'Types' }, locale)}</a>
               <a href={getAboutHref()}>{pickLocale({ zh: '关于测试', en: 'About' }, locale)}</a>
             </div>
+
+            <p className="cbti-home__author">
+              {pickLocale(
+                {
+                  zh: '作者：公众号 计算机魔术师',
+                  en: 'Author: WeChat Official Account 计算机魔术师',
+                },
+                locale,
+              )}
+            </p>
           </div>
         </section>
 
