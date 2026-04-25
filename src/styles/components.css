@@ -2139,6 +2139,23 @@
   font-weight: 700;
 }
 
+.ref-footer__author .ref-footer__blog-link {
+  border-bottom: 1px solid rgba(216, 118, 106, 0.22);
+  color: rgba(198, 76, 126, 0.72);
+}
+
+.ref-footer__author .ref-footer__blog-link::after {
+  content: '↗';
+  margin-left: 3px;
+  color: rgba(198, 76, 126, 0.46);
+  font-size: 0.9em;
+}
+
+.ref-footer__author .ref-footer__blog-link:hover {
+  border-bottom-color: rgba(216, 118, 106, 0.52);
+  color: var(--ref-accent);
+}
+
 .ref-footer__disclaimer,
 .ref-footer__copyright {
   margin: 22px 0 0;
