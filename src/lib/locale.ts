@@ -35,6 +35,14 @@ export function getPreferredLocale(): Locale {
   return stored === 'en' ? 'en' : 'zh';
 }
 
+export function setPreferredLocale(locale: Locale) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  window.localStorage.setItem(STORAGE_KEY, locale);
+}
+
 export function withLocale(href: string, locale: Locale) {
   if (typeof window === 'undefined') {
     const [pathWithQuery, hash = ''] = href.split('#');

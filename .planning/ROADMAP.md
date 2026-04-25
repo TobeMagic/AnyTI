@@ -15,6 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Shared Engine Foundation** - Build the static platform skeleton, data contracts, and reusable quiz runtime
 - [x] **Phase 2: WBTI End-to-End Experience** - Deliver the first complete home → category → WBTI flow and its result experience
 - [x] **Phase 3: Sharing and Matrix Loop** - Add poster export, recommendation loops, and prove the second-test replication path
+- [ ] **Phase 4: 修复以上内容并测试** - Fix LBTI public UI copy, mobile navigation, locale switching, type-card flipping, rankings layout, and regression coverage
 
 ## Phase Details
 
@@ -70,10 +71,21 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3
+Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Shared Engine Foundation | 3/3 | Completed | 2026-04-13 |
 | 2. WBTI End-to-End Experience | 3/3 | Completed | 2026-04-13 |
 | 3. Sharing and Matrix Loop | 3/3 | Completed | 2026-04-13 |
+| 4. 修复以上内容并测试 | 0/0 | Added | - |
+
+### Phase 4: 修复以上内容并测试
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 3
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 4 to break down)

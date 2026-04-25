@@ -87,6 +87,21 @@
   gap: 10px;
 }
 
+.ref-menu-toggle {
+  display: none;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid var(--ref-line);
+  border-radius: 999px;
+  background: rgba(255, 252, 251, 0.76);
+  color: var(--ref-text);
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
 .ref-lang {
   display: inline-flex;
   align-items: center;
@@ -345,6 +360,7 @@
 .ref-stat-card small,
 .ref-preview-card__copy small,
 .ref-type-card > small,
+.ref-type-card__flip-face > small,
 .ref-directory-row__copy small,
 .ref-analysis-card header small,
 .ref-type-continue-card small,
@@ -710,6 +726,40 @@
   background: var(--ref-card);
 }
 
+.ref-type-card--single {
+  padding: 0;
+  gap: 0;
+}
+
+.ref-type-card__flip-trigger {
+  display: grid;
+  width: 100%;
+  min-height: 304px;
+  padding: 14px 14px 12px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ref-type-card__flip-face {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  transform-origin: center;
+  animation: type-card-face-in 260ms cubic-bezier(0.2, 0.86, 0.2, 1) both;
+}
+
+.ref-type-card--animal .ref-type-card__flip-trigger {
+  background: linear-gradient(180deg, rgba(248, 238, 225, 0.42), transparent 66%);
+}
+
+.ref-type-card--sweet .ref-type-card__flip-trigger {
+  background: linear-gradient(180deg, rgba(255, 231, 238, 0.5), transparent 66%);
+}
+
 .ref-type-card__art {
   display: grid;
   justify-items: center;
@@ -828,6 +878,21 @@
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+.ref-type-card--single .ref-type-card__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px 13px;
+  border-top: 1px solid rgba(219, 206, 194, 0.62);
+}
+
+.ref-type-card__flip-hint {
+  color: rgba(101, 83, 90, 0.48);
+  font-size: 11px;
+  line-height: 15px;
+  font-weight: 600;
 }
 
 .ref-directory-row {
@@ -2633,6 +2698,35 @@
     display: none;
   }
 
+  .ref-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ref-chrome--open .ref-chrome__inner {
+    grid-template-rows: auto auto;
+  }
+
+  .ref-chrome--open .ref-nav {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 8px;
+    padding: 4px 0 2px;
+  }
+
+  .ref-chrome--open .ref-nav__link {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(219, 206, 194, 0.7);
+    border-radius: 14px;
+    background: rgba(255, 252, 251, 0.72);
+  }
+
   .ref-rank-row em {
     text-align: left;
   }
@@ -2699,6 +2793,74 @@
 
   .ref-type-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ref-rank-table--page {
+    display: grid;
+    gap: 10px;
+    border: 0;
+    overflow: visible;
+  }
+
+  .ref-rank-table--page .ref-rank-head {
+    display: none;
+  }
+
+  .ref-rank-table--page .ref-rank-row--page {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 8px 10px;
+    padding: 12px;
+    border: 1px solid rgba(219, 206, 194, 0.66);
+    border-radius: 16px;
+    background: rgba(255, 252, 251, 0.58);
+  }
+
+  .ref-rank-table--page .ref-rank-row__index {
+    align-self: start;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .ref-rank-table--page .ref-rank-row__type {
+    grid-column: 2 / 4;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 9px;
+    min-width: 0;
+  }
+
+  .ref-rank-table--page .ref-rank-row__thumb .portrait-card {
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  .ref-rank-table--page .ref-rank-row__type b {
+    display: block;
+    font-size: 15px;
+    line-height: 19px;
+  }
+
+  .ref-rank-table--page .ref-rank-row__type p {
+    margin-top: 2px;
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .ref-rank-table--page .ref-rank-row__bar {
+    grid-column: 2 / 3;
+    height: 7px;
+    align-self: center;
+  }
+
+  .ref-rank-table--page .ref-rank-row em {
+    grid-column: 3 / 4;
+    align-self: center;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(216, 118, 106, 0.08);
+    color: var(--ref-accent);
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
   }
 
   .ref-cross-combo-grid {
@@ -6185,6 +6347,18 @@ a,
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes type-card-face-in {
+  from {
+    opacity: 0;
+    transform: rotateY(72deg) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
   }
 }
 

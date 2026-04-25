@@ -69,8 +69,8 @@ export function HomePage() {
             <p className="cbti-home__flip-hint">
               {pickLocale(
                 {
-                  zh: '👆 点击任意小怪物，切换自嘲面 / 动物面 / 甜心面',
-                  en: '👆 Tap any creature to switch between the three faces',
+                  zh: '👆 点击任意角色，切换自嘲面 / 动物面 / 甜心面',
+                  en: '👆 Tap any role to switch between the three faces',
                 },
                 locale,
               )}

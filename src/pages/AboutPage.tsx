@@ -53,7 +53,7 @@ const aboutNotes = [
   {
     icon: '🎟️',
     zhTitle: '结果要能看、能讲、能截图',
-    zhText: '小怪物名和结果页按传播场景设计，既能一句话讲清楚，也能直接保存海报发给别人看。',
+    zhText: '角色名和结果页按传播场景设计，既能一句话讲清楚，也能直接保存海报发给别人看。',
     enTitle: 'Built for sharing',
     enText: 'Type names and result pages are designed to be readable, memorable, and screenshot-friendly.',
   },

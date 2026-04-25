@@ -54,6 +54,10 @@ Recent decisions affecting current work:
 
 None for v1 milestone.
 
+### Roadmap Evolution
+
+- Phase 4 added: 修复以上内容并测试
+
 ### Blockers/Concerns
 
 - The remaining matrix lanes (`SBTI`, `STBI`, `FBTI`, `TBTI`) still need their own authored content packs before launch

@@ -1,4 +1,5 @@
-import { getPreferredLocale, pickLocale, withLocale } from '@/lib/locale';
+import { useState } from 'react';
+import { getPreferredLocale, pickLocale, setPreferredLocale, withLocale } from '@/lib/locale';
 import {
   getAboutHref,
   getCrossAnalysisHref,
@@ -13,11 +14,12 @@ type SiteChromeProps = {
 };
 
 export function SiteChrome({ current = 'home' }: SiteChromeProps) {
+  const [navOpen, setNavOpen] = useState(false);
   const locale = getPreferredLocale();
   const currentPath =
     typeof window === 'undefined'
       ? getHomeHref()
-      : `${window.location.pathname}${window.location.hash}`;
+      : `${window.location.pathname}${window.location.search}${window.location.hash}`;
 
   const navItems = [
     {
@@ -43,7 +45,7 @@ export function SiteChrome({ current = 'home' }: SiteChromeProps) {
   ];
 
   return (
-    <header className="ref-chrome">
+    <header className={`ref-chrome ${navOpen ? 'ref-chrome--open' : ''}`}>
       <div className="ref-chrome__inner">
         <a className="ref-mark" href={withLocale(getHomeHref(), locale)}>
           <span className="ref-mark__icon" aria-hidden="true">
@@ -68,16 +70,27 @@ export function SiteChrome({ current = 'home' }: SiteChromeProps) {
         </nav>
 
         <div className="ref-chrome__actions">
+          <button
+            aria-expanded={navOpen}
+            aria-label={pickLocale({ zh: '展开导航', en: 'Open navigation' }, locale)}
+            className="ref-menu-toggle"
+            onClick={() => setNavOpen((open) => !open)}
+            type="button"
+          >
+            {pickLocale({ zh: '导航', en: 'Menu' }, locale)}
+          </button>
           <div className="ref-lang">
             <a
               className={`ref-lang__link ${locale === 'zh' ? 'is-active' : ''}`}
               href={withLocale(currentPath, 'zh')}
+              onClick={() => setPreferredLocale('zh')}
             >
               中文
             </a>
             <a
               className={`ref-lang__link ${locale === 'en' ? 'is-active' : ''}`}
               href={withLocale(currentPath, 'en')}
+              onClick={() => setPreferredLocale('en')}
             >
               EN
             </a>

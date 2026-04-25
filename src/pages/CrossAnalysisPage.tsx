@@ -26,8 +26,8 @@ export function CrossAnalysisPage() {
           <p>
             {pickLocale(
               {
-                zh: '这个专区把 LBTI 的 16 只恋爱小怪物和 MBTI 的经典 16 型放在同一张坐标系里看，方便你直接按类型展开浏览。',
-                en: 'This archive places the 16 LBTI love creatures and the classic 16 MBTI types on one browsing map.',
+                zh: '这个专区把 LBTI 的 16 个恋爱角色和 MBTI 的经典 16 型放在同一张坐标系里看，方便你直接按类型展开浏览。',
+                en: 'This archive places the 16 LBTI love roles and the classic 16 MBTI types on one browsing map.',
               },
               locale,
             )}

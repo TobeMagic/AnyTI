@@ -138,7 +138,7 @@ export function TypeDetailPage() {
         <section className="ref-triptych-stage ref-triptych-stage--detail">
           <div className="ref-triptych-stage__head">
             <p className="ref-type-detail-hero__eyebrow">
-              {pickLocale({ zh: '恋爱小怪物档案馆 / 图鉴静态呈现', en: 'Love Creature Archive / Static Profile View' }, locale)}
+              {pickLocale({ zh: '恋爱角色档案馆 / 图鉴静态呈现', en: 'Love Role Archive / Static Profile View' }, locale)}
             </p>
             <h2 className="ref-triptych-stage__title">{pickLocale({ zh: '同一个角色的三副面孔', en: 'Three Faces Of The Same Role' }, locale)}</h2>
             <p className="ref-triptych-stage__lede">{pickLocale({ zh: '转动卡片，看见这一型的另一面。', en: 'Turn the card and see another face of this role.' }, locale)}</p>
@@ -221,7 +221,7 @@ export function TypeDetailPage() {
 
         <section className="ref-section">
           <div className="ref-section__head">
-            <h2>{pickLocale({ zh: '🧬 这只的六维切面', en: '🧬 Six Creature Dimensions' }, locale)}</h2>
+            <h2>{pickLocale({ zh: '🧬 这个角色的六维切面', en: '🧬 Six Role Dimensions' }, locale)}</h2>
           </div>
           <div className="ref-type-detail-dimensions">
             {pack.meta.dimensionDetails.map((detail) => {
@@ -289,7 +289,7 @@ export function TypeDetailPage() {
           </div>
           <div className="ref-actions">
             <a className="ref-button ref-button--primary" href={getStartTestHref()}>
-              {pickLocale({ zh: '重新测试', en: 'Retake Test' }, locale)}
+              {pickLocale({ zh: '开始测试', en: 'Start Test' }, locale)}
             </a>
             <a className="ref-button ref-button--ghost" href={getTypesHref()}>
               {pickLocale({ zh: '继续浏览', en: 'Browse Types' }, locale)}
