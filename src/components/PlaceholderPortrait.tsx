@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties, ImgHTMLAttributes } from 'react';
 
 type PlaceholderPortraitProps = {
@@ -21,6 +21,7 @@ export function PlaceholderPortrait({
   size = '240px',
 }: PlaceholderPortraitProps) {
   const [loaded, setLoaded] = useState(!imagePath);
+  const imageRef = useRef<HTMLImageElement | null>(null);
   const glyph = Array.from(label)[0] ?? 'A';
   const cardStyle: CSSProperties = {
     width: size,
@@ -29,6 +30,16 @@ export function PlaceholderPortrait({
 
   useEffect(() => {
     setLoaded(!imagePath);
+    if (!imagePath) return undefined;
+
+    const frame = window.requestAnimationFrame(() => {
+      const image = imageRef.current;
+      if (image?.complete && image.naturalWidth > 0) {
+        setLoaded(true);
+      }
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [imagePath]);
 
   return (
@@ -44,6 +55,7 @@ export function PlaceholderPortrait({
             loading={imageLoading}
             onError={() => setLoaded(true)}
             onLoad={() => setLoaded(true)}
+            ref={imageRef}
             src={imagePath}
           />
           <svg className="portrait-card__svg portrait-card__svg--hidden" viewBox="0 0 240 240" style={{ display: 'none' }} />
