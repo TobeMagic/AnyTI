@@ -1,3 +1,4 @@
+import { SiteFooter } from '@/components/SiteFooter';
 import { SiteChrome } from '@/components/SiteChrome';
 import { getHomeHref, getTypesHref } from '@/lib/routes';
 
@@ -22,6 +23,7 @@ export function NotFoundPage() {
           </div>
         </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

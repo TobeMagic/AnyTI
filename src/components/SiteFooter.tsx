@@ -7,6 +7,7 @@ type SiteFooterProps = {
 
 export function SiteFooter({ compact = false }: SiteFooterProps) {
   const locale = getPreferredLocale();
+  const blogHref = 'https://tobemagic.github.io/ai-magician-blog/';
 
   return (
     <footer className={`ref-footer ${compact ? 'ref-footer--compact' : ''}`}>
@@ -21,6 +22,22 @@ export function SiteFooter({ compact = false }: SiteFooterProps) {
           <a href="#">{pickLocale({ zh: '使用条款', en: 'Terms' }, locale)}</a>
           <a href="#">{pickLocale({ zh: '隐私政策', en: 'Privacy' }, locale)}</a>
         </div>
+      </div>
+      <div className="ref-footer__author" aria-label={pickLocale({ zh: '作者信息', en: 'Author information' }, locale)}>
+        <span>
+          <strong>{pickLocale({ zh: '作者：', en: 'Author: ' }, locale)}</strong>
+          {pickLocale(
+            {
+              zh: '公众号 计算机魔术师',
+              en: 'WeChat Official Account 计算机魔术师',
+            },
+            locale,
+          )}
+        </span>
+        <a href={blogHref} target="_blank" rel="noreferrer">
+          <strong>{pickLocale({ zh: '博客站点：', en: 'Blog: ' }, locale)}</strong>
+          {blogHref}
+        </a>
       </div>
       <p className="ref-footer__disclaimer">
         {pickLocale(

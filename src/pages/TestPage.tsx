@@ -89,6 +89,7 @@ export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
             <p>这个版本当前只保留 LBTI 主站，先回恋爱测试页继续看。</p>
           </section>
         </main>
+        <SiteFooter />
       </div>
     );
   }
@@ -496,7 +497,7 @@ export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
         ) : null}
 
       </main>
-      {mode === 'quiz' ? <SiteFooter compact={session.started && !isComplete} /> : null}
+      <SiteFooter compact={mode === 'quiz' && session.started && !isComplete} />
     </div>
   );
 }
