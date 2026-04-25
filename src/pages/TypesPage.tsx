@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PlaceholderPortrait } from '@/components/PlaceholderPortrait';
 import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
@@ -9,10 +9,29 @@ import { getTypeDetailHref } from '@/lib/routes';
 import { getAdjacentLoveFace, getLoveFace, getLoveFaceThumbPath, getLoveMeta, loveFaceTabs } from '@/lib/lbti-showcase';
 import type { LoveFaceKey } from '@/lib/lbti-showcase';
 
+const FLIP_DURATION_MS = 540;
+
+type FlipState = {
+  from: LoveFaceKey;
+  to: LoveFaceKey;
+};
+
 export function TypesPage() {
   const locale = getPreferredLocale();
   const pack = getPackBySlug('lbti');
   const [activeFaces, setActiveFaces] = useState<Record<string, LoveFaceKey>>({});
+  const [flippingFaces, setFlippingFaces] = useState<Record<string, FlipState>>({});
+  const [resettingFaces, setResettingFaces] = useState<Record<string, boolean>>({});
+  const flipTimers = useRef<Record<string, number>>({});
+  const resetFrames = useRef<Record<string, number[]>>({});
+
+  useEffect(() => {
+    return () => {
+      Object.values(flipTimers.current).forEach((timer) => window.clearTimeout(timer));
+      Object.values(resetFrames.current).forEach((frames) => frames.forEach((frame) => window.cancelAnimationFrame(frame)));
+    };
+  }, []);
+
   if (!pack) return null;
   const visibleTypes = [...getVisiblePersonalities(pack.personalities)].sort((a, b) => {
     const ah = getLoveMeta(a.id)?.heat ?? 999;
@@ -25,13 +44,112 @@ export function TypesPage() {
   }
 
   function rotateFace(personalityId: string) {
-    setActiveFaces((previous) => {
-      const currentFace = previous[personalityId] ?? 'selfMock';
-      return {
+    if (flippingFaces[personalityId]) return;
+
+    const currentFace = activeFaces[personalityId] ?? 'selfMock';
+    const nextFace = getAdjacentLoveFace(currentFace, 'next');
+    const prefersReducedMotion =
+      typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      setActiveFaces((previous) => ({
         ...previous,
-        [personalityId]: getAdjacentLoveFace(currentFace, 'next'),
-      };
+        [personalityId]: nextFace,
+      }));
+      return;
+    }
+
+    setFlippingFaces((previous) => ({
+      ...previous,
+      [personalityId]: {
+        from: currentFace,
+        to: nextFace,
+      },
+    }));
+
+    if (flipTimers.current[personalityId]) {
+      window.clearTimeout(flipTimers.current[personalityId]);
+    }
+
+    flipTimers.current[personalityId] = window.setTimeout(() => {
+      finishFlip(personalityId, nextFace);
+    }, FLIP_DURATION_MS);
+  }
+
+  function renderFace(personality: (typeof visibleTypes)[number], faceKey: LoveFaceKey, eager: boolean) {
+    const meta = getLoveMeta(personality.id);
+    const face = getLoveFace(personality.id, faceKey);
+    const faceNumber = loveFaceTabs.findIndex((tab) => tab.key === faceKey) + 1;
+
+    return (
+      <>
+        <small>{face?.icon ?? meta?.emoji} {face?.code ?? meta?.code}</small>
+        <div className="ref-type-card__art">
+          <PlaceholderPortrait
+            accent="#d36d4b"
+            imageFetchPriority={eager ? 'high' : 'auto'}
+            imageLoading="eager"
+            imagePath={getLoveFaceThumbPath(personality.id, faceKey)}
+            label={face?.name ?? personality.name}
+            size="88px"
+            soft="#f7dfd4"
+          />
+        </div>
+        <div className="ref-type-card__copy">
+          <h2>{face?.icon ?? meta?.emoji} {face?.name ?? personality.name}</h2>
+          <strong>{face?.faceLabel ?? '当前展示'} · 第 {faceNumber}/3 面</strong>
+          <p>{face?.quote ?? meta?.quote ?? personality.vibe}</p>
+        </div>
+        <span className="ref-type-card__flip-hint">
+          {pickLocale({ zh: '点击翻面', en: 'Tap to flip' }, locale)}
+        </span>
+      </>
+    );
+  }
+
+  function handleFlipTransitionEnd(personalityId: string) {
+    const flip = flippingFaces[personalityId];
+    if (!flip) return;
+
+    finishFlip(personalityId, flip.to);
+  }
+
+  function finishFlip(personalityId: string, nextFace: LoveFaceKey) {
+    if (flipTimers.current[personalityId]) {
+      window.clearTimeout(flipTimers.current[personalityId]);
+      delete flipTimers.current[personalityId];
+    }
+
+    if (resetFrames.current[personalityId]) {
+      resetFrames.current[personalityId].forEach((frame) => window.cancelAnimationFrame(frame));
+    }
+
+    setActiveFaces((previous) => ({
+      ...previous,
+      [personalityId]: nextFace,
+    }));
+    setFlippingFaces((previous) => {
+      const next = { ...previous };
+      delete next[personalityId];
+      return next;
     });
+    setResettingFaces((previous) => ({
+      ...previous,
+      [personalityId]: true,
+    }));
+
+    const firstFrame = window.requestAnimationFrame(() => {
+      const secondFrame = window.requestAnimationFrame(() => {
+        setResettingFaces((previous) => {
+          const next = { ...previous };
+          delete next[personalityId];
+          return next;
+        });
+        delete resetFrames.current[personalityId];
+      });
+      resetFrames.current[personalityId] = [firstFrame, secondFrame];
+    });
+    resetFrames.current[personalityId] = [firstFrame];
   }
 
   return (
@@ -55,37 +173,38 @@ export function TypesPage() {
           {visibleTypes.map((personality) => {
             const meta = getLoveMeta(personality.id);
             const activeFace = getActiveFace(personality.id);
-            const face = getLoveFace(personality.id, activeFace);
-            const faceNumber = loveFaceTabs.findIndex((tab) => tab.key === activeFace) + 1;
+            const flip = flippingFaces[personality.id];
+            const frontFace = flip?.from ?? activeFace;
+            const backFace = flip?.to ?? getAdjacentLoveFace(activeFace, 'next');
             return (
               <article className={`ref-type-card ref-type-card--single ref-type-card--${activeFace}`} key={personality.id}>
                 <button
-                  aria-label={pickLocale({ zh: `切换 ${face?.name ?? personality.name} 的展示面`, en: `Flip ${face?.name ?? personality.name}` }, locale)}
+                  aria-label={pickLocale({ zh: `切换 ${meta?.name ?? personality.name} 的展示面`, en: `Flip ${meta?.name ?? personality.name}` }, locale)}
                   className="ref-type-card__flip-trigger"
+                  disabled={Boolean(flip)}
                   onClick={() => rotateFace(personality.id)}
                   type="button"
                 >
-                  <div className="ref-type-card__flip-face" key={activeFace}>
-                    <small>{face?.icon ?? meta?.emoji} {face?.code ?? meta?.code}</small>
-                    <div className="ref-type-card__art">
-                      <PlaceholderPortrait
-                        accent="#d36d4b"
-                        imageFetchPriority={faceNumber === 1 ? 'high' : 'auto'}
-                        imageLoading="eager"
-                        imagePath={getLoveFaceThumbPath(personality.id, activeFace)}
-                        label={face?.name ?? personality.name}
-                        size="88px"
-                        soft="#f7dfd4"
-                      />
+                  <div
+                    className={`ref-type-card__flip-inner ${flip ? 'is-flipping' : ''} ${resettingFaces[personality.id] ? 'is-resetting' : ''}`}
+                    onTransitionEnd={(event) => {
+                      if (event.propertyName === 'transform') {
+                        handleFlipTransitionEnd(personality.id);
+                      }
+                    }}
+                  >
+                    <div className="ref-type-card__flip-side ref-type-card__flip-side--front">
+                      <div className="ref-type-card__flip-face">
+                        {renderFace(personality, frontFace, frontFace === 'selfMock')}
+                      </div>
                     </div>
-                    <div className="ref-type-card__copy">
-                      <h2>{face?.icon ?? meta?.emoji} {face?.name ?? personality.name}</h2>
-                      <strong>{face?.faceLabel ?? '当前展示'} · 第 {faceNumber}/3 面</strong>
-                      <p>{face?.quote ?? meta?.quote ?? personality.vibe}</p>
-                    </div>
-                    <span className="ref-type-card__flip-hint">
-                      {pickLocale({ zh: '点击翻面', en: 'Tap to flip' }, locale)}
-                    </span>
+                    {flip ? (
+                      <div className="ref-type-card__flip-side ref-type-card__flip-side--back">
+                        <div className="ref-type-card__flip-face">
+                          {renderFace(personality, backFace, false)}
+                        </div>
+                      </div>
+                    ) : null}
                   </div>
                 </button>
                 <a className="ref-type-card__cta" href={getTypeDetailHref(meta?.routeSlug ?? personality.slug)}>

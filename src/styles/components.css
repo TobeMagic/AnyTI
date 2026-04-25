@@ -729,12 +729,13 @@
 .ref-type-card--single {
   padding: 0;
   gap: 0;
+  overflow: visible;
+  isolation: auto;
 }
 
 .ref-type-card__flip-trigger {
-  display: grid;
+  display: block;
   width: 100%;
-  min-height: 304px;
   padding: 14px 14px 12px;
   border: 0;
   border-radius: inherit;
@@ -742,6 +743,46 @@
   color: inherit;
   text-align: left;
   cursor: pointer;
+  perspective: 1100px;
+  perspective-origin: 50% 45%;
+}
+
+.ref-type-card__flip-trigger:disabled {
+  cursor: default;
+}
+
+.ref-type-card__flip-inner {
+  position: relative;
+  min-height: 292px;
+  transform-style: preserve-3d;
+  transition: transform 540ms cubic-bezier(0.16, 0.82, 0.22, 1);
+  will-change: transform;
+}
+
+.ref-type-card__flip-inner.is-flipping {
+  transform: rotateY(-180deg);
+}
+
+.ref-type-card__flip-inner.is-resetting {
+  transition: none;
+  transform: rotateY(0deg);
+}
+
+.ref-type-card__flip-side {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.ref-type-card__flip-side--front {
+  transform: rotateY(0deg);
+}
+
+.ref-type-card__flip-side--back {
+  transform: rotateY(180deg);
 }
 
 .ref-type-card__flip-face {
@@ -749,7 +790,9 @@
   gap: 12px;
   min-width: 0;
   transform-origin: center;
-  animation: type-card-face-in 260ms cubic-bezier(0.2, 0.86, 0.2, 1) both;
+  align-content: start;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .ref-type-card--animal .ref-type-card__flip-trigger {
@@ -893,6 +936,13 @@
   font-size: 11px;
   line-height: 15px;
   font-weight: 600;
+}
+
+.ref-type-card--single .ref-type-card__copy p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .ref-directory-row {
