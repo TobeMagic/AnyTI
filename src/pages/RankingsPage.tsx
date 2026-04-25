@@ -46,7 +46,15 @@ export function RankingsPage() {
                 <span className="ref-rank-row__index">{index + 1}</span>
                 <div className="ref-rank-row__type">
                   <div className="ref-rank-row__thumb">
-                    <PlaceholderPortrait accent="#d36d4b" soft="#f7dfd4" label={meta?.name ?? personality.name} imagePath={getLoveFaceThumbPath(entry.id, 'selfMock')} size="48px" />
+                    <PlaceholderPortrait
+                      accent="#d36d4b"
+                      imageFetchPriority={index < 6 ? 'high' : 'auto'}
+                      imageLoading="eager"
+                      imagePath={getLoveFaceThumbPath(entry.id, 'selfMock')}
+                      label={meta?.name ?? personality.name}
+                      size="48px"
+                      soft="#f7dfd4"
+                    />
                   </div>
                     <div>
                       <strong>{meta?.emoji} {meta?.code}</strong>

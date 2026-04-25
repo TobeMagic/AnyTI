@@ -49,7 +49,7 @@ export function TypesPage() {
                           <PlaceholderPortrait
                             accent="#d36d4b"
                             imagePath={getLoveFaceThumbPath(personality.id, tab.key)}
-                            imageLoading="lazy"
+                            imageLoading="eager"
                             label={face?.name ?? personality.name}
                             size="58px"
                             soft="#f7dfd4"

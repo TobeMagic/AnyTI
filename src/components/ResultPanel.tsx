@@ -62,6 +62,32 @@ export function ResultPanel({
   }, []);
 
   useEffect(() => {
+    if (pack.meta.slug !== 'lbti' || typeof document === 'undefined') return undefined;
+
+    const preloadLinks: HTMLLinkElement[] = [];
+    for (const tab of loveFaceTabs) {
+      const imagePath = getLoveFaceImagePath(result.id, tab.key);
+      if (!imagePath) continue;
+
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = imagePath;
+      document.head.appendChild(link);
+      preloadLinks.push(link);
+
+      const image = new Image();
+      image.decoding = 'async';
+      image.src = imagePath;
+      void image.decode?.().catch(() => undefined);
+    }
+
+    return () => {
+      preloadLinks.forEach((link) => link.remove());
+    };
+  }, [pack.meta.slug, result.id]);
+
+  useEffect(() => {
     if (typeof document === 'undefined') return undefined;
 
     const originalOverflow = document.body.style.overflow;
@@ -234,6 +260,9 @@ export function ResultPanel({
                   alt={`${loveMeta?.name ?? result.name} 分享图片`}
                   className="ref-triptych-poster__image"
                   data-testid="result-image-card"
+                  decoding="async"
+                  fetchPriority="high"
+                  loading="eager"
                   src={currentPosterUrl}
                 />
               ) : (
@@ -246,6 +275,8 @@ export function ResultPanel({
                       accent={category.theme.accent}
                       soft={category.theme.accentSoft}
                       label={loveMeta?.name ?? result.name}
+                      imageFetchPriority="high"
+                      imageLoading="eager"
                       imagePath={getLoveFaceImagePath(result.id, activeFace)}
                       size="240px"
                     />

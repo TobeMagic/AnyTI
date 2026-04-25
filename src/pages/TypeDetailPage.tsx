@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PlaceholderPortrait } from '@/components/PlaceholderPortrait';
 import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
@@ -93,6 +93,31 @@ export function TypeDetailPage() {
     .slice(0, 4);
   const contrast = buildContrastSummary(personality, visibleTypes);
 
+  useEffect(() => {
+    const links: HTMLLinkElement[] = [];
+
+    for (const tab of loveFaceTabs) {
+      const imagePath = getLoveFaceImagePath(personality.id, tab.key);
+      if (!imagePath) continue;
+
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = imagePath;
+      document.head.appendChild(link);
+      links.push(link);
+
+      const image = new Image();
+      image.decoding = 'async';
+      image.src = imagePath;
+      void image.decode?.().catch(() => undefined);
+    }
+
+    return () => {
+      links.forEach((link) => link.remove());
+    };
+  }, [personality.id]);
+
   function handleFaceSwipeStart(clientX: number) {
     touchStartX.current = clientX;
   }
@@ -148,7 +173,15 @@ export function TypeDetailPage() {
               <span className="ref-triptych-card__ribbon">{face?.faceLabel ?? '当前展示'}</span>
               <span className="ref-triptych-card__stamp">ARCHIVE</span>
               <figure className="ref-triptych-card__portrait">
-                <PlaceholderPortrait accent="#d36d4b" soft="#f7dfd4" label={face?.name ?? meta?.name ?? personality.name} imagePath={getLoveFaceImagePath(personality.id, activeFace)} size="240px" />
+                <PlaceholderPortrait
+                  accent="#d36d4b"
+                  imageFetchPriority="high"
+                  imageLoading="eager"
+                  imagePath={getLoveFaceImagePath(personality.id, activeFace)}
+                  label={face?.name ?? meta?.name ?? personality.name}
+                  size="240px"
+                  soft="#f7dfd4"
+                />
                 <figcaption className="ref-triptych-card__image-caption">角色插画</figcaption>
               </figure>
               <small className="ref-triptych-card__face">{face?.icon ?? meta?.emoji} {face?.faceLabel ?? '当前展示'}</small>

@@ -66,6 +66,15 @@ export function HomePage() {
                 );
               })}
             </div>
+            <p className="cbti-home__flip-hint">
+              {pickLocale(
+                {
+                  zh: '👆 点击任意小怪物，切换自嘲面 / 动物面 / 甜心面',
+                  en: '👆 Tap any creature to switch between the three faces',
+                },
+                locale,
+              )}
+            </p>
 
             <p className="cbti-home__meta">
               {pickLocale(
@@ -230,7 +239,15 @@ export function HomePage() {
                   <span className="ref-rank-row__index">{index + 1}</span>
                   <div className="ref-rank-row__type">
                     <div className="ref-rank-row__thumb">
-                      <PlaceholderPortrait accent="#d36d4b" soft="#f7dfd4" label={meta?.name ?? personality.name} imagePath={getLoveFaceThumbPath(entry.id, 'selfMock')} size="48px" />
+                      <PlaceholderPortrait
+                        accent="#d36d4b"
+                        imageFetchPriority={index < 3 ? 'high' : 'auto'}
+                        imageLoading="eager"
+                        imagePath={getLoveFaceThumbPath(entry.id, 'selfMock')}
+                        label={meta?.name ?? personality.name}
+                        size="48px"
+                        soft="#f7dfd4"
+                      />
                     </div>
                     <div>
                       <strong>{meta?.emoji} {meta?.code}</strong>

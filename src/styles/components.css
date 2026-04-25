@@ -2440,6 +2440,14 @@
   }
 }
 
+.cbti-home__flip-hint {
+  margin: -14px 0 -6px;
+  color: rgba(152, 107, 122, 0.62);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 600;
+}
+
 .cbti-home__meta {
   margin: 0;
   color: rgba(90, 77, 82, 0.66);
