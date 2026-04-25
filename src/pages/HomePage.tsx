@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { AuthorWechatLink } from '@/components/AuthorWechatLink';
 import { PlaceholderPortrait } from '@/components/PlaceholderPortrait';
@@ -6,6 +6,7 @@ import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
 import { getVisiblePersonalities } from '@/lib/archetypes';
 import { getPackBySlug } from '@/lib/content';
+import { addImagePreloadLinks, scheduleImagePreload } from '@/lib/image-preload';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
 import { getAboutHref, getRankingsHref, getStartTestHref, getTypesHref } from '@/lib/routes';
 import {
@@ -21,16 +22,31 @@ export function HomePage() {
   const locale = getPreferredLocale();
   const pack = getPackBySlug('lbti');
   const [activeFace, setActiveFace] = useState<'selfMock' | 'animal' | 'sweet'>('selfMock');
-  if (!pack) return null;
 
-  const visibleTypes = getVisiblePersonalities(pack.personalities);
-  const sourceMap = new Map((pack.meta.methodology.sources ?? []).map((source) => [source.id, source]));
-  const sources = pack.meta.methodology.sources ?? [];
+  const visibleTypes = pack ? getVisiblePersonalities(pack.personalities) : [];
+  const sourceMap = new Map((pack?.meta.methodology.sources ?? []).map((source) => [source.id, source]));
+  const sources = pack?.meta.methodology.sources ?? [];
   const displayTypes = [...visibleTypes].sort((left, right) => {
     const leftHeat = getLoveMeta(left.id)?.heat ?? 999;
     const rightHeat = getLoveMeta(right.id)?.heat ?? 999;
     return leftHeat - rightHeat;
   });
+  const matrixImageUrls = displayTypes.flatMap((personality) =>
+    (['selfMock', 'animal', 'sweet'] as const).map((faceKey) => getLoveFaceThumbPath(personality.id, faceKey)),
+  );
+  const matrixImagePreloadKey = matrixImageUrls.filter(Boolean).join('|');
+
+  useEffect(() => {
+    const removeLinks = addImagePreloadLinks(matrixImageUrls, { fetchPriority: 'high' });
+    const cancelWarmup = scheduleImagePreload(matrixImageUrls, { fetchPriority: 'high' });
+
+    return () => {
+      removeLinks?.();
+      cancelWarmup?.();
+    };
+  }, [matrixImagePreloadKey]);
+
+  if (!pack) return null;
 
   return (
     <div className="ref-shell">

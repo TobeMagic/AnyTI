@@ -4,6 +4,7 @@ import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
 import { getVisiblePersonalities } from '@/lib/archetypes';
 import { getPackBySlug } from '@/lib/content';
+import { addImagePreloadLinks, scheduleImagePreload } from '@/lib/image-preload';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
 import { getTypeDetailHref } from '@/lib/routes';
 import { getAdjacentLoveFace, getLoveFace, getLoveFaceThumbPath, getLoveMeta, loveFaceTabs } from '@/lib/lbti-showcase';
@@ -32,12 +33,27 @@ export function TypesPage() {
     };
   }, []);
 
-  if (!pack) return null;
-  const visibleTypes = [...getVisiblePersonalities(pack.personalities)].sort((a, b) => {
+  const visibleTypes = pack ? [...getVisiblePersonalities(pack.personalities)].sort((a, b) => {
     const ah = getLoveMeta(a.id)?.heat ?? 999;
     const bh = getLoveMeta(b.id)?.heat ?? 999;
     return ah - bh;
-  });
+  }) : [];
+  const thumbnailUrls = visibleTypes.flatMap((personality) =>
+    loveFaceTabs.map((tab) => getLoveFaceThumbPath(personality.id, tab.key)),
+  );
+  const thumbnailPreloadKey = thumbnailUrls.filter(Boolean).join('|');
+
+  useEffect(() => {
+    const removeLinks = addImagePreloadLinks(thumbnailUrls, { fetchPriority: 'high' });
+    const cancelWarmup = scheduleImagePreload(thumbnailUrls, { fetchPriority: 'high' });
+
+    return () => {
+      removeLinks?.();
+      cancelWarmup?.();
+    };
+  }, [thumbnailPreloadKey]);
+
+  if (!pack) return null;
 
   function getActiveFace(personalityId: string) {
     return activeFaces[personalityId] ?? 'selfMock';

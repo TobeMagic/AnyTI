@@ -4291,11 +4291,50 @@ a,
   padding: 0;
 }
 
+.portrait-card--with-image {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 250, 248, 0.72), rgba(247, 225, 219, 0.44)),
+    rgba(255, 255, 255, 0.68);
+}
+
+.portrait-card--with-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(105deg, transparent 0 32%, rgba(255, 255, 255, 0.62) 44%, transparent 58%),
+    radial-gradient(circle at 42% 34%, rgba(216, 118, 106, 0.12), transparent 48%);
+  transform: translateX(-42%);
+  opacity: 1;
+  transition: opacity 180ms ease;
+  animation: portrait-preload-sheen 960ms ease-in-out infinite;
+}
+
+.portrait-card--with-image.is-loaded::before {
+  opacity: 0;
+  animation: none;
+}
+
 .portrait-card__svg,
 .portrait-card__image {
   width: 100%;
   height: 100%;
   border-radius: 30px;
+}
+
+.portrait-card--with-image .portrait-card__image {
+  position: relative;
+  z-index: 1;
+  opacity: 1;
+  transform: none;
+}
+
+.portrait-card--with-image.is-loaded .portrait-card__image {
+  opacity: 1;
+  transform: none;
 }
 
 .portrait-card__svg {
@@ -6730,6 +6769,16 @@ a,
   to {
     opacity: 0.95;
     transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes portrait-preload-sheen {
+  0% {
+    transform: translateX(-58%);
+  }
+
+  100% {
+    transform: translateX(58%);
   }
 }
 

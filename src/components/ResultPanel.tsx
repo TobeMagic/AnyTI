@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { addImagePreloadLinks, scheduleImagePreload } from '@/lib/image-preload';
 import { buildLbtiReport } from '@/lib/lbti-report';
 import { getAdjacentLoveFace, getLoveArchiveReading, getLoveFace, getLoveFaceImagePath, getLoveMeta, loveFaceTabs } from '@/lib/lbti-showcase';
 import { buildPosterBlob } from '@/lib/poster';
@@ -64,27 +65,36 @@ export function ResultPanel({
   useEffect(() => {
     if (pack.meta.slug !== 'lbti' || typeof document === 'undefined') return undefined;
 
-    const preloadLinks: HTMLLinkElement[] = [];
-    for (const tab of loveFaceTabs) {
-      const imagePath = getLoveFaceImagePath(result.id, tab.key);
-      if (!imagePath) continue;
-
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'image';
-      link.href = imagePath;
-      document.head.appendChild(link);
-      preloadLinks.push(link);
-
-      const image = new Image();
-      image.decoding = 'async';
-      image.src = imagePath;
-      void image.decode?.().catch(() => undefined);
-    }
+    const imageUrls = loveFaceTabs.map((tab) => getLoveFaceImagePath(result.id, tab.key));
+    const removeLinks = addImagePreloadLinks(imageUrls, { fetchPriority: 'high' });
+    const cancelWarmup = scheduleImagePreload(imageUrls, { fetchPriority: 'high' });
 
     return () => {
-      preloadLinks.forEach((link) => link.remove());
+      removeLinks?.();
+      cancelWarmup?.();
     };
+  }, [pack.meta.slug, result.id]);
+
+  useEffect(() => {
+    if (pack.meta.slug !== 'lbti' || typeof window === 'undefined') return undefined;
+
+    const idleWindow = window as Window & {
+      requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+    const warmPosters = () => {
+      loveFaceTabs.forEach((tab) => {
+        void ensurePoster(tab.key);
+      });
+    };
+
+    if (typeof idleWindow.requestIdleCallback === 'function') {
+      const idleId = idleWindow.requestIdleCallback(warmPosters, { timeout: 900 });
+      return () => idleWindow.cancelIdleCallback?.(idleId);
+    }
+
+    const timer = window.setTimeout(warmPosters, 180);
+    return () => window.clearTimeout(timer);
   }, [pack.meta.slug, result.id]);
 
   useEffect(() => {
