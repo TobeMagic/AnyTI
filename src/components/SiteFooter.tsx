@@ -8,6 +8,7 @@ type SiteFooterProps = {
 export function SiteFooter({ compact = false }: SiteFooterProps) {
   const locale = getPreferredLocale();
   const blogHref = 'https://tobemagic.github.io/ai-magician-blog/';
+  const wechatHref = 'weixin://profile/gh_1ab72c968bef';
 
   return (
     <footer className={`ref-footer ${compact ? 'ref-footer--compact' : ''}`}>
@@ -24,17 +25,25 @@ export function SiteFooter({ compact = false }: SiteFooterProps) {
         </div>
       </div>
       <div className="ref-footer__author" aria-label={pickLocale({ zh: '作者信息', en: 'Author information' }, locale)}>
-        <span>
-          <strong>{pickLocale({ zh: '作者：', en: 'Author: ' }, locale)}</strong>
-          {pickLocale(
-            {
-              zh: '公众号 计算机魔术师',
-              en: 'WeChat Official Account 计算机魔术师',
-            },
-            locale,
-          )}
+        <span className="ref-footer__author-line">
+          <strong>{pickLocale({ zh: '作者（公众号）：', en: 'Author (WeChat): ' }, locale)}</strong>
+          <a
+            aria-label={pickLocale({ zh: '点击一键关注计算机魔术师公众号', en: 'Follow 计算机魔术师 on WeChat' }, locale)}
+            className="author-wechat-link"
+            href={wechatHref}
+          >
+            {pickLocale(
+              {
+                zh: '点击一键关注『',
+                en: 'Follow 『',
+              },
+              locale,
+            )}
+            <span className="author-wechat-link__name">计算机魔术师</span>
+            』
+          </a>
         </span>
-        <a href={blogHref} target="_blank" rel="noreferrer">
+        <a className="ref-footer__blog-link" href={blogHref} target="_blank" rel="noreferrer">
           <strong>{pickLocale({ zh: '博客站点：', en: 'Blog: ' }, locale)}</strong>
           {blogHref}
         </a>

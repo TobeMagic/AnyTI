@@ -2098,6 +2098,47 @@
   color: var(--ref-accent);
 }
 
+.ref-footer__author-line {
+  max-width: 100%;
+}
+
+.author-wechat-link {
+  display: inline;
+  color: rgba(198, 76, 126, 0.78);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(216, 118, 106, 0.28);
+  cursor: pointer;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.ref-footer__author .author-wechat-link,
+.cbti-home__author .author-wechat-link {
+  color: rgba(198, 76, 126, 0.78);
+}
+
+.author-wechat-link::after {
+  content: '↗';
+  margin-left: 2px;
+  color: rgba(198, 76, 126, 0.48);
+  font-size: 0.9em;
+}
+
+.author-wechat-link:hover {
+  color: var(--ref-accent);
+  border-bottom-color: rgba(216, 118, 106, 0.54);
+}
+
+.author-wechat-link__name {
+  background: linear-gradient(90deg, #ff6eb1 0%, #d8766a 46%, #b95ef2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 700;
+}
+
 .ref-footer__disclaimer,
 .ref-footer__copyright {
   margin: 22px 0 0;
@@ -2426,6 +2467,10 @@
 
 .cbti-home__author {
   margin: -2px 0 0;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
   font-weight: 500;
 }
 

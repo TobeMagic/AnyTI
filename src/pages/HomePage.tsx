@@ -19,6 +19,7 @@ import {
 export function HomePage() {
   const locale = getPreferredLocale();
   const pack = getPackBySlug('lbti');
+  const wechatHref = 'weixin://profile/gh_1ab72c968bef';
   const [activeFace, setActiveFace] = useState<'selfMock' | 'animal' | 'sweet'>('selfMock');
   if (!pack) return null;
 
@@ -114,13 +115,16 @@ export function HomePage() {
             </div>
 
             <p className="cbti-home__author">
-              {pickLocale(
-                {
-                  zh: '作者：公众号 计算机魔术师',
-                  en: 'Author: WeChat Official Account 计算机魔术师',
-                },
-                locale,
-              )}
+              <span>{pickLocale({ zh: '作者（公众号）：', en: 'Author (WeChat): ' }, locale)}</span>
+              <a
+                aria-label={pickLocale({ zh: '点击一键关注计算机魔术师公众号', en: 'Follow 计算机魔术师 on WeChat' }, locale)}
+                className="author-wechat-link"
+                href={wechatHref}
+              >
+                {pickLocale({ zh: '点击一键关注『', en: 'Follow 『' }, locale)}
+                <span className="author-wechat-link__name">计算机魔术师</span>
+                』
+              </a>
             </p>
           </div>
         </section>
