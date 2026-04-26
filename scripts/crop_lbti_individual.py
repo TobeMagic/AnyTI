@@ -71,9 +71,14 @@ import numpy as np
 BASE_DIR = Path(__file__).resolve().parents[1]
 
 # ─── Source files ──────────────────────────────────────────────────────────────
-SELF_SHEET = BASE_DIR / "docs/刺面final.png"
-ANIMAL_SHEET = BASE_DIR / "docs/动物角色final.png"
-SWEET_SHEET = BASE_DIR / "docs/甜心面final.png"
+def prefer_sheet(primary: str, fallback: str) -> Path:
+    primary_path = BASE_DIR / "docs" / primary
+    return primary_path if primary_path.exists() else BASE_DIR / "docs" / fallback
+
+
+SELF_SHEET = prefer_sheet("刺面透明.png", "刺面final.png")
+ANIMAL_SHEET = prefer_sheet("动物透明.png", "动物角色final.png")
+SWEET_SHEET = prefer_sheet("甜心透明.png", "甜心面final.png")
 
 # ─── Output dirs ──────────────────────────────────────────────────────────────
 OUT_SELF   = BASE_DIR / "public/images/lbti/individual/self"
@@ -102,7 +107,9 @@ SWEET_NAMES = [
 
 # ─── Grid sizes ──────────────────────────────────────────────────────────────
 GRID = (4, 4)
-COMPONENT_MARGIN = 16
+COMPONENT_MARGIN = 14
+OUTPUT_CANVAS_SIZE = 512
+OUTPUT_CANVAS_PADDING = 36
 
 
 def get_cell_box(idx: int, grid_cols: int, grid_rows: int, sheet_w: int, sheet_h: int):
@@ -184,6 +191,107 @@ def remove_white_bg(img: Image.Image) -> Image.Image:
         threshold=34.0,
         blur_radius=0.7,
     )
+
+
+def infer_edge_background_colors(img: Image.Image, max_colors: int = 6) -> list[np.ndarray]:
+    """Infer flattened transparent/checkerboard background colors from image edges."""
+    from collections import Counter
+
+    rgb = np.array(img.convert("RGB"), dtype=np.uint8)
+    edge = np.concatenate([rgb[0, :, :], rgb[-1, :, :], rgb[:, 0, :], rgb[:, -1, :]])
+    quantized = (edge // 8) * 8
+    counts = Counter(map(tuple, quantized.reshape(-1, 3))).most_common(max_colors)
+    return [np.array(color, dtype=np.float32) + 4 for color, _ in counts]
+
+
+def distance_to_palette(arr: np.ndarray, colors: list[np.ndarray]) -> np.ndarray:
+    distances = []
+    for color in colors:
+        diff = arr[:, :, :3].astype(np.float32) - color
+        distances.append(np.sqrt(np.sum(diff * diff, axis=2)))
+    return np.min(np.stack(distances, axis=0), axis=0)
+
+
+def remove_exported_background(img: Image.Image) -> Image.Image:
+    """
+    Prefer original alpha when present. If the source was flattened with a
+    checkerboard/white background, remove the inferred edge background while
+    preserving the soft alpha edge as much as possible.
+    """
+    rgba = img.convert("RGBA")
+    arr = np.array(rgba, dtype=np.uint8)
+    alpha = arr[:, :, 3]
+
+    if alpha.min() < 250:
+        return rgba
+
+    bg_colors = infer_edge_background_colors(rgba)
+    bg_distance = distance_to_palette(arr, bg_colors)
+
+    # Remove both edge-connected background and exact checkerboard pixels.
+    bg_like = bg_distance <= 26
+    h, w = bg_like.shape
+    visited = np.zeros((h, w), dtype=bool)
+    queue: list[tuple[int, int]] = []
+
+    for x in range(w):
+        if bg_like[0, x]:
+            visited[0, x] = True
+            queue.append((0, x))
+        if bg_like[h - 1, x]:
+            visited[h - 1, x] = True
+            queue.append((h - 1, x))
+    for y in range(h):
+        if bg_like[y, 0] and not visited[y, 0]:
+            visited[y, 0] = True
+            queue.append((y, 0))
+        if bg_like[y, w - 1] and not visited[y, w - 1]:
+            visited[y, w - 1] = True
+            queue.append((y, w - 1))
+
+    dirs = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
+    idx = 0
+    while idx < len(queue):
+        cy, cx = queue[idx]
+        idx += 1
+        for dy, dx in dirs:
+            ny, nx = cy + dy, cx + dx
+            if ny < 0 or ny >= h or nx < 0 or nx >= w or visited[ny, nx]:
+                continue
+            if bg_like[ny, nx]:
+                visited[ny, nx] = True
+                queue.append((ny, nx))
+
+    # Fully transparent for clear background pixels. A slightly narrower global
+    # match removes checkerboard islands between detached decorations.
+    clear_bg = visited | (bg_distance <= 18)
+    fg_mask = ~clear_bg
+    soft_alpha = Image.fromarray(np.where(fg_mask, 255, 0).astype(np.uint8), mode="L").filter(
+        ImageFilter.GaussianBlur(radius=0.65)
+    )
+    soft = np.array(soft_alpha, dtype=np.uint8)
+
+    out = arr.copy()
+    out[:, :, 3] = soft
+    out[soft == 0, 0:3] = 0
+
+    # Basic de-matting for semi-transparent edge pixels to reduce gray/white halos.
+    edge_mask = (soft > 0) & (soft < 255)
+    if np.any(edge_mask):
+        nearest_idx = np.argmin(
+            np.stack(
+                [np.sum((arr[:, :, :3].astype(np.float32) - color) ** 2, axis=2) for color in bg_colors],
+                axis=0,
+            ),
+            axis=0,
+        )
+        bg_stack = np.stack(bg_colors, axis=0)
+        bg_rgb = bg_stack[nearest_idx].astype(np.float32)
+        alpha_f = np.clip(soft.astype(np.float32) / 255.0, 0.08, 1.0)
+        corrected = (arr[:, :, :3].astype(np.float32) - (1 - alpha_f[:, :, None]) * bg_rgb) / alpha_f[:, :, None]
+        out[:, :, :3] = np.where(edge_mask[:, :, None], np.clip(corrected, 0, 255).astype(np.uint8), out[:, :, :3])
+
+    return Image.fromarray(out, mode="RGBA")
 
 
 def remove_corner_bg(img: Image.Image) -> Image.Image:
@@ -343,12 +451,32 @@ def assign_components_to_grid(components: list[dict[str, object]], grid: tuple[i
     return groups
 
 
+def normalize_to_square(img: Image.Image, size: int = OUTPUT_CANVAS_SIZE, padding: int = OUTPUT_CANVAS_PADDING) -> Image.Image:
+    rgba = img.convert("RGBA")
+    alpha = rgba.getchannel("A")
+    bbox = alpha.getbbox()
+    if not bbox:
+        return Image.new("RGBA", (size, size), (0, 0, 0, 0))
+
+    cropped = rgba.crop(bbox)
+    max_side = max(cropped.size)
+    target = max(1, size - padding * 2)
+    scale = target / max_side
+    resized = cropped.resize(
+        (max(1, round(cropped.width * scale)), max(1, round(cropped.height * scale))),
+        Image.Resampling.LANCZOS,
+    )
+    canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    canvas.alpha_composite(resized, ((size - resized.width) // 2, (size - resized.height) // 2))
+    return canvas
+
+
 def process_sheet(
     sheet_path: Path,
     output_dir: Path,
     names: list[str],
     grid: tuple[int, int],
-    mask_func,
+    mask_func=remove_exported_background,
     margin: int = COMPONENT_MARGIN,
 ):
     """Assign full-sheet components to each grid cell and save transparent PNGs."""
@@ -393,10 +521,11 @@ def process_sheet(
                     if 0 <= oy < canvas_h and 0 <= ox < canvas_w:
                         out[oy, ox] = cleaned_arr[py, px]
 
+        out_img = normalize_to_square(Image.fromarray(out, mode="RGBA"))
         out_path = output_dir / f"{name}.png"
-        Image.fromarray(out, mode="RGBA").save(out_path, "PNG")
+        out_img.save(out_path, "PNG", optimize=True)
         results.append((name, out_path))
-        print(f"  [OK] {name}.png  ({canvas_w}x{canvas_h}, components={len(group)})")
+        print(f"  [OK] {name}.png  ({canvas_w}x{canvas_h} -> {OUTPUT_CANVAS_SIZE}x{OUTPUT_CANVAS_SIZE}, components={len(group)})")
 
     return results
 
@@ -411,7 +540,7 @@ def main():
     results_self = process_sheet(
         SELF_SHEET, OUT_SELF, SELF_NAMES,
         GRID,
-        remove_white_bg,
+        remove_exported_background,
     )
 
     # ── 2. Animal characters ────────────────────────────────────────────────
@@ -419,7 +548,7 @@ def main():
     results_animal = process_sheet(
         ANIMAL_SHEET, OUT_ANIMAL, ANIMAL_NAMES,
         GRID,
-        remove_white_bg,
+        remove_exported_background,
     )
 
     # ── 3. Sweet characters ────────────────────────────────────────────────
@@ -427,7 +556,7 @@ def main():
     results_sweet = process_sheet(
         SWEET_SHEET, OUT_SWEET, SWEET_NAMES,
         GRID,
-        remove_white_bg,
+        remove_exported_background,
     )
 
     print("============================================================")

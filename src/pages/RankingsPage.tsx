@@ -152,20 +152,22 @@ export function RankingsPage() {
   const pack = rawPack ? localizePack(rawPack, locale) : undefined;
   const leaderboard = getLocalizedLoveLeaderboard(locale);
   const visibleTypes = pack ? getVisiblePersonalities(pack.personalities) : [];
+  const initialThumbnailUrls = leaderboard.map((entry) => getLoveFaceThumbPath(entry.id, 'selfMock'));
   const thumbnailUrls = leaderboard.flatMap((entry) =>
     loveFaceTabs.map((tab) => getLoveFaceThumbPath(entry.id, tab.key)),
   );
+  const initialThumbnailPreloadKey = initialThumbnailUrls.filter(Boolean).join('|');
   const thumbnailPreloadKey = thumbnailUrls.filter(Boolean).join('|');
 
   useEffect(() => {
-    const removeLinks = addImagePreloadLinks(thumbnailUrls, { fetchPriority: 'high' });
-    const cancelWarmup = scheduleImagePreload(thumbnailUrls, { fetchPriority: 'high' });
+    const removeLinks = addImagePreloadLinks(initialThumbnailUrls, { fetchPriority: 'high' });
+    const cancelWarmup = scheduleImagePreload(thumbnailUrls, { fetchPriority: 'low' });
 
     return () => {
       removeLinks?.();
       cancelWarmup?.();
     };
-  }, [thumbnailPreloadKey]);
+  }, [initialThumbnailPreloadKey, thumbnailPreloadKey]);
 
   if (!pack) return null;
 

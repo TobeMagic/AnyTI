@@ -37,20 +37,22 @@ export function HomePage() {
     const rightHeat = getLocalizedLoveMeta(right.id, locale)?.heat ?? 999;
     return leftHeat - rightHeat;
   });
+  const activeMatrixImageUrls = displayTypes.map((personality) => getLoveFaceThumbPath(personality.id, activeFace));
   const matrixImageUrls = displayTypes.flatMap((personality) =>
     (['selfMock', 'animal', 'sweet'] as const).map((faceKey) => getLoveFaceThumbPath(personality.id, faceKey)),
   );
+  const activeMatrixImagePreloadKey = activeMatrixImageUrls.filter(Boolean).join('|');
   const matrixImagePreloadKey = matrixImageUrls.filter(Boolean).join('|');
 
   useEffect(() => {
-    const removeLinks = addImagePreloadLinks(matrixImageUrls, { fetchPriority: 'high' });
-    const cancelWarmup = scheduleImagePreload(matrixImageUrls, { fetchPriority: 'high' });
+    const removeLinks = addImagePreloadLinks(activeMatrixImageUrls, { fetchPriority: 'high' });
+    const cancelWarmup = scheduleImagePreload(matrixImageUrls, { fetchPriority: 'low' });
 
     return () => {
       removeLinks?.();
       cancelWarmup?.();
     };
-  }, [matrixImagePreloadKey]);
+  }, [activeMatrixImagePreloadKey, matrixImagePreloadKey]);
 
   if (!pack) return null;
 

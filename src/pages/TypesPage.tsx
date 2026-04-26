@@ -41,20 +41,22 @@ export function TypesPage() {
     const bh = getLocalizedLoveMeta(b.id, locale)?.heat ?? 999;
     return ah - bh;
   }) : [];
+  const initialThumbnailUrls = visibleTypes.map((personality) => getLoveFaceThumbPath(personality.id, 'selfMock'));
   const thumbnailUrls = visibleTypes.flatMap((personality) =>
     getLocalizedLoveFaceTabs(locale).map((tab) => getLoveFaceThumbPath(personality.id, tab.key)),
   );
+  const initialThumbnailPreloadKey = initialThumbnailUrls.filter(Boolean).join('|');
   const thumbnailPreloadKey = thumbnailUrls.filter(Boolean).join('|');
 
   useEffect(() => {
-    const removeLinks = addImagePreloadLinks(thumbnailUrls, { fetchPriority: 'high' });
-    const cancelWarmup = scheduleImagePreload(thumbnailUrls, { fetchPriority: 'high' });
+    const removeLinks = addImagePreloadLinks(initialThumbnailUrls, { fetchPriority: 'high' });
+    const cancelWarmup = scheduleImagePreload(thumbnailUrls, { fetchPriority: 'low' });
 
     return () => {
       removeLinks?.();
       cancelWarmup?.();
     };
-  }, [thumbnailPreloadKey]);
+  }, [initialThumbnailPreloadKey, thumbnailPreloadKey]);
 
   if (!pack) return null;
 
