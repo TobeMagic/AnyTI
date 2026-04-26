@@ -6,8 +6,9 @@ import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
 import { getVisiblePersonalities } from '@/lib/archetypes';
 import { getCategoryBySlug, getPackBySlug, getTestBySlug } from '@/lib/content';
+import { localizePack } from '@/lib/content-localization';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
-import { getLoveMeta } from '@/lib/lbti-showcase';
+import { getLocalizedLoveMeta } from '@/lib/lbti-localization';
 import { createEmptySession, resolveResult, summarizeDimensions } from '@/lib/quiz';
 import { getCurrentHref, getHomeHref, getStartTestHref } from '@/lib/routes';
 import type { Personality, QuizSession } from '@/lib/types';
@@ -35,21 +36,22 @@ function scrollToAnchor(node: HTMLDivElement | null) {
   });
 }
 
-function sortDisplayTypes(slug: string, personalities: Personality[]) {
+function sortDisplayTypes(slug: string, personalities: Personality[], locale: ReturnType<typeof getPreferredLocale>) {
   if (slug !== 'lbti') {
     return personalities;
   }
 
   return [...personalities].sort((left, right) => {
-    const leftHeat = getLoveMeta(left.id)?.heat ?? 999;
-    const rightHeat = getLoveMeta(right.id)?.heat ?? 999;
+    const leftHeat = getLocalizedLoveMeta(left.id, locale)?.heat ?? 999;
+    const rightHeat = getLocalizedLoveMeta(right.id, locale)?.heat ?? 999;
     return leftHeat - rightHeat;
   });
 }
 
 export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
   const locale = getPreferredLocale();
-  const pack = getPackBySlug(slug);
+  const rawPack = getPackBySlug(slug);
+  const pack = rawPack ? localizePack(rawPack, locale) : undefined;
   const test = getTestBySlug(slug);
   const category = test ? getCategoryBySlug(test.category) : undefined;
   const [session, setSession] = useState<QuizSession>(createEmptySession);
@@ -85,8 +87,13 @@ export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
         <SiteChrome current="test" />
         <main className="page-shell__main">
           <section className="section-block">
-            <h1>这个测试还没上线</h1>
-            <p>这个版本当前只保留 LBTI 主站，先回恋爱测试页继续看。</p>
+            <h1>{pickLocale({ zh: '这个测试还没上线', en: 'This test is not live yet' }, locale)}</h1>
+            <p>
+              {pickLocale(
+                { zh: '这个版本当前只保留 LBTI 主站，先回恋爱测试页继续看。', en: 'This version currently keeps the LBTI site live first.' },
+                locale,
+              )}
+            </p>
           </section>
         </main>
         <SiteFooter />
@@ -103,14 +110,23 @@ export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
   const currentQuestion = pack.questions[session.currentIndex];
   const sources = pack.meta.methodology.sources ?? [];
   const progressCopy = restored && !isComplete
-    ? `上次答到第 ${session.currentIndex + 1} 题，我已经帮你接回来了。`
+    ? pickLocale(
+        {
+          zh: `上次答到第 ${session.currentIndex + 1} 题，我已经帮你接回来了。`,
+          en: `You stopped at question ${session.currentIndex + 1}. Your progress is restored.`,
+        },
+        locale,
+      )
     : pack.meta.summary;
-  const visibleTypes = sortDisplayTypes(slug, getVisiblePersonalities(pack.personalities));
+  const visibleTypes = sortDisplayTypes(slug, getVisiblePersonalities(pack.personalities), locale);
   const featuredTypes = visibleTypes.slice(0, 4);
   const nearbyTypes =
     resolved?.ranked.filter((entry) => entry.personality.id !== resolved.result.id) ?? [];
-  const startLabel = restored && !isComplete ? `继续第 ${session.currentIndex + 1} 题` : '开始这个测试';
+  const startLabel = restored && !isComplete
+    ? pickLocale({ zh: `继续第 ${session.currentIndex + 1} 题`, en: `Continue Q${session.currentIndex + 1}` }, locale)
+    : pickLocale({ zh: '开始这个测试', en: 'Start This Test' }, locale);
   const showQuizIntro = mode === 'quiz' && !session.started && !isComplete;
+  const activePack = pack;
 
   function handlePick(optionId: string) {
     const nextAnswers = [...session.answers];
@@ -159,12 +175,12 @@ export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
 
     const nextIndex = session.currentIndex + 1;
 
-    if (nextIndex >= pack.questions.length) {
-      const nextResult = resolveResult(pack, session.answers);
+    if (nextIndex >= activePack.questions.length) {
+      const nextResult = resolveResult(activePack, session.answers);
       setSession((previous) => ({
         ...previous,
         started: true,
-        currentIndex: pack.questions.length,
+        currentIndex: activePack.questions.length,
         resultId: nextResult.result.id,
       }));
       window.setTimeout(() => {
@@ -246,9 +262,11 @@ export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
             </div>
 
             <div className="hero-list">
-              <p className="hero-list__label">🔥 当前最容易被截图的类型</p>
+              <p className="hero-list__label">
+                {pickLocale({ zh: '🔥 当前最容易被截图的类型', en: '🔥 Most Screenshot-Worthy Types' }, locale)}
+              </p>
               {featuredTypes.map((personality) => {
-                const meta = getLoveMeta(personality.id);
+                const meta = getLocalizedLoveMeta(personality.id, locale);
                 return (
                   <div className="hero-list__item" key={personality.id}>
                     <strong>{meta?.emoji} {meta?.name ?? personality.name}</strong>
@@ -392,14 +410,22 @@ export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
             <div className="launch-block">
               <div className="launch-block__main">
                 <p className="eyebrow">🎀 Start Test</p>
-                <h2>{restored ? '你上次的答题进度还在，直接回到现场继续。' : `完成当前版本 ${pack.meta.questionCount} 题，马上解锁你的恋爱标签。`}</h2>
-                <p>{restored ? `💌 你已经答到第 ${session.currentIndex + 1} 题，点一下就回到答题现场。` : '💌 当前题量会继续按覆盖需要扩展；结果页会给你类型命中、维度落点、相邻人格和分享海报。'}</p>
+                <h2>
+                  {restored
+                    ? pickLocale({ zh: '你上次的答题进度还在，直接回到现场继续。', en: 'Your previous progress is saved. Jump back in.' }, locale)
+                    : pickLocale({ zh: `完成当前版本 ${pack.meta.questionCount} 题，马上解锁你的恋爱标签。`, en: `Finish ${pack.meta.questionCount} questions to unlock your love label.` }, locale)}
+                </h2>
+                <p>
+                  {restored
+                    ? pickLocale({ zh: `💌 你已经答到第 ${session.currentIndex + 1} 题，点一下就回到答题现场。`, en: `💌 You reached question ${session.currentIndex + 1}. Tap once to continue.` }, locale)
+                    : pickLocale({ zh: '💌 当前题量会继续按覆盖需要扩展；结果页会给你类型命中、维度落点、相邻人格和分享海报。', en: '💌 The result page gives your type match, dimension profile, nearby types, and share poster.' }, locale)}
+                </p>
               </div>
               <div className="launch-block__aside">
                 <a className="primary-button primary-button--link" href={getStartTestHref()}>
                   💘 {startLabel}
                 </a>
-                <p>📱 手机端适合直接保存海报，桌面端适合下载和转发链接。</p>
+                <p>{pickLocale({ zh: '📱 手机端适合直接保存海报，桌面端适合下载和转发链接。', en: '📱 Save the poster on mobile or download and share the link on desktop.' }, locale)}</p>
               </div>
             </div>
           </section>
@@ -421,7 +447,7 @@ export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
           </div>
           <div className="archive-list" data-testid="category-type-wall">
             {visibleTypes.map((personality, index) => {
-              const meta = getLoveMeta(personality.id);
+              const meta = getLocalizedLoveMeta(personality.id, locale);
               return (
                 <article
                   className="archive-row"
@@ -436,7 +462,7 @@ export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
                     <p className="archive-row__eyebrow">💬 {meta?.alias ?? personality.badge}</p>
                     <div className="archive-row__name">
                       <strong>{meta?.emoji} {meta?.name ?? personality.name}</strong>
-                      <span>🪞 自嘲面 / 动物面 / 甜心面</span>
+                      <span>{pickLocale({ zh: '🪞 自嘲面 / 动物面 / 甜心面', en: '🪞 Self-Mock / Animal / Sweet Face' }, locale)}</span>
                     </div>
                     <p className="archive-row__note">🫶 {meta?.quote ?? personality.vibe}</p>
                   </div>
@@ -453,10 +479,14 @@ export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
         {showQuizIntro ? (
           <section className="test-intro">
             <div className="test-intro__inner">
-              <h1>开始测试</h1>
-              <p>{restored ? `系统已定位到你上次停下的位置，第 ${session.currentIndex + 1} 题可继续作答。` : '系统已就绪，开始读取你的六维关系向量。'}</p>
+              <h1>{pickLocale({ zh: '开始测试', en: 'Start Test' }, locale)}</h1>
+              <p>
+                {restored
+                  ? pickLocale({ zh: `系统已定位到你上次停下的位置，第 ${session.currentIndex + 1} 题可继续作答。`, en: `Your previous position is restored. Question ${session.currentIndex + 1} is ready.` }, locale)
+                  : pickLocale({ zh: '系统已就绪，开始读取你的六维关系向量。', en: 'The system is ready to read your six-dimensional relationship vector.' }, locale)}
+              </p>
               <button className="ref-button ref-button--primary" onClick={handleStart} type="button">
-                {restored ? '继续测试' : '开始测试'}
+                {restored ? pickLocale({ zh: '继续测试', en: 'Continue Test' }, locale) : pickLocale({ zh: '开始测试', en: 'Start Test' }, locale)}
               </button>
             </div>
           </section>
@@ -470,6 +500,7 @@ export function TestPage({ slug, mode = 'landing' }: TestPageProps) {
               canNext={Boolean(session.answers[session.currentIndex])}
               currentIndex={session.currentIndex}
               isLast={session.currentIndex === pack.questions.length - 1}
+              locale={locale}
               pickedId={session.answers[session.currentIndex]}
               question={currentQuestion}
               total={pack.questions.length}

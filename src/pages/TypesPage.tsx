@@ -4,10 +4,12 @@ import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
 import { getVisiblePersonalities } from '@/lib/archetypes';
 import { getPackBySlug } from '@/lib/content';
+import { localizePack } from '@/lib/content-localization';
 import { addImagePreloadLinks, scheduleImagePreload } from '@/lib/image-preload';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
 import { getTypeDetailHref } from '@/lib/routes';
-import { getAdjacentLoveFace, getLoveFace, getLoveFaceThumbPath, getLoveMeta, loveFaceTabs } from '@/lib/lbti-showcase';
+import { getAdjacentLoveFace, getLoveFaceThumbPath } from '@/lib/lbti-showcase';
+import { getLocalizedLoveFace, getLocalizedLoveFaceTabs, getLocalizedLoveMeta } from '@/lib/lbti-localization';
 import type { LoveFaceKey } from '@/lib/lbti-showcase';
 
 const FLIP_DURATION_MS = 540;
@@ -19,7 +21,8 @@ type FlipState = {
 
 export function TypesPage() {
   const locale = getPreferredLocale();
-  const pack = getPackBySlug('lbti');
+  const rawPack = getPackBySlug('lbti');
+  const pack = rawPack ? localizePack(rawPack, locale) : undefined;
   const [activeFaces, setActiveFaces] = useState<Record<string, LoveFaceKey>>({});
   const [flippingFaces, setFlippingFaces] = useState<Record<string, FlipState>>({});
   const [resettingFaces, setResettingFaces] = useState<Record<string, boolean>>({});
@@ -34,12 +37,12 @@ export function TypesPage() {
   }, []);
 
   const visibleTypes = pack ? [...getVisiblePersonalities(pack.personalities)].sort((a, b) => {
-    const ah = getLoveMeta(a.id)?.heat ?? 999;
-    const bh = getLoveMeta(b.id)?.heat ?? 999;
+    const ah = getLocalizedLoveMeta(a.id, locale)?.heat ?? 999;
+    const bh = getLocalizedLoveMeta(b.id, locale)?.heat ?? 999;
     return ah - bh;
   }) : [];
   const thumbnailUrls = visibleTypes.flatMap((personality) =>
-    loveFaceTabs.map((tab) => getLoveFaceThumbPath(personality.id, tab.key)),
+    getLocalizedLoveFaceTabs(locale).map((tab) => getLoveFaceThumbPath(personality.id, tab.key)),
   );
   const thumbnailPreloadKey = thumbnailUrls.filter(Boolean).join('|');
 
@@ -93,9 +96,9 @@ export function TypesPage() {
   }
 
   function renderFace(personality: (typeof visibleTypes)[number], faceKey: LoveFaceKey, eager: boolean) {
-    const meta = getLoveMeta(personality.id);
-    const face = getLoveFace(personality.id, faceKey);
-    const faceNumber = loveFaceTabs.findIndex((tab) => tab.key === faceKey) + 1;
+    const meta = getLocalizedLoveMeta(personality.id, locale);
+    const face = getLocalizedLoveFace(personality.id, faceKey, locale);
+    const faceNumber = getLocalizedLoveFaceTabs(locale).findIndex((tab) => tab.key === faceKey) + 1;
 
     return (
       <>
@@ -187,7 +190,7 @@ export function TypesPage() {
 
         <section className="ref-type-grid">
           {visibleTypes.map((personality) => {
-            const meta = getLoveMeta(personality.id);
+            const meta = getLocalizedLoveMeta(personality.id, locale);
             const activeFace = getActiveFace(personality.id);
             const flip = flippingFaces[personality.id];
             const frontFace = flip?.from ?? activeFace;

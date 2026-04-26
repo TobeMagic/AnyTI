@@ -6,29 +6,35 @@ import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
 import { getVisiblePersonalities } from '@/lib/archetypes';
 import { getPackBySlug } from '@/lib/content';
+import { localizePack } from '@/lib/content-localization';
 import { addImagePreloadLinks, scheduleImagePreload } from '@/lib/image-preload';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
 import { getAboutHref, getRankingsHref, getStartTestHref, getTypesHref } from '@/lib/routes';
 import {
   getAdjacentLoveFace,
-  getLoveFace,
   getLoveFaceThumbPath,
-  getLoveMeta,
-  loveLeaderboard,
-  loveOfficialNotes,
 } from '@/lib/lbti-showcase';
+import {
+  getLocalizedLoveFace,
+  getLocalizedLoveLeaderboard,
+  getLocalizedLoveMeta,
+  getLocalizedLoveOfficialNotes,
+} from '@/lib/lbti-localization';
 
 export function HomePage() {
   const locale = getPreferredLocale();
-  const pack = getPackBySlug('lbti');
+  const rawPack = getPackBySlug('lbti');
+  const pack = rawPack ? localizePack(rawPack, locale) : undefined;
   const [activeFace, setActiveFace] = useState<'selfMock' | 'animal' | 'sweet'>('selfMock');
 
   const visibleTypes = pack ? getVisiblePersonalities(pack.personalities) : [];
   const sourceMap = new Map((pack?.meta.methodology.sources ?? []).map((source) => [source.id, source]));
   const sources = pack?.meta.methodology.sources ?? [];
+  const leaderboard = getLocalizedLoveLeaderboard(locale);
+  const officialNotes = getLocalizedLoveOfficialNotes(locale);
   const displayTypes = [...visibleTypes].sort((left, right) => {
-    const leftHeat = getLoveMeta(left.id)?.heat ?? 999;
-    const rightHeat = getLoveMeta(right.id)?.heat ?? 999;
+    const leftHeat = getLocalizedLoveMeta(left.id, locale)?.heat ?? 999;
+    const rightHeat = getLocalizedLoveMeta(right.id, locale)?.heat ?? 999;
     return leftHeat - rightHeat;
   });
   const matrixImageUrls = displayTypes.flatMap((personality) =>
@@ -56,7 +62,7 @@ export function HomePage() {
           <div className="cbti-home__hero">
             <div className="cbti-home__matrix" data-testid="home-type-wall" key={activeFace}>
               {displayTypes.map((personality, index) => {
-                const face = getLoveFace(personality.id, activeFace);
+                const face = getLocalizedLoveFace(personality.id, activeFace, locale);
                 return (
                   <button
                     className={`cbti-home__matrix-card cbti-home__matrix-card--${activeFace}`}
@@ -238,16 +244,16 @@ export function HomePage() {
         <section className="ref-section">
           <div className="ref-section__head ref-section__head--split">
             <div>
-              <h2>{pickLocale({ zh: '🏆 样本热度排行榜', en: '🏆 Sample Heat Rankings' }, locale)}</h2>
+              <h2>{pickLocale({ zh: '🏆 热度排行榜', en: '🏆 Popularity Ranking' }, locale)}</h2>
             </div>
             <a className="ref-link" href={getRankingsHref()}>
               {pickLocale({ zh: '查看完整排行榜 →', en: 'View Full Rankings →' }, locale)}
             </a>
           </div>
           <div className="ref-rank-table">
-            {loveLeaderboard.slice(0, 5).map((entry, index) => {
+            {leaderboard.slice(0, 5).map((entry, index) => {
               const personality = visibleTypes.find((item) => item.id === entry.id);
-              const meta = getLoveMeta(entry.id);
+              const meta = getLocalizedLoveMeta(entry.id, locale);
               if (!personality) return null;
 
               return (
@@ -283,10 +289,10 @@ export function HomePage() {
 
         <section className="ref-section">
           <div className="ref-section__head">
-            <h2>📜 官方说明</h2>
+            <h2>{pickLocale({ zh: '📜 官方说明', en: '📜 Official Notes' }, locale)}</h2>
           </div>
           <div className="ref-note-list">
-            {loveOfficialNotes.map((item) => (
+            {officialNotes.map((item) => (
               <article className="ref-note-card" key={item.title}>
                 <small>{item.eyebrow}</small>
                 <h3>{item.title}</h3>

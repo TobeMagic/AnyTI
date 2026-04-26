@@ -44,6 +44,8 @@ export function SiteChrome({ current = 'home' }: SiteChromeProps) {
     },
   ];
 
+  const navId = 'site-primary-navigation';
+
   return (
     <header className={`ref-chrome ${navOpen ? 'ref-chrome--open' : ''}`}>
       <div className="ref-chrome__inner">
@@ -57,7 +59,7 @@ export function SiteChrome({ current = 'home' }: SiteChromeProps) {
           </span>
         </a>
 
-        <nav className="ref-nav" aria-label="Primary navigation">
+        <nav className="ref-nav" id={navId} aria-label="Primary navigation">
           {navItems.map((item) => (
             <a
               key={item.key}
@@ -71,13 +73,14 @@ export function SiteChrome({ current = 'home' }: SiteChromeProps) {
 
         <div className="ref-chrome__actions">
           <button
+            aria-controls={navId}
             aria-expanded={navOpen}
-            aria-label={pickLocale({ zh: '展开导航', en: 'Open navigation' }, locale)}
+            aria-label={pickLocale({ zh: navOpen ? '收起导航' : '展开导航', en: navOpen ? 'Close navigation' : 'Open navigation' }, locale)}
             className="ref-menu-toggle"
             onClick={() => setNavOpen((open) => !open)}
             type="button"
           >
-            {pickLocale({ zh: '导航', en: 'Menu' }, locale)}
+            <span className="ref-menu-toggle__chevron" aria-hidden="true" />
           </button>
           <div className="ref-lang">
             <a

@@ -2,20 +2,23 @@ import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
 import { getVisiblePersonalities } from '@/lib/archetypes';
 import { getPackBySlug } from '@/lib/content';
+import { localizePack } from '@/lib/content-localization';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
 import { getStartTestHref, getTypeDetailHref, getTypesHref } from '@/lib/routes';
-import { getLoveMeta, mbtiProfiles } from '@/lib/lbti-showcase';
+import { getLocalizedLoveMeta, getLocalizedMbtiProfiles } from '@/lib/lbti-localization';
 
 export function CrossAnalysisPage() {
   const locale = getPreferredLocale();
-  const pack = getPackBySlug('lbti');
+  const rawPack = getPackBySlug('lbti');
+  const pack = rawPack ? localizePack(rawPack, locale) : undefined;
   if (!pack) return null;
 
   const visibleTypes = getVisiblePersonalities(pack.personalities).sort((a, b) => {
-    const left = getLoveMeta(a.id)?.heat ?? 999;
-    const right = getLoveMeta(b.id)?.heat ?? 999;
+    const left = getLocalizedLoveMeta(a.id, locale)?.heat ?? 999;
+    const right = getLocalizedLoveMeta(b.id, locale)?.heat ?? 999;
     return left - right;
   });
+  const mbtiProfiles = getLocalizedMbtiProfiles(locale);
 
   return (
     <div className="ref-shell">
@@ -49,7 +52,7 @@ export function CrossAnalysisPage() {
           <section className="ref-anchor-cloud">
           {visibleTypes.map((personality) => (
             <a href={`#${personality.slug}`} key={personality.id}>
-              {getLoveMeta(personality.id)?.code ?? personality.name}
+              {getLocalizedLoveMeta(personality.id, locale)?.code ?? personality.name}
             </a>
           ))}
           </section>
@@ -63,18 +66,18 @@ export function CrossAnalysisPage() {
           {visibleTypes.map((personality) => (
             <article className="ref-cross-group" id={personality.slug} key={personality.id}>
               <header className="ref-cross-group__head">
-                <small>{getLoveMeta(personality.id)?.emoji} {getLoveMeta(personality.id)?.code}</small>
-                <h2>{getLoveMeta(personality.id)?.emoji} {getLoveMeta(personality.id)?.name ?? personality.name}</h2>
-                <p>💬 {getLoveMeta(personality.id)?.quote ?? personality.badge}</p>
+                <small>{getLocalizedLoveMeta(personality.id, locale)?.emoji} {getLocalizedLoveMeta(personality.id, locale)?.code}</small>
+                <h2>{getLocalizedLoveMeta(personality.id, locale)?.emoji} {getLocalizedLoveMeta(personality.id, locale)?.name ?? personality.name}</h2>
+                <p>💬 {getLocalizedLoveMeta(personality.id, locale)?.quote ?? personality.badge}</p>
               </header>
               <div className="ref-cross-combo-grid">
                 {mbtiProfiles.map((mbti) => (
-                  <a className="ref-cross-combo" href={getTypeDetailHref(getLoveMeta(personality.id)?.routeSlug ?? personality.slug)} key={`${personality.id}-${mbti.code}`}>
+                  <a className="ref-cross-combo" href={getTypeDetailHref(getLocalizedLoveMeta(personality.id, locale)?.routeSlug ?? personality.slug)} key={`${personality.id}-${mbti.code}`}>
                     <strong>
-                      {getLoveMeta(personality.id)?.code} × {mbti.code}
+                      {getLocalizedLoveMeta(personality.id, locale)?.code} × {mbti.code}
                     </strong>
                     <b>
-                      {(getLoveMeta(personality.id)?.name ?? personality.name)} + {mbti.zhName}
+                      {(getLocalizedLoveMeta(personality.id, locale)?.name ?? personality.name)} + {locale === 'en' ? mbti.code : mbti.zhName}
                     </b>
                     <p>🧠 {mbti.summary}</p>
                   </a>

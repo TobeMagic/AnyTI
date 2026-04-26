@@ -4,22 +4,21 @@ import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
 import { getVisiblePersonalities } from '@/lib/archetypes';
 import { getPackBySlug } from '@/lib/content';
+import { localizePack } from '@/lib/content-localization';
 import { addImagePreloadLinks, scheduleImagePreload } from '@/lib/image-preload';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
 import {
   getAdjacentLoveFace,
-  getLoveFace,
   getLoveFaceThumbPath,
-  getLoveMeta,
   loveFaceTabs,
-  loveLeaderboard,
 } from '@/lib/lbti-showcase';
+import { getLocalizedLoveFace, getLocalizedLoveLeaderboard, getLocalizedLoveMeta } from '@/lib/lbti-localization';
 import type { LoveFaceKey } from '@/lib/lbti-showcase';
 import type { Personality } from '@/lib/types';
 
 const RANK_FLIP_DURATION_MS = 540;
 
-type RankingEntry = (typeof loveLeaderboard)[number];
+type RankingEntry = ReturnType<typeof getLocalizedLoveLeaderboard>[number];
 type RankingTypeFlipProps = {
   entry: RankingEntry;
   index: number;
@@ -86,8 +85,8 @@ function RankingTypeFlip({ entry, index, locale, personality }: RankingTypeFlipP
   }
 
   function renderFace(faceKey: LoveFaceKey, eager: boolean) {
-    const meta = getLoveMeta(entry.id);
-    const face = getLoveFace(entry.id, faceKey);
+    const meta = getLocalizedLoveMeta(entry.id, locale);
+    const face = getLocalizedLoveFace(entry.id, faceKey, locale);
     const faceNumber = loveFaceTabs.findIndex((tab) => tab.key === faceKey) + 1;
 
     return (
@@ -149,9 +148,11 @@ function RankingTypeFlip({ entry, index, locale, personality }: RankingTypeFlipP
 
 export function RankingsPage() {
   const locale = getPreferredLocale();
-  const pack = getPackBySlug('lbti');
+  const rawPack = getPackBySlug('lbti');
+  const pack = rawPack ? localizePack(rawPack, locale) : undefined;
+  const leaderboard = getLocalizedLoveLeaderboard(locale);
   const visibleTypes = pack ? getVisiblePersonalities(pack.personalities) : [];
-  const thumbnailUrls = loveLeaderboard.flatMap((entry) =>
+  const thumbnailUrls = leaderboard.flatMap((entry) =>
     loveFaceTabs.map((tab) => getLoveFaceThumbPath(entry.id, tab.key)),
   );
   const thumbnailPreloadKey = thumbnailUrls.filter(Boolean).join('|');
@@ -173,12 +174,12 @@ export function RankingsPage() {
       <SiteChrome current="rankings" />
       <main className="ref-page ref-page--sub">
         <section className="ref-centered-hero">
-          <h1>{pickLocale({ zh: '🏅 样本热度排行榜', en: '🏅 Sample Heat Rankings' }, locale)}</h1>
+          <h1>{pickLocale({ zh: '🏅 热度排行榜', en: '🏅 Popularity Ranking' }, locale)}</h1>
           <p>
             {pickLocale(
               {
-                zh: '当前为 LBTI 公开样本热度分布，不是后端实时提交统计。点击任意人格可切换自嘲面、动物面和甜心面。',
-                en: 'This is a public sample heat distribution, not a live backend submission ranking. Tap any type to switch faces.',
+                zh: '当前为 LBTI 公开热度分布，数据持续更新。点击任意人格可切换自嘲面、动物面和甜心面。',
+                en: 'Current LBTI public popularity distribution, updated continuously. Tap any type to switch faces.',
               },
               locale,
             )}
@@ -192,7 +193,7 @@ export function RankingsPage() {
             <span>{pickLocale({ zh: '占比', en: 'Bar' }, locale)}</span>
             <span>{pickLocale({ zh: '比例', en: 'Share' }, locale)}</span>
           </header>
-          {loveLeaderboard.map((entry, index) => {
+          {leaderboard.map((entry, index) => {
             const personality = visibleTypes.find((item) => item.id === entry.id);
             if (!personality) return null;
 

@@ -4,10 +4,13 @@ import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
 import { getVisiblePersonalities } from '@/lib/archetypes';
 import { getPackBySlug } from '@/lib/content';
+import { localizePack } from '@/lib/content-localization';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
 import { cosineSimilarity } from '@/lib/quiz';
 import { getStartTestHref, getTypeDetailHref, getTypesHref } from '@/lib/routes';
-import { findLovePersonalityByRouteSlug, getAdjacentLoveFace, getLoveArchiveReading, getLoveFace, getLoveFaceImagePath, getLoveMeta, loveFaceTabs } from '@/lib/lbti-showcase';
+import { findLovePersonalityByRouteSlug, getAdjacentLoveFace, getLoveFaceImagePath, loveFaceTabs } from '@/lib/lbti-showcase';
+import { getLocalizedLoveArchiveReading, getLocalizedLoveFace, getLocalizedLoveFaceTabs, getLocalizedLoveMeta } from '@/lib/lbti-localization';
+import type { Locale } from '@/lib/locale';
 
 function getRouteSlug() {
   if (typeof window === 'undefined') return '';
@@ -16,19 +19,24 @@ function getRouteSlug() {
   return last === 'index.html' ? parts.at(-2) ?? '' : last;
 }
 
-function describeDimension(score: number, leftLabel: string, rightLabel: string) {
+function describeDimension(score: number, leftLabel: string, rightLabel: string, locale: Locale) {
   if (score >= 0.66) {
+    if (locale === 'en') return `Clearly leans toward ${rightLabel}; in key relationship moments, ${rightLabel} shows up first.`;
     return `明显偏 ${rightLabel}，在关键关系场景里更常先表现出 ${rightLabel}。`;
   }
   if (score >= 0.24) {
+    if (locale === 'en') return `Slightly leans toward ${rightLabel}; daily patterns more easily slide to that side.`;
     return `略偏 ${rightLabel}，平时会更容易滑向 ${rightLabel} 这一端。`;
   }
   if (score <= -0.66) {
+    if (locale === 'en') return `Clearly leans toward ${leftLabel}; under pressure, this side returns first.`;
     return `明显偏 ${leftLabel}，碰到情绪和关系压力时更常回到 ${leftLabel}。`;
   }
   if (score <= -0.24) {
+    if (locale === 'en') return `Slightly leans toward ${leftLabel}; most of the time this side feels more natural.`;
     return `略偏 ${leftLabel}，大多数时候会自然站在 ${leftLabel} 这一侧。`;
   }
+  if (locale === 'en') return `Moves between ${leftLabel} and ${rightLabel}, a typical context-sensitive pattern.`;
   return `会在 ${leftLabel} 和 ${rightLabel} 之间切换，属于典型的场景波动型。`;
 }
 
@@ -50,7 +58,8 @@ function buildContrastSummary(personality: NonNullable<ReturnType<typeof findLov
 
 export function TypeDetailPage() {
   const locale = getPreferredLocale();
-  const pack = getPackBySlug('lbti');
+  const rawPack = getPackBySlug('lbti');
+  const pack = rawPack ? localizePack(rawPack, locale) : undefined;
   const [activeFace, setActiveFace] = useState<'selfMock' | 'animal' | 'sweet'>('selfMock');
   const touchStartX = useRef<number | null>(null);
   if (!pack) return null;
@@ -58,8 +67,8 @@ export function TypeDetailPage() {
   const routeSlug = getRouteSlug();
   const personality = findLovePersonalityByRouteSlug(pack.personalities, routeSlug);
   const visibleTypes = getVisiblePersonalities(pack.personalities).sort((a, b) => {
-    const left = getLoveMeta(a.id)?.heat ?? 999;
-    const right = getLoveMeta(b.id)?.heat ?? 999;
+    const left = getLocalizedLoveMeta(a.id, locale)?.heat ?? 999;
+    const right = getLocalizedLoveMeta(b.id, locale)?.heat ?? 999;
     return left - right;
   });
 
@@ -83,9 +92,9 @@ export function TypeDetailPage() {
     );
   }
 
-  const meta = getLoveMeta(personality.id);
-  const face = getLoveFace(personality.id, activeFace);
-  const archiveReading = getLoveArchiveReading(personality, activeFace);
+  const meta = getLocalizedLoveMeta(personality.id, locale);
+  const face = getLocalizedLoveFace(personality.id, activeFace, locale);
+  const archiveReading = getLocalizedLoveArchiveReading(personality, activeFace, locale);
   const currentIndex = visibleTypes.findIndex((item) => item.id === personality.id);
   const neighbors = visibleTypes
     .filter((item) => item.id !== personality.id)
@@ -145,8 +154,12 @@ export function TypeDetailPage() {
           </div>
 
           {face ? (
-            <div className="ref-face-switch ref-face-switch--center ref-face-switch--dots" role="tablist" aria-label="人格展示面切换">
-              {loveFaceTabs.map((tab) => (
+            <div
+              className="ref-face-switch ref-face-switch--center ref-face-switch--dots"
+              role="tablist"
+              aria-label={pickLocale({ zh: '人格展示面切换', en: 'Role face switcher' }, locale)}
+            >
+              {getLocalizedLoveFaceTabs(locale).map((tab) => (
                 <button
                   key={tab.key}
                   className={`ref-face-switch__button ${activeFace === tab.key ? 'is-active' : ''}`}
@@ -170,7 +183,7 @@ export function TypeDetailPage() {
           >
             <article className={`ref-triptych-card ref-triptych-card--${activeFace}`} key={activeFace}>
               <span className="ref-triptych-card__watermark" aria-hidden="true">{face?.code ?? meta?.code ?? 'LBTI'}</span>
-              <span className="ref-triptych-card__ribbon">{face?.faceLabel ?? '当前展示'}</span>
+              <span className="ref-triptych-card__ribbon">{face?.faceLabel ?? pickLocale({ zh: '当前展示', en: 'Current Face' }, locale)}</span>
               <span className="ref-triptych-card__stamp">ARCHIVE</span>
               <figure className="ref-triptych-card__portrait">
                 <PlaceholderPortrait
@@ -182,17 +195,19 @@ export function TypeDetailPage() {
                   size="240px"
                   soft="#f7dfd4"
                 />
-                <figcaption className="ref-triptych-card__image-caption">角色插画</figcaption>
+                <figcaption className="ref-triptych-card__image-caption">{pickLocale({ zh: '角色插画', en: 'Role Illustration' }, locale)}</figcaption>
               </figure>
-              <small className="ref-triptych-card__face">{face?.icon ?? meta?.emoji} {face?.faceLabel ?? '当前展示'}</small>
+              <small className="ref-triptych-card__face">{face?.icon ?? meta?.emoji} {face?.faceLabel ?? pickLocale({ zh: '当前展示', en: 'Current Face' }, locale)}</small>
               <h1 className="ref-triptych-card__code">{face?.code ?? meta?.code ?? 'LBTI'}</h1>
               <h3 className="ref-triptych-card__name">{face?.name ?? meta?.name ?? personality.name}</h3>
               <blockquote className="ref-triptych-card__quote">{face?.quote ?? meta?.quote ?? personality.vibe}</blockquote>
               <div className="ref-triptych-card__footer">
-                <small>同一角色 · 三种展示</small>
-                <small>{face?.icon ?? meta?.emoji} 第 {loveFaceTabs.findIndex((tab) => tab.key === activeFace) + 1} 面 / 3</small>
+                <small>{pickLocale({ zh: '同一角色 · 三种展示', en: 'Same role · Three faces' }, locale)}</small>
+                <small>
+                  {face?.icon ?? meta?.emoji} {pickLocale({ zh: `第 ${loveFaceTabs.findIndex((tab) => tab.key === activeFace) + 1} 面 / 3`, en: `Face ${loveFaceTabs.findIndex((tab) => tab.key === activeFace) + 1} / 3` }, locale)}
+                </small>
               </div>
-              <p className="ref-triptych-card__swipe">左右滑动，切换另一面</p>
+              <p className="ref-triptych-card__swipe">{pickLocale({ zh: '左右滑动，切换另一面', en: 'Swipe left or right to switch faces' }, locale)}</p>
             </article>
           </div>
         </section>
@@ -232,7 +247,7 @@ export function TypeDetailPage() {
                     <strong>{detail.title}</strong>
                     <span>{score >= 0 ? detail.rightLabel : detail.leftLabel}</span>
                   </header>
-                  <p>{describeDimension(score, detail.leftLabel, detail.rightLabel)}</p>
+                  <p>{describeDimension(score, detail.leftLabel, detail.rightLabel, locale)}</p>
                 </article>
               );
             })}
@@ -252,20 +267,29 @@ export function TypeDetailPage() {
           <div className="ref-type-detail-facts">
             {contrast.easiestLove ? (
               <article className="ref-type-detail-fact">
-                <small>💘 最容易爱上谁</small>
-                <p>{getLoveMeta(contrast.easiestLove.id)?.emoji} {getLoveMeta(contrast.easiestLove.id)?.name ?? contrast.easiestLove.name}。你们更容易在节奏和关系语言上对上拍。</p>
+                <small>{pickLocale({ zh: '💘 最容易爱上谁', en: '💘 Easiest Type To Love' }, locale)}</small>
+                <p>
+                  {getLocalizedLoveMeta(contrast.easiestLove.id, locale)?.emoji} {getLocalizedLoveMeta(contrast.easiestLove.id, locale)?.name ?? contrast.easiestLove.name}
+                  {pickLocale({ zh: '。你们更容易在节奏和关系语言上对上拍。', en: '. Your rhythm and relationship language align more easily.' }, locale)}
+                </p>
               </article>
             ) : null}
             {contrast.chaosType ? (
               <article className="ref-type-detail-fact">
-                <small>🌪️ 最容易被谁搞疯</small>
-                <p>{getLoveMeta(contrast.chaosType.id)?.emoji} {getLoveMeta(contrast.chaosType.id)?.name ?? contrast.chaosType.name}。这类组合更容易在回应、边界或推进感上互相踩雷。</p>
+                <small>{pickLocale({ zh: '🌪️ 最容易被谁搞疯', en: '🌪️ Most Chaotic Match' }, locale)}</small>
+                <p>
+                  {getLocalizedLoveMeta(contrast.chaosType.id, locale)?.emoji} {getLocalizedLoveMeta(contrast.chaosType.id, locale)?.name ?? contrast.chaosType.name}
+                  {pickLocale({ zh: '。这类组合更容易在回应、边界或推进感上互相踩雷。', en: '. This pair can step on mines around response, boundaries, or progress.' }, locale)}
+                </p>
               </article>
             ) : null}
             {contrast.twinType ? (
               <article className="ref-type-detail-fact">
-                <small>🪞 最像你的另一只</small>
-                <p>{getLoveMeta(contrast.twinType.id)?.emoji} {getLoveMeta(contrast.twinType.id)?.name ?? contrast.twinType.name}。会互相理解，也可能在同一种地方一起卡壳。</p>
+                <small>{pickLocale({ zh: '🪞 最像你的另一只', en: '🪞 Closest Twin Type' }, locale)}</small>
+                <p>
+                  {getLocalizedLoveMeta(contrast.twinType.id, locale)?.emoji} {getLocalizedLoveMeta(contrast.twinType.id, locale)?.name ?? contrast.twinType.name}
+                  {pickLocale({ zh: '。会互相理解，也可能在同一种地方一起卡壳。', en: '. You may understand each other and also get stuck in the same place.' }, locale)}
+                </p>
               </article>
             ) : null}
           </div>
@@ -277,7 +301,7 @@ export function TypeDetailPage() {
           </div>
           <div className="ref-type-continue-grid">
             {neighbors.map((item) => {
-              const itemMeta = getLoveMeta(item.id);
+              const itemMeta = getLocalizedLoveMeta(item.id, locale);
               return (
                 <a className="ref-type-continue-card" href={getTypeDetailHref(itemMeta?.routeSlug ?? item.slug)} key={item.id}>
                   <small>{itemMeta?.emoji} {itemMeta?.code}</small>

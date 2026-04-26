@@ -1,3 +1,4 @@
+import type { Locale } from './locale';
 import type { DimensionSummary, Personality } from './types';
 
 export type LbtiReportDimension = {
@@ -49,13 +50,53 @@ const REPORT_META: Record<string, { code: string; positive: string; neutral: str
   },
 };
 
+const REPORT_META_EN: Record<string, { code: string; positive: string; neutral: string; low: string }> = {
+  attunement: {
+    code: 'L1',
+    positive: 'You are highly sensitive to response and relationship temperature; even small drops get noticed fast.',
+    neutral: 'You read responses, but one or two fluctuations will not make you condemn the whole relationship.',
+    low: 'You are relatively relaxed about response rhythm and do not equate contact frequency with relationship survival.',
+  },
+  signal: {
+    code: 'L2',
+    positive: 'When you feel something, you are more willing to send the signal instead of pretending for too long.',
+    neutral: 'You can express yourself, but still read the room before stepping forward.',
+    low: 'You are more likely to hide affection in actions and hints before admitting it verbally.',
+  },
+  repair: {
+    code: 'L3',
+    positive: 'When a problem appears, you want to repair it rather than leave the relationship rotting there.',
+    neutral: 'You watch the timing and situation before deciding whether to repair now or later.',
+    low: 'You need to step back and cool down first; high emotion makes immediate repair hard.',
+  },
+  boundary: {
+    code: 'L4',
+    positive: 'Your boundaries are strong, and even intimacy needs a clear breathing space.',
+    neutral: 'You look for balance between closeness and alone time, avoiding both extremes.',
+    low: 'You lean toward companionship and high connection; looseness can make you feel unsafe.',
+  },
+  certainty: {
+    code: 'L5',
+    positive: 'You care about position, commitment, and clarity, and dislike walking forward in long-term blur.',
+    neutral: 'You can accept organic progress for a while, but eventually need to know the direction.',
+    low: 'You are not rushed to label the relationship and care more about whether the actual interaction feels right.',
+  },
+  retreat: {
+    code: 'L6',
+    positive: 'When imbalance appears, you pull warmth back faster to protect yourself first.',
+    neutral: 'You observe while stepping back and do not withdraw completely all at once.',
+    low: 'Even when problems appear, you are more likely to stay in the scene and keep talking.',
+  },
+};
+
 function toBand(score: number): { band: 'H' | 'M' | 'L'; points: 3 | 4 | 5 } {
   if (score >= 35) return { band: 'H', points: 5 };
   if (score <= -35) return { band: 'L', points: 3 };
   return { band: 'M', points: 4 };
 }
 
-export function buildLbtiReport(dimensions: DimensionSummary[], result: Personality) {
+export function buildLbtiReport(dimensions: DimensionSummary[], result: Personality, locale: Locale = 'zh') {
+  const reportMeta = locale === 'en' ? REPORT_META_EN : REPORT_META;
   const scoreMap = Object.fromEntries(dimensions.map((dimension) => [dimension.key, dimension.score]));
   const matchedCount = dimensions.filter((dimension) => {
     const target = result.targetVector[dimension.key] ?? 0;
@@ -63,7 +104,7 @@ export function buildLbtiReport(dimensions: DimensionSummary[], result: Personal
   }).length;
 
   const items: LbtiReportDimension[] = dimensions.map((dimension) => {
-    const meta = REPORT_META[dimension.key];
+    const meta = reportMeta[dimension.key];
     const { band, points } = toBand(dimension.score);
     return {
       key: dimension.key,
@@ -77,16 +118,24 @@ export function buildLbtiReport(dimensions: DimensionSummary[], result: Personal
           ? meta?.positive ?? dimension.rightLabel
           : band === 'L'
             ? meta?.low ?? dimension.leftLabel
-            : meta?.neutral ?? `${dimension.leftLabel} 与 ${dimension.rightLabel} 之间更偏中段。`,
+            : meta?.neutral ?? (locale === 'en'
+              ? `Falls near the middle between ${dimension.leftLabel} and ${dimension.rightLabel}.`
+              : `${dimension.leftLabel} 与 ${dimension.rightLabel} 之间更偏中段。`),
     };
   });
 
   const verdict =
     matchedCount >= 5
-      ? '六个维度命中度较高，当前结果可视为你的第一人格画像。'
+      ? locale === 'en'
+        ? 'The six dimensions align strongly, so this can be treated as your primary love profile.'
+        : '六个维度命中度较高，当前结果可视为你的第一人格画像。'
       : matchedCount >= 4
-        ? '六个维度大体对齐，当前结果可视为你的主导人格倾向。'
-        : '当前结果可以视为你的阶段性画像，建议结合完整详情页继续看。';
+        ? locale === 'en'
+          ? 'The six dimensions mostly align, so this is your dominant relationship tendency.'
+          : '六个维度大体对齐，当前结果可视为你的主导人格倾向。'
+        : locale === 'en'
+          ? 'This result is a current-stage profile. Read the full archive for more nuance.'
+          : '当前结果可以视为你的阶段性画像，建议结合完整详情页继续看。';
 
   return {
     matchedCount,

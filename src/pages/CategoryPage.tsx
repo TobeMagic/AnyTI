@@ -3,12 +3,14 @@ import { HomePage } from '@/pages/HomePage';
 import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
 import { getCategoryBySlug, getTestsForCategory } from '@/lib/content';
+import { getPreferredLocale, pickLocale } from '@/lib/locale';
 
 type CategoryPageProps = {
   slug: string;
 };
 
 export function CategoryPage({ slug }: CategoryPageProps) {
+  const locale = getPreferredLocale();
   const category = getCategoryBySlug(slug);
 
   if (slug === 'love') {
@@ -21,8 +23,8 @@ export function CategoryPage({ slug }: CategoryPageProps) {
         <SiteChrome />
         <main className="ref-page ref-page--sub">
           <section className="ref-centered-hero">
-            <h1>这个类别还没接上</h1>
-            <p>先回首页挑一个已经亮着的入口。</p>
+            <h1>{pickLocale({ zh: '这个类别还没接上', en: 'This category is not connected yet' }, locale)}</h1>
+            <p>{pickLocale({ zh: '先回首页挑一个已经亮着的入口。', en: 'Return home and choose an available entrance first.' }, locale)}</p>
           </section>
         </main>
         <SiteFooter />
@@ -53,7 +55,11 @@ export function CategoryPage({ slug }: CategoryPageProps) {
               <div className="ref-directory-row__copy">
                 <small>{test.status === 'live' ? 'LIVE' : 'SOON'}</small>
                 <h2>{test.title}</h2>
-                <strong>{test.status === 'live' ? '已上线' : '筹备中'}</strong>
+                <strong>
+                  {test.status === 'live'
+                    ? pickLocale({ zh: '已上线', en: 'Live' }, locale)
+                    : pickLocale({ zh: '筹备中', en: 'Coming Soon' }, locale)}
+                </strong>
                 <p>{test.teaser}</p>
               </div>
             </article>

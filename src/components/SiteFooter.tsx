@@ -14,8 +14,13 @@ export function SiteFooter({ compact = false }: SiteFooterProps) {
     <footer className={`ref-footer ${compact ? 'ref-footer--compact' : ''}`}>
       <div className="ref-footer__inner">
         <a className="ref-footer__brand" href={getHomeHref()}>
-          <strong>{pickLocale({ zh: 'LBTI 测试版', en: 'LBTI Beta' }, locale)}</strong>
-          <small>{pickLocale({ zh: '恋爱人格测试', en: 'Love Personality Test' }, locale)}</small>
+          <strong>{pickLocale({ zh: 'LBTI 正式版', en: 'LBTI Official' }, locale)}</strong>
+          <small>
+            {pickLocale(
+              { zh: 'Love Behavior Type Indicator · 恋爱行为类型指标', en: 'Love Behavior Type Indicator' },
+              locale,
+            )}
+          </small>
         </a>
         <div className="ref-footer__links">
           <a href={getTypesHref()}>{pickLocale({ zh: '人格图鉴', en: 'Types' }, locale)}</a>

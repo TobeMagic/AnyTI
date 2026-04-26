@@ -1,6 +1,7 @@
 import { SiteChrome } from '@/components/SiteChrome';
 import { SiteFooter } from '@/components/SiteFooter';
 import { getPackBySlug } from '@/lib/content';
+import { localizePack } from '@/lib/content-localization';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
 import { getStartTestHref } from '@/lib/routes';
 
@@ -92,7 +93,8 @@ const processTiles = [
 
 export function AboutPage() {
   const locale = getPreferredLocale();
-  const pack = getPackBySlug('lbti');
+  const rawPack = getPackBySlug('lbti');
+  const pack = rawPack ? localizePack(rawPack, locale) : undefined;
   if (!pack) return null;
   const sourceMap = new Map((pack.meta.methodology.sources ?? []).map((source) => [source.id, source]));
   const sources = pack.meta.methodology.sources ?? [];

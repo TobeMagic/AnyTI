@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { pickLocale } from '@/lib/locale';
+import type { Locale } from '@/lib/locale';
 import type { Question } from '@/lib/types';
 
 type QuizRunnerProps = {
@@ -12,6 +14,7 @@ type QuizRunnerProps = {
   canPrev: boolean;
   canNext: boolean;
   isLast: boolean;
+  locale: Locale;
 };
 
 export function QuizRunner({
@@ -25,6 +28,7 @@ export function QuizRunner({
   canPrev,
   canNext,
   isLast,
+  locale,
 }: QuizRunnerProps) {
   const progress = Math.round(((currentIndex + 1) / total) * 100);
   const contextParts = question.context
@@ -89,8 +93,12 @@ export function QuizRunner({
 
       <div className="quiz-stage-card">
         <div className="quiz-stage-card__meta">
-          <span className="quiz-stage-card__pill">第 {currentIndex + 1} 题</span>
-          <span className="quiz-stage-card__ghost">维度已隐藏</span>
+          <span className="quiz-stage-card__pill">
+            {pickLocale({ zh: `第 ${currentIndex + 1} 题`, en: `Question ${currentIndex + 1}` }, locale)}
+          </span>
+          <span className="quiz-stage-card__ghost">
+            {pickLocale({ zh: '维度已隐藏', en: 'Dimensions hidden' }, locale)}
+          </span>
         </div>
 
         <div className="quiz-panel__prompt-wrap">
@@ -120,14 +128,18 @@ export function QuizRunner({
 
       <div className="quiz-nav quiz-nav--actions">
         <button className="ghost-button" data-testid="quiz-prev" disabled={!canPrev || isAdvancing} onClick={onPrev} type="button">
-          上一题
+          {pickLocale({ zh: '上一题', en: 'Previous' }, locale)}
         </button>
         <button className="primary-button" data-testid="quiz-next" disabled={!canNext || (!isLast && isAdvancing)} onClick={onNext} type="button">
-          {isLast ? '提交并查看结果' : '下一题'}
+          {isLast
+            ? pickLocale({ zh: '提交并查看结果', en: 'Submit and View Result' }, locale)
+            : pickLocale({ zh: '下一题', en: 'Next' }, locale)}
         </button>
       </div>
 
-      <p className="quiz-nav__status">请选择一个选项后继续</p>
+      <p className="quiz-nav__status">
+        {pickLocale({ zh: '请选择一个选项后继续', en: 'Choose one option to continue' }, locale)}
+      </p>
     </section>
   );
 }
