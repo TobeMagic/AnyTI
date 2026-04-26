@@ -1,5 +1,9 @@
 # AnyTI · LBTI Relationship Personality Platform
 
+<p align="center">
+  <img src="./docs/logo.png" alt="AnyTI LBTI Logo" width="96" />
+</p>
+
 > A mobile-first, shareable relationship personality test site with static deployment on GitHub Pages.
 
 [![Deploy AnyTI](https://github.com/TobeMagic/AnyTI/actions/workflows/deploy.yml/badge.svg)](https://github.com/TobeMagic/AnyTI/actions/workflows/deploy.yml)

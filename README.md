@@ -1,5 +1,9 @@
 # AnyTI · LBTI 恋爱人格测试平台
 
+<p align="center">
+  <img src="./docs/logo.png" alt="AnyTI LBTI Logo" width="96" />
+</p>
+
 > 面向移动端传播的恋爱人格测试站点：三面人格展示、可分享结果图、纯静态部署到 GitHub Pages。
 
 [![Deploy AnyTI](https://github.com/TobeMagic/AnyTI/actions/workflows/deploy.yml/badge.svg)](https://github.com/TobeMagic/AnyTI/actions/workflows/deploy.yml)
