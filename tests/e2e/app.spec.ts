@@ -40,13 +40,10 @@ test('home opens as a focused LBTI start page and routes into quiz', async ({ pa
   await page.screenshot({ path: path.join(auditDir, '04-lbti-result.png'), fullPage: true });
 
   await page.getByRole('button', { name: '分享图片', exact: true }).click();
-  await expect(page.locator('.ref-share-preview')).toBeVisible();
+  await expect(page.locator('.ref-share-preview-backdrop')).toBeVisible();
   await expect(page.getByAltText(/分享图片预览/)).toBeVisible();
-
-  const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('button', { name: '保存图片' }).click();
-  const download = await downloadPromise;
-  await download.saveAs(path.join(auditDir, '05-lbti-poster.png'));
+  await expect(page.getByText('长按保存图片并转发')).toBeVisible();
+  await page.screenshot({ path: path.join(auditDir, '05-lbti-poster-preview.png'), fullPage: true });
 });
 
 test.describe('mobile', () => {

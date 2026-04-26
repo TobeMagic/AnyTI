@@ -116,10 +116,13 @@ AnyTI/
 │   ├── components/              # 核心组件（答题、结果、导航等）
 │   ├── pages/                   # 页面级组件
 │   ├── lib/                     # 计分、路由、海报生成、展示映射
+│   ├── site/                    # 静态页面 manifest 与 HTML 生成插件
 │   └── styles/                  # 全局样式与页面样式
 ├── scripts/                     # 数据校验、角色图裁剪脚本
 └── .github/workflows/deploy.yml # Pages 自动部署
 ```
+
+页面源码统一维护在 `src/site/page-manifest.ts`，构建时由 Vite 插件生成 `/test/`、`/types/plan-r/` 等静态 HTML，仓库根目录不再手写分散页面入口。
 
 ## 角色图片处理
 

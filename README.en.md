@@ -106,11 +106,14 @@ AnyTI/
 ├── public/images/lbti/          # runtime portrait assets
 ├── src/components/              # UI components
 ├── src/pages/                   # page-level components
+├── src/site/                    # static page manifest and HTML generator
 ├── src/lib/                     # scoring, routes, poster generation
 ├── src/styles/                  # global and page styles
 ├── scripts/                     # validation and crop scripts
 └── .github/workflows/deploy.yml # GitHub Pages workflow
 ```
+
+Static routes are now maintained in `src/site/page-manifest.ts`; the Vite plugin emits `/test/`, `/types/plan-r/`, and other HTML files during build instead of keeping scattered source HTML folders at the repo root.
 
 ## Portrait Pipeline
 
