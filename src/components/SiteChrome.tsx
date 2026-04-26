@@ -45,14 +45,23 @@ export function SiteChrome({ current = 'home' }: SiteChromeProps) {
   ];
 
   const navId = 'site-primary-navigation';
-  const logoHref = `${import.meta.env.BASE_URL}logo.png`;
+  const logoHref = `${import.meta.env.BASE_URL}logo-nav.webp`;
 
   return (
     <header className={`ref-chrome ${navOpen ? 'ref-chrome--open' : ''}`}>
       <div className="ref-chrome__inner">
         <a className="ref-mark" href={withLocale(getHomeHref(), locale)}>
           <span className="ref-mark__icon" aria-hidden="true">
-            <img className="ref-mark__logo" src={logoHref} alt="" loading="eager" decoding="async" />
+            <img
+              className="ref-mark__logo"
+              src={logoHref}
+              alt=""
+              width="44"
+              height="44"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+            />
           </span>
           <span className="ref-mark__copy">
             <strong>LBTI</strong>
