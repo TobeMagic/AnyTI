@@ -204,7 +204,7 @@ export function TypesPage() {
                   <div
                     className={`ref-type-card__flip-inner ${flip ? 'is-flipping' : ''} ${resettingFaces[personality.id] ? 'is-resetting' : ''}`}
                     onTransitionEnd={(event) => {
-                      if (event.propertyName === 'transform') {
+                      if (event.currentTarget === event.target && event.propertyName === 'transform') {
                         handleFlipTransitionEnd(personality.id);
                       }
                     }}

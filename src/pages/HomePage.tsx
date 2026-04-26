@@ -238,7 +238,7 @@ export function HomePage() {
         <section className="ref-section">
           <div className="ref-section__head ref-section__head--split">
             <div>
-              <h2>{pickLocale({ zh: '🏆 真实提交排行榜', en: '🏆 Real Submission Rankings' }, locale)}</h2>
+              <h2>{pickLocale({ zh: '🏆 样本热度排行榜', en: '🏆 Sample Heat Rankings' }, locale)}</h2>
             </div>
             <a className="ref-link" href={getRankingsHref()}>
               {pickLocale({ zh: '查看完整排行榜 →', en: 'View Full Rankings →' }, locale)}
