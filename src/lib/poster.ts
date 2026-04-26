@@ -203,7 +203,18 @@ async function drawPortraitImage(
       ctx.beginPath();
       ctx.roundRect(x, y, size, size, 40);
       ctx.clip();
-      ctx.drawImage(img, x, y, size, size);
+
+      const naturalWidth = img.naturalWidth || img.width;
+      const naturalHeight = img.naturalHeight || img.height;
+      const scale = Math.min(size / naturalWidth, size / naturalHeight);
+      const drawWidth = naturalWidth * scale;
+      const drawHeight = naturalHeight * scale;
+      const drawX = x + (size - drawWidth) / 2;
+      const drawY = y + (size - drawHeight) / 2;
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
       ctx.restore();
       resolve();
     };

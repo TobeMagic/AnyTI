@@ -4,7 +4,7 @@ import { addImagePreloadLinks, scheduleImagePreload } from '@/lib/image-preload'
 import { buildLbtiReport } from '@/lib/lbti-report';
 import { getPreferredLocale, pickLocale } from '@/lib/locale';
 import { getAdjacentLoveFace, getLoveFaceImagePath, loveFaceTabs } from '@/lib/lbti-showcase';
-import { getLocalizedLoveArchiveReading, getLocalizedLoveFace, getLocalizedLoveMeta } from '@/lib/lbti-localization';
+import { getLocalizedLoveArchiveReading, getLocalizedLoveFace, getLocalizedLoveFaceTabs, getLocalizedLoveMeta } from '@/lib/lbti-localization';
 import { buildPosterBlob } from '@/lib/poster';
 import { getHomeHref, getTypeDetailHref } from '@/lib/routes';
 import type { Category, DimensionSummary, RankedResult, Personality, TestPack } from '@/lib/types';
@@ -101,7 +101,7 @@ export function ResultPanel({
   }, [pack.meta.slug, result.id]);
 
   useEffect(() => {
-    if (typeof document === 'undefined') return undefined;
+    if (!sharePreviewOpen || typeof document === 'undefined') return undefined;
 
     const originalOverflow = document.body.style.overflow;
     const originalHtmlOverflow = document.documentElement.style.overflow;
@@ -110,15 +110,11 @@ export function ResultPanel({
     const originalWidth = document.body.style.width;
     const scrollY = window.scrollY;
 
-    if (sharePreviewOpen) {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
-    } else if (drawerOpen) {
-      document.body.style.overflow = 'hidden';
-    }
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
 
     return () => {
       document.body.style.overflow = originalOverflow;
@@ -126,11 +122,9 @@ export function ResultPanel({
       document.body.style.position = originalPosition;
       document.body.style.top = originalTop;
       document.body.style.width = originalWidth;
-      if (sharePreviewOpen) {
-        window.scrollTo(0, scrollY);
-      }
+      window.scrollTo(0, scrollY);
     };
-  }, [drawerOpen, sharePreviewOpen]);
+  }, [sharePreviewOpen]);
 
   useEffect(() => {
     if (!sharePreviewOpen || typeof document === 'undefined') return undefined;
@@ -239,6 +233,8 @@ export function ResultPanel({
 
   const currentPosterUrl = posterUrls[activeFace];
   const isCurrentPosterLoading = Boolean(posterLoading[activeFace]);
+  const activeImagePath = getLoveFaceImagePath(result.id, activeFace);
+  const localizedFaceTabs = getLocalizedLoveFaceTabs(locale);
 
   return (
     <section className="result-panel result-panel--report result-panel--archive" data-testid="result-panel">
@@ -290,7 +286,7 @@ export function ResultPanel({
                       label={loveMeta?.name ?? result.name}
                       imageFetchPriority="high"
                       imageLoading="eager"
-                      imagePath={getLoveFaceImagePath(result.id, activeFace)}
+                      imagePath={activeImagePath}
                       size="240px"
                     />
                     <figcaption className="ref-triptych-card__image-caption">{pickLocale({ zh: '角色插画', en: 'Role Illustration' }, locale)}</figcaption>
@@ -431,75 +427,112 @@ export function ResultPanel({
         </section>
       ) : null}
 
-      {drawerOpen ? (
-        <div className="ref-archive-drawer-backdrop" onClick={() => setDrawerOpen(false)} role="presentation">
-          <aside
-            aria-labelledby="lbti-archive-drawer-title"
-            aria-modal="true"
-            className="ref-archive-drawer"
-            onClick={(event) => event.stopPropagation()}
-            role="dialog"
-          >
-            <div className="ref-archive-drawer__head">
-              <div>
-                <p className="ref-type-detail-hero__eyebrow">{pickLocale({ zh: '完整档案', en: 'Full Archive' }, locale)}</p>
-                <h3 className="ref-archive-drawer__title" id="lbti-archive-drawer-title">
-                  {loveMeta?.code ?? result.badge.split('/')[0]?.trim() ?? 'LBTI'} · {loveMeta?.name ?? result.name}
-                </h3>
-              </div>
-              <button
-                aria-label={pickLocale({ zh: '关闭完整档案', en: 'Close full archive' }, locale)}
-                className="ref-archive-drawer__close"
-                onClick={() => setDrawerOpen(false)}
-                type="button"
+      {drawerOpen && typeof document !== 'undefined'
+        ? createPortal(
+            <div className="ref-archive-drawer-backdrop" onClick={() => setDrawerOpen(false)} role="presentation">
+              <aside
+                aria-labelledby="lbti-archive-drawer-title"
+                aria-modal="true"
+                className="ref-archive-drawer"
+                onClick={(event) => event.stopPropagation()}
+                role="dialog"
               >
-                ×
-              </button>
-            </div>
+                <div className="ref-archive-drawer__head">
+                  <div>
+                    <p className="ref-type-detail-hero__eyebrow">{pickLocale({ zh: '完整档案', en: 'Full Archive' }, locale)}</p>
+                    <h3 className="ref-archive-drawer__title" id="lbti-archive-drawer-title">
+                      {loveMeta?.code ?? result.badge.split('/')[0]?.trim() ?? 'LBTI'} · {loveMeta?.name ?? result.name}
+                    </h3>
+                  </div>
+                  <button
+                    aria-label={pickLocale({ zh: '关闭完整档案', en: 'Close full archive' }, locale)}
+                    className="ref-archive-drawer__close"
+                    onClick={() => setDrawerOpen(false)}
+                    type="button"
+                  >
+                    ×
+                  </button>
+                </div>
 
-            <p className="ref-archive-drawer__quote">{loveMeta?.quote ?? result.vibe}</p>
+                <div className={`ref-archive-drawer__hero ref-archive-drawer__hero--${activeFace}`}>
+                  <div className="ref-archive-drawer__portrait">
+                    <PlaceholderPortrait
+                      accent={category.theme.accent}
+                      soft={category.theme.accentSoft}
+                      label={loveMeta?.name ?? result.name}
+                      imageFetchPriority="high"
+                      imageLoading="eager"
+                      imagePath={activeImagePath}
+                      size="132px"
+                    />
+                  </div>
+                  <div className="ref-archive-drawer__intro">
+                    <div
+                      className="ref-face-switch ref-face-switch--drawer"
+                      role="tablist"
+                      aria-label={pickLocale({ zh: '档案面孔切换', en: 'Archive face switcher' }, locale)}
+                    >
+                      {localizedFaceTabs.map((tab) => (
+                        <button
+                          key={tab.key}
+                          aria-selected={activeFace === tab.key}
+                          className={`ref-face-switch__button ${activeFace === tab.key ? 'is-active' : ''}`}
+                          onClick={() => setActiveFace(tab.key)}
+                          role="tab"
+                          type="button"
+                        >
+                          <span>{tab.icon}</span>
+                          {tab.label}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="ref-archive-drawer__quote">{loveMeta?.quote ?? result.vibe}</p>
+                  </div>
+                </div>
 
-            <div className="ref-archive-drawer__grid">
-              <article className="ref-archive-drawer__fact">
-                <small>{pickLocale({ zh: '核心画像', en: 'Core Profile' }, locale)}</small>
-                <p>{result.summary}</p>
-              </article>
-              <article className="ref-archive-drawer__fact">
-                <small>{pickLocale({ zh: '发光点', en: 'Bright Spot' }, locale)}</small>
-                <p>{result.sweetSpot}</p>
-              </article>
-              <article className="ref-archive-drawer__fact">
-                <small>{pickLocale({ zh: '风险点', en: 'Risk Signal' }, locale)}</small>
-                <p>{result.stressSignal}</p>
-              </article>
-              <article className="ref-archive-drawer__fact">
-                <small>{pickLocale({ zh: '修复方式', en: 'Repair Method' }, locale)}</small>
-                <p>{result.repairTip}</p>
-              </article>
-            </div>
+                <div className="ref-archive-drawer__grid">
+                  <article className="ref-archive-drawer__fact">
+                    <small>{pickLocale({ zh: '当前面孔', en: 'Current Face' }, locale)}</small>
+                    <p>{loveMeta?.faceLabel ?? pickLocale({ zh: '核心结果', en: 'Core Result' }, locale)} · {loveMeta?.name ?? result.name}</p>
+                  </article>
+                  <article className="ref-archive-drawer__fact">
+                    <small>{pickLocale({ zh: '核心画像', en: 'Core Profile' }, locale)}</small>
+                    <p>{result.summary}</p>
+                  </article>
+                  <article className="ref-archive-drawer__fact">
+                    <small>{pickLocale({ zh: '风险点', en: 'Risk Signal' }, locale)}</small>
+                    <p>{result.stressSignal}</p>
+                  </article>
+                  <article className="ref-archive-drawer__fact">
+                    <small>{pickLocale({ zh: '修复方式', en: 'Repair Method' }, locale)}</small>
+                    <p>{result.repairTip}</p>
+                  </article>
+                </div>
 
-            <div className="ref-archive-drawer__prose">
-              {(archiveReading?.overview ?? simpleReading).map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-              {(archiveReading?.scenario ?? [result.vibe, result.whyItHits]).filter(Boolean).map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
+                <div className="ref-archive-drawer__prose">
+                  {(archiveReading?.overview ?? simpleReading).map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                  {(archiveReading?.scenario ?? [result.vibe, result.whyItHits]).filter(Boolean).map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
 
-            <div className="ref-actions ref-archive-drawer__actions">
-              {detailHref ? (
-                <a className="ref-button ref-button--ghost" href={detailHref}>
-                  {pickLocale({ zh: '打开独立页', en: 'Open Standalone Page' }, locale)}
-                </a>
-              ) : null}
-              <button className="ref-button ref-button--primary" onClick={handlePosterDownload} type="button">
-                {pickLocale({ zh: '分享此面', en: 'Share This Face' }, locale)}
-              </button>
-            </div>
-          </aside>
-        </div>
-      ) : null}
+                <div className="ref-actions ref-archive-drawer__actions">
+                  {detailHref ? (
+                    <a className="ref-button ref-button--ghost" href={detailHref}>
+                      {pickLocale({ zh: '打开独立页', en: 'Open Standalone Page' }, locale)}
+                    </a>
+                  ) : null}
+                  <button className="ref-button ref-button--primary" onClick={handlePosterDownload} type="button">
+                    {pickLocale({ zh: '分享此面', en: 'Share This Face' }, locale)}
+                  </button>
+                </div>
+              </aside>
+            </div>,
+            document.body,
+          )
+        : null}
 
       {sharePreviewOpen && typeof document !== 'undefined'
         ? createPortal(

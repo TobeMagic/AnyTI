@@ -989,6 +989,10 @@
   object-fit: contain;
 }
 
+.portrait-card__image {
+  object-fit: contain;
+}
+
 /* When portrait-card contains a real image, fill container with fixed dimensions */
 .ref-triptych-card__portrait .portrait-card:has(.portrait-card__image) {
   background: transparent;
@@ -1835,17 +1839,24 @@
   inset: 0;
   z-index: 60;
   display: grid;
-  align-items: end;
+  align-items: start;
+  justify-items: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: rgba(22, 18, 17, 0.24);
   backdrop-filter: blur(10px);
-  padding: 18px;
+  padding:
+    max(16px, env(safe-area-inset-top))
+    max(14px, env(safe-area-inset-right))
+    max(18px, env(safe-area-inset-bottom))
+    max(14px, env(safe-area-inset-left));
 }
 
 .ref-archive-drawer {
   width: min(100%, 920px);
-  max-height: min(88vh, 920px);
+  max-height: none;
   margin: 0 auto;
-  overflow: auto;
+  overflow: visible;
   border-radius: 28px 28px 18px 18px;
   border: 1px solid rgba(221, 211, 202, 0.8);
   background:
@@ -1893,8 +1904,50 @@
   border-color: rgba(205, 137, 144, 0.4);
 }
 
+.ref-archive-drawer__hero {
+  display: grid;
+  grid-template-columns: 152px minmax(0, 1fr);
+  align-items: center;
+  gap: 22px;
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid rgba(219, 206, 194, 0.7);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 14% 16%, rgba(255, 255, 255, 0.82), transparent 48%),
+    rgba(255, 255, 255, 0.42);
+}
+
+.ref-archive-drawer__portrait {
+  display: grid;
+  place-items: center;
+}
+
+.ref-archive-drawer__portrait .portrait-card {
+  border-radius: 22px;
+  background: transparent;
+}
+
+.ref-archive-drawer__portrait .portrait-card__label {
+  display: none;
+}
+
+.ref-archive-drawer__intro {
+  min-width: 0;
+}
+
+.ref-face-switch--drawer {
+  margin: 0 0 12px;
+}
+
+.ref-face-switch--drawer .ref-face-switch__button {
+  min-height: 34px;
+  padding: 0 11px;
+  font-size: 12px;
+}
+
 .ref-archive-drawer__quote {
-  margin: 20px 0 0;
+  margin: 0;
   max-width: 680px;
   color: var(--page-ink);
   font-family: var(--ref-serif);
@@ -2869,6 +2922,23 @@
 
   .ref-archive-drawer {
     padding: 24px 22px 24px;
+  }
+
+  .ref-archive-drawer__hero {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .ref-archive-drawer__intro {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .ref-face-switch--drawer {
+    justify-content: center;
   }
 
   .ref-archive-drawer__grid {
