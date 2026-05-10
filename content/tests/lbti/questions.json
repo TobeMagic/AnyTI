@@ -46,7 +46,7 @@
     "options": [
       { "id": "a", "label": "立刻顺着台阶下", "weights": { "rep": 1, "sig": 1 } },
       { "id": "b", "label": "看见了，但我要等他/她再主动一点", "weights": { "ret": 1, "att": -1 } },
-      { "id": "c", "label": "回一个字，然后继续冷着", "weights": { "rep": -1, "att": 0 } }
+      { "id": "c", "label": "嘴硬到底，绝不先开口", "weights": { "rep": -1, "sig": -1, "bnd": 1 } }
     ]
   },
   {
@@ -85,7 +85,7 @@
     "prompt": "朋友起哄「你俩好甜」，他/她也在场，你的反应是？",
     "options": [
       { "id": "a", "label": "跟着笑笑，不承认也不否认", "weights": { "sig": -1, "att": 1 } },
-      { "id": "b", "label": "否认，但脸红了", "weights": { "att": 0, "sig": 0 } },
+      { "id": "b", "label": "否认，但脸红了", "weights": { "att": 1, "sig": -1, "ret": 0 } },
       { "id": "c", "label": "大方承认：是啊", "weights": { "sig": 1, "cer": 1 } }
     ]
   },
@@ -95,7 +95,7 @@
     "prompt": "他/她越来越黏人，你嘴上说「你怎么这么粘人」，心里其实？",
     "options": [
       { "id": "a", "label": "偷偷开心得要死", "weights": { "att": 1, "sig": 1, "ret": -1 } },
-      { "id": "b", "label": "有点想往后退了", "weights": { "bnd": 1, "ret": 1 } },
+      { "id": "b", "label": "有点烦，想有点自己的空间", "weights": { "att": -1, "bnd": 1, "ret": 1 } },
       { "id": "c", "label": "担心是不是新鲜感快过了", "weights": { "att": 1, "cer": 1 } }
     ]
   },
@@ -116,7 +116,8 @@
     "options": [
       { "id": "a", "label": "找本人确认，不靠第三方脑补", "weights": { "sig": 2, "rep": 1 } },
       { "id": "b", "label": "顺着这条线索继续观察，多收集点证据", "weights": { "cer": 1.5, "att": 0 } },
-      { "id": "c", "label": "当没听见，等他/她自己说", "weights": { "ret": 1.5, "att": -1 } }
+      { "id": "c", "label": "当没听见，等他/她自己说", "weights": { "ret": 1.5, "att": -1 } },
+      { "id": "d", "label": "借朋友之口去试探，看他/她反应", "weights": { "sig": 1, "att": 0.5, "cer": 0 } }
     ]
   },
   {
@@ -156,7 +157,8 @@
     "options": [
       { "id": "a", "label": "说出来：你最近好像没那么积极了", "weights": { "sig": 2, "rep": 1 } },
       { "id": "b", "label": "接受，关系本来就是慢慢变淡的", "weights": { "bnd": 1.5, "ret": 0 } },
-      { "id": "c", "label": "我也稍微收一收，别显得太在意", "weights": { "ret": 1.5, "att": -1 } }
+      { "id": "c", "label": "我也稍微收一收，别显得太在意", "weights": { "ret": 1.5, "att": -1 } },
+      { "id": "d", "label": "主动制造点新鲜感，拉回来", "weights": { "att": 1, "sig": 1, "rep": 1 } }
     ]
   },
   {

@@ -62,7 +62,7 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
     options: {
       a: { label: 'Take the olive branch immediately.' },
       b: { label: 'Saw it, but I will wait for them to make the next move first.' },
-      c: { label: 'Replied with one word and kept the cold shoulder going.' },
+      c: { label: 'Stay tough until the end. I will not speak first.' },
     },
   },
   'lbti-q6': {
@@ -106,7 +106,7 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
     prompt: 'They are getting more clingy. You say "why are you so clingy" but inside you actually feel...',
     options: {
       a: { label: 'Secretly thrilled about it.' },
-      b: { label: 'Like pulling back a little.' },
+      b: { label: 'A bit annoyed. I need some space.' },
       c: { label: 'Worried the novelty is wearing off.' },
     },
   },
