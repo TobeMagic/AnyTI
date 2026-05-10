@@ -10,8 +10,8 @@
   "seoDescription": "基于 6 个连续关系模型与向量匹配的恋爱人格测试。当前版本使用一组现实场景题，结果支持海报导出，适合手机端分享。",
   "posterTheme": "love-editorial-rose",
   "accentLabel": "玫瑰频道 Edition 01",
-  "durationLabel": "约 6 分钟",
-  "questionCount": 30,
+  "durationLabel": "约 3 分钟",
+  "questionCount": 10,
   "dimensions": ["attunement", "signal", "repair", "boundary", "certainty", "retreat"],
   "dimensionDetails": [
     {

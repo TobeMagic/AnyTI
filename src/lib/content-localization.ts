@@ -21,298 +21,93 @@ const groupEn: Record<string, string> = {
 
 export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
   'lbti-q1': {
-    context:
-      'Response sensitivity model · Last night at 23:17 you texted, "Got home?" He was online, his avatar lit up, he liked a post, but he did not reply. At 09:04 the next morning, he crawls back with "I fell asleep."',
-    prompt: 'Which reaction sounds most like you?',
+    context: '',
+    prompt: 'They have read your message but not replied for three hours. How many episodes have you already written in your head?',
     options: {
-      a: { label: 'Ask what happened last night. I need to confirm he did not vanish from Earth.' },
-      b: { label: 'Keep today’s topic going on the surface, so I do not look too invested.' },
-      c: { label: 'Say nothing, but my inner notebook has already recorded this incident.' },
+      a: { label: 'Already drafted the series finale.' },
+      b: { label: 'Send another message to test the water.' },
+      c: { label: 'Act like nothing happened and go on with my day.' },
     },
   },
   'lbti-q2': {
-    context: 'Response sensitivity model',
-    prompt: 'When the connection drops, I cannot stop imagining the worst version.',
+    context: '',
+    prompt: 'You found something you think they would love. Your finger hovers over send for a full minute. Do you press it?',
     options: {
-      a: { label: 'Disagree' },
-      b: { label: 'Neutral' },
-      c: { label: 'Agree' },
+      a: { label: 'Sent it, with a casual-sounding note to play it cool.' },
+      b: { label: 'Saved it to show them in person next time.' },
+      c: { label: 'Backed off. Would seem too eager.' },
     },
   },
   'lbti-q3': {
-    context:
-      'Response sensitivity model · You have chatted for two weeks, gone out alone twice, and friends already assume there is "something there", but neither of you has defined it.',
-    prompt: 'How do you usually judge which level this relationship has reached?',
+    context: '',
+    prompt: 'They forgot something they promised you. What is your first reaction?',
     options: {
-      a: { label: 'Find a chance to ask directly. I refuse to turn liking someone into a reading exam.' },
-      b: { label: 'Keep reading the details: initiative, tone, and whether the pace of meeting has changed.' },
-      c: { label: 'Let it flow. If the feeling is real, I will know. No need to stamp it immediately.' },
+      a: { label: 'Held it in and digested it myself.' },
+      b: { label: 'Said it directly: you always do this.' },
+      c: { label: 'Took mental notes and started reassessing the whole thing.' },
     },
   },
   'lbti-q4': {
-    context:
-      'Response sensitivity model · It is 1 AM after work. You are waiting for a ride alone, makeup ruined, mood collapsing, wind blowing through you. Then they text: "Want me to pick you up?"',
-    prompt: 'What follow-up would you most want?',
+    context: '',
+    prompt: 'They say "I need some time alone." What do you do?',
     options: {
-      a: { label: 'Show up quickly, so I know this relationship does not disappear at critical moments.' },
-      b: { label: 'Give me a little space to breathe, but do not vanish like air.' },
-      c: { label: 'Talk through the situation and feelings clearly. That grounds me more than silent company.' },
+      a: { label: 'Give space, but I already acted out the worst scenario in my head.' },
+      b: { label: 'Pretend to give space, but check every few minutes if they replied.' },
+      c: { label: 'Actually go do my own thing and do not think about it.' },
     },
   },
   'lbti-q5': {
-    context:
-      'Response sensitivity model · This week he replied with emojis three times, kept saying "another day" for meeting, and the chat feels like a tide going out. You know something is off, but do not want to look clingy.',
-    prompt: 'Which next step sounds most like you?',
+    context: '',
+    prompt: 'You had a fight and are both ignoring each other. Then they suddenly send you something trivial. What do you do?',
     options: {
-      a: { label: 'Bring it up and confirm what is going on with the relationship lately.' },
-      b: { label: 'Say "let it be", while scrolling through recent chat logs like a crime scene.' },
-      c: { label: 'Pull myself back a little so I do not look too urgent or chasing.' },
+      a: { label: 'Take the olive branch immediately.' },
+      b: { label: 'Saw it, but I will wait for them to be more主动.' },
+      c: { label: 'Replied with one word and kept the cold shoulder going.' },
     },
   },
   'lbti-q6': {
-    context: 'Expression and vulnerability model',
-    prompt: 'If I really like someone, I will find a way to let them know instead of acting out an entire romance drama only in my head.',
+    context: '',
+    prompt: 'They are in a bad mood. You offer care. They say "I am fine." What do you do?',
     options: {
-      a: { label: 'Disagree' },
-      b: { label: 'Neutral' },
-      c: { label: 'Agree' },
+      a: { label: 'Stay and accompany them, even in silence.' },
+      b: { label: 'Quietly observe without pushing.' },
+      c: { label: 'Actually walk away and give them space.' },
     },
   },
   'lbti-q7': {
-    context:
-      'Expression and vulnerability model · You found a place they would definitely like. The chat is open, your finger is hovering over send. Logic says "do not look too active", but the little monster in your heart is already planning the next date.',
-    prompt: 'What would you most likely do?',
+    context: '',
+    prompt: 'They suddenly ask you, "What are we?" What do you do?',
     options: {
-      a: { label: 'Send it directly and add "I will take you there next time" to make the signal clear.' },
-      b: { label: 'Save it first and bring them there naturally in person, so it feels less deliberate.' },
-      c: { label: 'Hold back, afraid that sending it makes me look like I already imagined the date.' },
+      a: { label: 'Say my answer directly and wait for their reaction.' },
+      b: { label: 'Turn it back on them: what do you think?' },
+      c: { label: 'Deflect the topic and do not engage.' },
     },
   },
   'lbti-q8': {
-    context:
-      'Expression and vulnerability model · At a friend gathering, someone teases, "Is something going on between you two?" Everyone looks over. In that second, your brain calculates whether to catch the ball.',
-    prompt: 'What is your comfort zone with semi-public intimacy?',
+    context: '',
+    prompt: 'The relationship is getting closer, but you start wanting to pull back. Why?',
     options: {
-      a: { label: 'If I have decided, a little public expression is fine. I will not hide too much.' },
-      b: { label: 'A little is fine, but do not put me on stage for a live performance.' },
-      c: { label: 'I prefer intimacy in private. Too much public attention makes me freeze.' },
+      a: { label: 'Afraid of losing myself when we get too close.' },
+      b: { label: 'Afraid they will change once things get serious.' },
+      c: { label: 'No reason. It is just instinct to run.' },
     },
   },
   'lbti-q9': {
-    context:
-      'Expression and vulnerability model · You are not official yet, but the chat has clearly crossed into flirtation. One day they casually say, "I am so tired today." You stare at the input box. Each possible reply reveals how you love.',
-    prompt: 'How do you usually send care outward?',
+    context: '',
+    prompt: 'Friends tease "you two are so cute" and they are right there. What do you do?',
     options: {
-      a: { label: 'Say the care clearly, so my sincerity does not become their reading assignment.' },
-      b: { label: 'Remember the details and take care of them through actions.' },
-      c: { label: 'Use jokes, memes, and soft signals so they can slowly figure it out.' },
+      a: { label: 'Laugh along, neither confirming nor denying.' },
+      b: { label: 'Deny it, but my face turns red.' },
+      c: { label: 'Openly agree: yes we are.' },
     },
   },
   'lbti-q10': {
-    context: 'Expression and vulnerability model',
-    prompt: 'Compared with forcing a direct talk on the spot, I am better at offering a step down and slowly reconnecting.',
+    context: '',
+    prompt: 'They are getting more clingy. You say "why are you so clingy" but inside you actually feel...',
     options: {
-      a: { label: 'Disagree' },
-      b: { label: 'Neutral' },
-      c: { label: 'Agree' },
-    },
-  },
-  'lbti-q11': {
-    context:
-      'Conflict repair model · A weekend date starts fine, then lateness, plan changes, and tone issues keep hitting nerves. One second you are holding hands, the next both faces are dark. If nobody handles it, the rest of the date is probably dead.',
-    prompt: 'When the atmosphere starts freezing, what are you most likely to do?',
-    options: {
-      a: { label: 'Talk it through that day. I do not want date problems turning into aftereffects.' },
-      b: { label: 'Step back first, because my next sentence might come out too harsh.' },
-      c: { label: 'Translate both emotions into human language before discussing who did what.' },
-    },
-  },
-  'lbti-q12': {
-    context: 'Conflict repair model',
-    prompt: 'As long as the relationship is not completely broken, I basically cannot accept a cold war lasting past the day.',
-    options: {
-      a: { label: 'Disagree' },
-      b: { label: 'Neutral' },
-      c: { label: 'Agree' },
-    },
-  },
-  'lbti-q13': {
-    context:
-      'Conflict repair model · You only wanted to express hurt, like "I felt a bit sad yesterday", but they hear it as accusation and immediately get defensive. The scene turns into a debate in one second.',
-    prompt: 'When this kind of misread appears, what is your first reaction?',
-    options: {
-      a: { label: 'Explain immediately. I do not want misunderstanding to snowball between us.' },
-      b: { label: 'Change to a less defensive wording and say it again.' },
-      c: { label: 'Go quiet first and wait until they are less explosive.' },
-    },
-  },
-  'lbti-q14': {
-    context: 'Conflict repair model',
-    prompt: 'Making up is not a losing contest for me. Whoever understands first can speak first.',
-    options: {
-      a: { label: 'Disagree' },
-      b: { label: 'Neutral' },
-      c: { label: 'Agree' },
-    },
-  },
-  'lbti-q15': {
-    context:
-      'Conflict repair model · On the surface you made up, memes are back, and you can even eat together. But you know the root of this conflict is still buried. Do you reopen it calmly to clean it up?',
-    prompt: 'After something is "over", do you find a chance to sort out the root cause?',
-    options: {
-      a: { label: 'Yes. I want to know how not to step into the same pit next time.' },
-      b: { label: 'If we are fine, that is enough. I do not want every friction to become a review meeting.' },
-      c: { label: 'Not really. If it is over, I want it to sink completely.' },
-    },
-  },
-  'lbti-q16': {
-    context:
-      'Autonomy boundary model · In the first week after becoming official, chat and meeting frequency start taking shape. It is sweet, but the rhythm also reveals its true nature.',
-    prompt: 'Which rhythm feels safest without suffocating you?',
-    options: {
-      a: { label: 'High-frequency contact makes me feel secure. Early love should be a little sticky.' },
-      b: { label: 'Planned meetings plus personal time for both sides. That lasts better.' },
-      c: { label: 'I need a fairly intact personal rhythm. Dating should not mean constant binding.' },
-    },
-  },
-  'lbti-q17': {
-    context:
-      'Autonomy boundary model · They are drinking with friends tonight, and you also have your own plans. Neither of you is just sitting there waiting to report in.',
-    prompt: 'How do you feel about check-ins like "tell me when you get home" or "who are you with"?',
-    options: {
-      a: { label: 'Natural sharing makes me feel safe. I read it as being held in mind.' },
-      b: { label: 'Important moments are enough. A full-day livestream is unnecessary.' },
-      c: { label: 'Once it becomes mandatory reporting, I start wanting to step back.' },
-    },
-  },
-  'lbti-q18': {
-    context:
-      'Autonomy boundary model · They suggest sharing location because "it makes me feel safer", but you are already asking whether this is care or patrol.',
-    prompt: 'How accepting are you of location checking and patrol-like behavior?',
-    options: {
-      a: { label: 'Understandable in special situations, but it must not become daily default.' },
-      b: { label: 'Occasional curiosity is fine, but love should not become patrol management.' },
-      c: { label: 'I dislike it. It feels like the relationship is taking over my life.' },
-    },
-  },
-  'lbti-q19': {
-    context:
-      'Autonomy boundary model · A short holiday is coming. You both want to meet, but each side has plans too. Nobody wants the holiday to become military scheduling.',
-    prompt: 'What holiday arrangement feels most comfortable?',
-    options: {
-      a: { label: 'Set the rhythm early. I feel more grounded and included.' },
-      b: { label: 'Take turns deciding. It should not always be one person running the love itinerary.' },
-      c: { label: 'Keep room for both sides to move. Do not lock the holiday like a project plan.' },
-    },
-  },
-  'lbti-q20': {
-    context:
-      'Autonomy boundary model · They come to you almost every free moment these days. It is sweet, but you are starting to run out of oxygen, like being wrapped in fragrant cotton.',
-    prompt: 'How do you usually handle that level of stickiness?',
-    options: {
-      a: { label: 'Say directly that I need air, not disconnection. I just need breathing rights.' },
-      b: { label: 'Say "it is fine, go do your thing", while secretly hoping they come closer.' },
-      c: { label: 'Pull away noticeably and decide how to come back after I feel comfortable.' },
-    },
-  },
-  'lbti-q21': {
-    context:
-      'Commitment clarity model · They fail another promise: forgetting to pick you up, forgetting something you cared about, or even repairing too slowly.',
-    prompt: 'When this happens, how does your inner score usually change?',
-    options: {
-      a: { label: 'A lot. This directly rewrites my overall score for the relationship.' },
-      b: { label: 'I remember it, but I also check whether it was a mistake or a lack of care.' },
-      c: { label: 'I care more about the present feeling and overall vibe than immediate fulfillment.' },
-    },
-  },
-  'lbti-q22': {
-    context:
-      'Commitment clarity model · You are basically exclusive and increasingly couple-like, but nobody has said it out loud. It feels one official announcement away.',
-    prompt: 'If this state continues, which feeling is closest?',
-    options: {
-      a: { label: 'If there is feeling, I want to know where we stand. I do not date in thin air.' },
-      b: { label: 'I say I am not rushed, but without direction my mind starts spinning.' },
-      c: { label: 'Labels can come late. Comfort comes first. I do not want to pin it down too fast.' },
-    },
-  },
-  'lbti-q23': {
-    context:
-      'Commitment clarity model · Three weeks ago you casually mentioned your stomach felt bad and that you hate cilantro. Later at dinner, they say, "No cold drinks for you, and no cilantro."',
-    prompt: 'How do you most easily interpret that moment?',
-    options: {
-      a: { label: 'This matters. I immediately feel the relationship is being taken seriously.' },
-      b: { label: 'It adds points, but I still care more about long-term action than one highlight.' },
-      c: { label: 'I am happy, but I do not want remembering details to become a love KPI.' },
-    },
-  },
-  'lbti-q24': {
-    context:
-      'Commitment clarity model · Their tone is colder, initiative is lower, and even the usual goodnight has disappeared. You can smell the cooling down.',
-    prompt: 'What do you usually do first?',
-    options: {
-      a: { label: 'Ask directly. I do not want to date someone alone inside my imagination.' },
-      b: { label: 'Observe for two more days to see whether this is temporary or a real retreat.' },
-      c: { label: 'Hold myself down, afraid that speaking up makes me look too urgent.' },
-    },
-  },
-  'lbti-q25': {
-    context:
-      'Commitment clarity model · You are basically exclusive, talking almost daily, and friends nearly treat them as your partner, but the definition is still floating.',
-    prompt: 'How do you feel about making it official?',
-    options: {
-      a: { label: 'I want the relationship to land. Staying blurry for too long drains me.' },
-      b: { label: 'I say "let it be", but inside I am waiting for them to give a clear answer first.' },
-      c: { label: 'Comfort matters more for now. I do not want love to become contract signing.' },
-    },
-  },
-  'lbti-q26': {
-    context:
-      'Withdrawal defense model · You have confirmed the relationship is dropping: fewer messages, fewer meetings, and less investment.',
-    prompt: 'After you confirm it is not an illusion, what is your first move?',
-    options: {
-      a: { label: 'Have one serious talk and confirm whether this relationship can still be saved.' },
-      b: { label: 'Pull myself back a little and see whether they will come fill the gap.' },
-      c: { label: 'Quietly leave. I do not want to burn my dignity in a tug-of-war.' },
-    },
-  },
-  'lbti-q27': {
-    context:
-      'Withdrawal defense model · After a relationship pauses or ends, the chat box, delivery address, playlists, and shared entrances are all still there.',
-    prompt: 'When these traces sit in front of you, which sounds most like you?',
-    options: {
-      a: { label: 'I look back, like reviewing an accident to find where it started going wrong.' },
-      b: { label: 'Sometimes I open them, more out of habit than heavy nostalgia.' },
-      c: { label: 'I clear entrances and mute reminders quickly, so I do not fall back in.' },
-    },
-  },
-  'lbti-q28': {
-    context:
-      'Withdrawal defense model · Someone who once hurt you suddenly texts, "How have you been?" The chat lights up.',
-    prompt: 'What is your inner gatekeeper’s first reaction?',
-    options: {
-      a: { label: 'Ask why they are back. Without a reason, I will not reopen the game.' },
-      b: { label: 'Look at who they are now, and whether I still have space inside.' },
-      c: { label: 'Probably close the door. I do not easily give old plots a sequel.' },
-    },
-  },
-  'lbti-q29': {
-    context:
-      'Withdrawal defense model · Photos, gifts, saved folders, pinned chats, shared playlists: a whole room of emotions that never moved out.',
-    prompt: 'How do you usually handle old traces?',
-    options: {
-      a: { label: 'Keep some of them, like putting the remains into a buffer zone first.' },
-      b: { label: 'Archive them together, then decide what to keep or delete after emotions log off.' },
-      c: { label: 'Clean them up thoroughly, so I do not doom-scroll back at midnight.' },
-    },
-  },
-  'lbti-q30': {
-    context:
-      'Withdrawal defense model · You have decided this relationship should not continue. Only the final closing action remains.',
-    prompt: 'When pressing the end key, how are you most likely to exit?',
-    options: {
-      a: { label: 'Say it clearly. Even if it is hard, I want the ending to be complete.' },
-      b: { label: 'Lower the frequency slowly and let the relationship go out by itself.' },
-      c: { label: 'Be decisive. I would rather hurt for a while than keep returning to the scene.' },
+      a: { label: 'Secretly thrilled about it.' },
+      b: { label: 'Like pulling back a little.' },
+      c: { label: 'Worried the novelty is wearing off.' },
     },
   },
 };
@@ -414,7 +209,7 @@ export const lbtiPersonalityEn: Record<string, PersonalityTranslation> = {
     badge: 'BETA-01 / self-mock default profile',
     vibe: 'Ambiguity is only warm-up. A real relationship needs someone to manage the launch.',
     summary:
-      'You fear relationships stuck at "if you know, you know" with nobody moving forward. You confirm, push, and upgrade flirtation from draft to official version.',
+      'You fear relationships stuck at "if you know, you know" but nobody moving forward. You confirm, push, and upgrade flirtation from draft to official version.',
     whyItHits:
       'You have a natural project-management brain for relationships. Blur drains you; progress calms you. You often carry the question: when does this love go live?',
     dimensionRead: [
@@ -495,7 +290,7 @@ export const lbtiPersonalityEn: Record<string, PersonalityTranslation> = {
       'You naturally take on the lubricant role in relationships.',
     ],
     sweetSpot: 'You turn many explosive moments into moments where closeness can still continue.',
-    stressSignal: 'If you are always the translator, you may feel like the relationship’s live interpreter.',
+    stressSignal: 'If you are always the translator, you may feel like the relationship\'s live interpreter.',
     repairTip: 'Do not explain everyone else so much that your own hurt disappears from the sentence.',
   },
   'lbti-coldwar-bomb': {
@@ -531,7 +326,7 @@ export const lbtiPersonalityEn: Record<string, PersonalityTranslation> = {
       'You fear not the end itself, but an ending that is too ugly.',
     ],
     sweetSpot: 'You know how to leave dignity in a relationship and rarely turn endings into disaster films.',
-    stressSignal: 'If you keep caring only about the other person’s feelings, you may delay your real decision.',
+    stressSignal: 'If you keep caring only about the other person\'s feelings, you may delay your real decision.',
     repairTip: 'Gentleness is not an excuse for delay. Saying it clearly at the right time is more responsible.',
   },
   'lbti-graceful-ghost': {
@@ -542,7 +337,7 @@ export const lbtiPersonalityEn: Record<string, PersonalityTranslation> = {
     summary:
       'It is not that you feel nothing. You are used to leaving yourself an exit key. When things are wrong, you pack your emotions, cancel expectations, and slowly withdraw.',
     whyItHits:
-      'You are very good at protecting yourself, so people think you do not care. Actually, compared with being seen vulnerable, you are used to closing the door before going offline.',
+      'You are very good at protecting yourself, so people think you do not care. Actually, you are used to closing the door before going offline.',
     dimensionRead: [
       'When uncertainty rises, you withdraw first instead of risking exposure.',
       'You are not cold; you know the cost of being messy.',
@@ -617,7 +412,7 @@ const metaEn: Partial<TestMeta> = {
   seoDescription:
     'A love personality test based on six continuous relationship dimensions and vector matching. Results support poster export and mobile sharing.',
   accentLabel: 'Rose Channel Edition 01',
-  durationLabel: 'about 6 minutes',
+  durationLabel: 'about 3 minutes',
 };
 
 const dimensionEn: Record<string, { title: string; leftLabel: string; rightLabel: string; coverage?: string }> = {
