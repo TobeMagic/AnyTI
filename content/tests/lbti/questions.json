@@ -32,7 +32,7 @@
   {
     "id": "lbti-q4",
     "context": "",
-    "prompt": "他/她说"我想一个人静静"，你会？",
+    "prompt": "他/她说「我想一个人静静」，你会？",
     "options": [
       { "id": "a", "label": "给空间，但心里已经演完了最坏剧情", "weights": { "att": 1, "cer": 1 } },
       { "id": "b", "label": "假装给空间，隔几分钟偷看一下有没有回", "weights": { "att": 1, "bnd": -1 } },
@@ -52,7 +52,7 @@
   {
     "id": "lbti-q6",
     "context": "",
-    "prompt": "他/她情绪不好，你凑上去关心，对方说"我没事"，你会？",
+    "prompt": "他/她情绪不好，你凑上去关心，对方说「我没事」，你会？",
     "options": [
       { "id": "a", "label": "继续陪着，哪怕不说话", "weights": { "rep": 1, "att": 1 } },
       { "id": "b", "label": "默默观察，不逼他说", "weights": { "sig": -1, "att": 0 } },
@@ -62,7 +62,7 @@
   {
     "id": "lbti-q7",
     "context": "",
-    "prompt": "他/她突然问你"我们是什么关系"，你会？",
+    "prompt": "他/她突然问你「我们是什么关系」，你会？",
     "options": [
       { "id": "a", "label": "直接说，然后等他/她反应", "weights": { "cer": 2, "sig": 2 } },
       { "id": "b", "label": "反问：你觉得呢", "weights": { "att": 1, "bnd": 1 } },
@@ -82,7 +82,7 @@
   {
     "id": "lbti-q9",
     "context": "",
-    "prompt": "朋友起哄"你俩好甜"，他/她也在场，你的反应是？",
+    "prompt": "朋友起哄「你俩好甜」，他/她也在场，你的反应是？",
     "options": [
       { "id": "a", "label": "跟着笑笑，不承认也不否认", "weights": { "sig": -1, "att": 1 } },
       { "id": "b", "label": "否认，但脸红了", "weights": { "att": 0, "sig": 0 } },
@@ -92,7 +92,7 @@
   {
     "id": "lbti-q10",
     "context": "",
-    "prompt": "他/她越来越黏人，你嘴上说"你怎么这么粘人"，心里其实？",
+    "prompt": "他/她越来越黏人，你嘴上说「你怎么这么粘人」，心里其实？",
     "options": [
       { "id": "a", "label": "偷偷开心得要死", "weights": { "att": 1, "sig": 1, "ret": -1 } },
       { "id": "b", "label": "有点想往后退了", "weights": { "bnd": 1, "ret": 1 } },

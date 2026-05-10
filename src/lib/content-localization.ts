@@ -61,7 +61,7 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
     prompt: 'You had a fight and are both ignoring each other. Then they suddenly send you something trivial. What do you do?',
     options: {
       a: { label: 'Take the olive branch immediately.' },
-      b: { label: 'Saw it, but I will wait for them to be more主动.' },
+      b: { label: 'Saw it, but I will wait for them to make the next move first.' },
       c: { label: 'Replied with one word and kept the cold shoulder going.' },
     },
   },
