@@ -155,11 +155,32 @@
       "retreat": -0.1
     },
     "hiddenRule": {
-      "mode": "min-threshold",
-      "threshold": 2,
+      "mode": "all-range",
       "dimensions": {
-        "certainty": 0.92,
-        "signal": 0.85
+        "attunement": [
+          -2,
+          2
+        ],
+        "signal": [
+          0.85,
+          2
+        ],
+        "repair": [
+          -2,
+          2
+        ],
+        "boundary": [
+          -2,
+          2
+        ],
+        "certainty": [
+          0.92,
+          2
+        ],
+        "retreat": [
+          -2,
+          2
+        ]
       }
     }
   },
@@ -241,11 +262,32 @@
       "retreat": -0.95
     },
     "hiddenRule": {
-      "mode": "min-threshold",
-      "threshold": 2,
+      "mode": "all-range",
       "dimensions": {
-        "signal": 0.92,
-        "repair": 0.95
+        "attunement": [
+          -2,
+          2
+        ],
+        "signal": [
+          0.92,
+          2
+        ],
+        "repair": [
+          0.95,
+          2
+        ],
+        "boundary": [
+          -2,
+          2
+        ],
+        "certainty": [
+          -2,
+          2
+        ],
+        "retreat": [
+          -2,
+          2
+        ]
       }
     }
   },
@@ -275,12 +317,32 @@
       "retreat": 0.15
     },
     "hiddenRule": {
-      "mode": "min-threshold",
-      "threshold": 2,
+      "mode": "all-range",
       "dimensions": {
-        "repair": 0.9,
-        "signal": 0.65,
-        "attunement": 0.4
+        "attunement": [
+          0.4,
+          2
+        ],
+        "signal": [
+          0.65,
+          2
+        ],
+        "repair": [
+          0.9,
+          2
+        ],
+        "boundary": [
+          -2,
+          2
+        ],
+        "certainty": [
+          -2,
+          2
+        ],
+        "retreat": [
+          -2,
+          2
+        ]
       }
     }
   },
@@ -362,11 +424,32 @@
       "retreat": 0.98
     },
     "hiddenRule": {
-      "mode": "min-threshold",
-      "threshold": 2,
+      "mode": "all-range",
       "dimensions": {
-        "retreat": 0.95,
-        "boundary": 0.9
+        "attunement": [
+          -2,
+          2
+        ],
+        "signal": [
+          -2,
+          2
+        ],
+        "repair": [
+          -2,
+          2
+        ],
+        "boundary": [
+          0.9,
+          2
+        ],
+        "certainty": [
+          -2,
+          2
+        ],
+        "retreat": [
+          0.95,
+          2
+        ]
       }
     }
   },
@@ -396,11 +479,32 @@
       "retreat": 0.92
     },
     "hiddenRule": {
-      "mode": "min-threshold",
-      "threshold": 2,
+      "mode": "all-range",
       "dimensions": {
-        "boundary": 0.93,
-        "retreat": 0.9
+        "attunement": [
+          -2,
+          2
+        ],
+        "signal": [
+          -2,
+          2
+        ],
+        "repair": [
+          -2,
+          2
+        ],
+        "boundary": [
+          0.93,
+          2
+        ],
+        "certainty": [
+          -2,
+          2
+        ],
+        "retreat": [
+          0.9,
+          2
+        ]
       }
     }
   },
@@ -430,11 +534,32 @@
       "retreat": 0.62
     },
     "hiddenRule": {
-      "mode": "min-threshold",
-      "threshold": 2,
+      "mode": "all-range",
       "dimensions": {
-        "boundary": 0.78,
-        "certainty": 0.48
+        "attunement": [
+          -2,
+          2
+        ],
+        "signal": [
+          -2,
+          2
+        ],
+        "repair": [
+          -2,
+          2
+        ],
+        "boundary": [
+          0.78,
+          2
+        ],
+        "certainty": [
+          0.42,
+          2
+        ],
+        "retreat": [
+          -2,
+          2
+        ]
       }
     }
   },
