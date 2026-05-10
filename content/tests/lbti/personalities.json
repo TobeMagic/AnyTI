@@ -157,29 +157,13 @@
     "hiddenRule": {
       "mode": "all-range",
       "dimensions": {
-        "attunement": [
-          -2,
-          2
-        ],
         "signal": [
-          0.85,
-          2
-        ],
-        "repair": [
-          -2,
-          2
-        ],
-        "boundary": [
-          -2,
-          2
+          6,
+          999
         ],
         "certainty": [
-          0.92,
-          2
-        ],
-        "retreat": [
-          -2,
-          2
+          8,
+          999
         ]
       }
     }
@@ -264,29 +248,17 @@
     "hiddenRule": {
       "mode": "all-range",
       "dimensions": {
-        "attunement": [
-          -2,
-          2
-        ],
         "signal": [
-          0.92,
-          2
+          3,
+          999
         ],
         "repair": [
-          0.95,
-          2
-        ],
-        "boundary": [
-          -2,
-          2
-        ],
-        "certainty": [
-          -2,
-          2
+          4.5,
+          999
         ],
         "retreat": [
-          -2,
-          2
+          -999,
+          -0.5
         ]
       }
     }
@@ -319,29 +291,21 @@
     "hiddenRule": {
       "mode": "all-range",
       "dimensions": {
-        "attunement": [
-          0.4,
-          2
-        ],
         "signal": [
-          0.65,
-          2
+          1.5,
+          999
         ],
         "repair": [
-          0.9,
-          2
+          5,
+          999
         ],
         "boundary": [
-          -2,
-          2
+          -999,
+          2.5
         ],
         "certainty": [
-          -2,
-          2
-        ],
-        "retreat": [
-          -2,
-          2
+          3.5,
+          999
         ]
       }
     }
@@ -427,28 +391,20 @@
       "mode": "all-range",
       "dimensions": {
         "attunement": [
-          -2,
-          2
+          -999,
+          0
         ],
         "signal": [
-          -2,
-          2
-        ],
-        "repair": [
-          -2,
-          2
+          -999,
+          0
         ],
         "boundary": [
-          0.9,
-          2
-        ],
-        "certainty": [
-          -2,
-          2
+          5.5,
+          999
         ],
         "retreat": [
-          0.95,
-          2
+          4.5,
+          999
         ]
       }
     }
@@ -481,29 +437,21 @@
     "hiddenRule": {
       "mode": "all-range",
       "dimensions": {
-        "attunement": [
-          -2,
-          2
-        ],
         "signal": [
-          -2,
-          2
+          -999,
+          0.5
         ],
         "repair": [
-          -2,
-          2
+          -999,
+          -0.5
         ],
         "boundary": [
-          0.93,
-          2
-        ],
-        "certainty": [
-          -2,
-          2
+          5.5,
+          999
         ],
         "retreat": [
-          0.9,
-          2
+          4.5,
+          999
         ]
       }
     }
@@ -536,29 +484,17 @@
     "hiddenRule": {
       "mode": "all-range",
       "dimensions": {
-        "attunement": [
-          -2,
-          2
-        ],
         "signal": [
-          -2,
-          2
-        ],
-        "repair": [
-          -2,
-          2
+          -999,
+          0.5
         ],
         "boundary": [
-          0.78,
-          2
+          8,
+          999
         ],
         "certainty": [
-          0.42,
-          2
-        ],
-        "retreat": [
-          -2,
-          2
+          5.5,
+          999
         ]
       }
     }

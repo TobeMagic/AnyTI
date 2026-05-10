@@ -29,20 +29,29 @@ export function scoreAnswers(questions: Question[], answerIds: string[], dimensi
 
 export function cosineSimilarity(a: ScoreVector, b: ScoreVector) {
   const keys = Array.from(new Set([...Object.keys(a), ...Object.keys(b)]));
+
   let dot = 0;
-  let aNorm = 0;
-  let bNorm = 0;
+  let aNormSq = 0;
+  let bNormSq = 0;
 
   for (const key of keys) {
     const av = a[key] ?? 0;
     const bv = b[key] ?? 0;
     dot += av * bv;
-    aNorm += av * av;
-    bNorm += bv * bv;
+    aNormSq += av * av;
+    bNormSq += bv * bv;
   }
 
+  const aNorm = Math.sqrt(aNormSq);
+  const bNorm = Math.sqrt(bNormSq);
+
   if (aNorm === 0 || bNorm === 0) return 0;
-  return dot / (Math.sqrt(aNorm) * Math.sqrt(bNorm));
+
+  const normA = keys.map((key) => (a[key] ?? 0) / aNorm);
+  const normB = keys.map((key) => (b[key] ?? 0) / bNorm);
+
+  const normDot = normA.reduce((acc, av, i) => acc + av * normB[i], 0);
+  return Math.max(-1, Math.min(1, normDot));
 }
 
 function matchesDimensionRanges(personality: Personality, vector: ScoreVector) {
