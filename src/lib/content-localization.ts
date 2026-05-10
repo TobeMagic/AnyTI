@@ -110,6 +110,96 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
       c: { label: 'Worried the novelty is wearing off.' },
     },
   },
+  'lbti-q11': {
+    context: '',
+    prompt: 'You like them but are not sure how they feel. What do you do?',
+    options: {
+      a: { label: 'Find a chance to make a move. No loss if it does not work out.' },
+      b: { label: 'Wait for them to show their hand first. Too embarrassing if rejected.' },
+      c: { label: 'Watch quietly and look for clues in the details.' },
+    },
+  },
+  'lbti-q12': {
+    context: '',
+    prompt: 'Their friend hints that they have feelings for you. What do you do?',
+    options: {
+      a: { label: 'Ask them directly. No need for third-party speculation.' },
+      b: { label: 'Use this lead to watch more closely and gather evidence.' },
+      c: { label: 'Pretend I did not hear it. Wait for them to say it themselves.' },
+    },
+  },
+  'lbti-q13': {
+    context: '',
+    prompt: 'One month into dating, what do you care about most?',
+    options: {
+      a: { label: 'Whether they still make me feel special. Details tell the truth.' },
+      b: { label: 'Whether the pace of our getting along feels natural and comfortable.' },
+      c: { label: 'How we are going to move forward. Need some clarity.' },
+    },
+  },
+  'lbti-q14': {
+    context: '',
+    prompt: 'They failed to do something they promised again. This time you...',
+    options: {
+      a: { label: 'Say it. Express how I feel and how disappointed I am.' },
+      b: { label: 'Digest it myself and quietly deduct points.' },
+      c: { label: 'Let it go. Not everything needs to be a big deal.' },
+    },
+  },
+  'lbti-q15': {
+    context: '',
+    prompt: 'They seem unusually cold today. Your guess is?',
+    options: {
+      a: { label: 'Ask directly: what is going on today.' },
+      b: { label: 'Maybe they are tired. Give them space.' },
+      c: { label: 'Think about what happened today and what I might have done wrong.' },
+    },
+  },
+  'lbti-q16': {
+    context: '',
+    prompt: 'You notice they are not as invested as when you first started dating. What do you do?',
+    options: {
+      a: { label: 'Bring it up: you have been less engaged lately.' },
+      b: { label: 'Accept it. Relationships naturally cool down over time.' },
+      c: { label: 'Pull back a little too. Do not seem too invested.' },
+    },
+  },
+  'lbti-q17': {
+    context: '',
+    prompt: 'You find out they are also flirting with someone else. What do you do?',
+    options: {
+      a: { label: 'Confront them directly. No open relationships for me.' },
+      b: { label: 'Pretend I did not see it. Let them make their choice.' },
+      c: { label: 'Gather more evidence before saying anything.' },
+    },
+  },
+  'lbti-q18': {
+    context: '',
+    prompt: 'They ask you "what do you like about me?" You...',
+    options: {
+      a: { label: 'List a few things, specific to a detail.' },
+      b: { label: 'Deflect with a joke: I like that you are silly.' },
+      c: { label: 'Think hard but cannot quite put it into words.' },
+    },
+  },
+  'lbti-q19': {
+    context: '',
+    prompt: 'You send them a message, then recall it. What do you do?',
+    options: {
+      a: { label: 'Rewrite it and send a better version.' },
+      b: { label: 'Pretend it never happened. It is recalled anyway.' },
+      c: { label: 'Worry about whether they saw it. The more I think the worse it gets.' },
+    },
+  },
+  'lbti-q20': {
+    context: '',
+    prompt: 'You had a terrible fight. After it cools down, what do you do?',
+    options: {
+      a: { label: 'Wait for the anger to pass, then proactively offer a way to make up.' },
+      b: { label: 'Refuse to back down this time. Whoever was wrong knows it.' },
+      c: { label: 'Need time to cool off, but inside I am already preparing to reconcile.' },
+    },
+  },
 };
 
 export const lbtiPersonalityEn: Record<string, PersonalityTranslation> = {
@@ -412,7 +502,7 @@ const metaEn: Partial<TestMeta> = {
   seoDescription:
     'A love personality test based on six continuous relationship dimensions and vector matching. Results support poster export and mobile sharing.',
   accentLabel: 'Rose Channel Edition 01',
-  durationLabel: 'about 3 minutes',
+  durationLabel: 'about 5 minutes',
 };
 
 const dimensionEn: Record<string, { title: string; leftLabel: string; rightLabel: string; coverage?: string }> = {

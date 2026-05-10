@@ -98,5 +98,105 @@
       { "id": "b", "label": "有点想往后退了", "weights": { "bnd": 1, "ret": 1 } },
       { "id": "c", "label": "担心是不是新鲜感快过了", "weights": { "att": 1, "cer": 1 } }
     ]
+  },
+  {
+    "id": "lbti-q11",
+    "context": "",
+    "prompt": "你对他/她有好感，但不确定对方什么态度，你会？",
+    "options": [
+      { "id": "a", "label": "找机会主动试探，试探不成也不亏", "weights": { "sig": 1.5, "att": 1, "rep": 0 } },
+      { "id": "b", "label": "等对方先表态，万一被拒绝太丢人", "weights": { "ret": 1.5, "att": -1, "sig": -1 } },
+      { "id": "c", "label": "默默观察，从蛛丝马迹里找答案", "weights": { "cer": 1.5, "att": 0, "sig": -1 } }
+    ]
+  },
+  {
+    "id": "lbti-q12",
+    "context": "",
+    "prompt": "他/她的朋友暗示你「他/她对你有意思」，你会？",
+    "options": [
+      { "id": "a", "label": "找本人确认，不靠第三方脑补", "weights": { "sig": 2, "rep": 1 } },
+      { "id": "b", "label": "顺着这条线索继续观察，多收集点证据", "weights": { "cer": 1.5, "att": 0 } },
+      { "id": "c", "label": "当没听见，等他/她自己说", "weights": { "ret": 1.5, "att": -1 } }
+    ]
+  },
+  {
+    "id": "lbti-q13",
+    "context": "",
+    "prompt": "你们在一起一个月，你最在意的是？",
+    "options": [
+      { "id": "a", "label": "他/她有没有把我放在心上，细节见真章", "weights": { "att": 2, "cer": 1 } },
+      { "id": "b", "label": "两个人的相处节奏是不是舒服自然", "weights": { "bnd": 1.5, "rep": 0.5 } },
+      { "id": "c", "label": "关系接下来怎么推进，得有个说法", "weights": { "sig": 1.5, "rep": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q14",
+    "context": "",
+    "prompt": "他/她答应的事又没做到，这次你选择？",
+    "options": [
+      { "id": "a", "label": "说出来，表达自己的感受和失望", "weights": { "rep": 2, "sig": 1 } },
+      { "id": "b", "label": "先消化，心里默默扣分", "weights": { "cer": 1.5, "att": -1 } },
+      { "id": "c", "label": "算了，关系里没必要事事计较", "weights": { "bnd": 1.5, "ret": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q15",
+    "context": "",
+    "prompt": "他/她今天特别冷淡，你判断是？",
+    "options": [
+      { "id": "a", "label": "直接问，今天怎么回事", "weights": { "sig": 2, "rep": 1 } },
+      { "id": "b", "label": "可能是累了，给他/她空间", "weights": { "bnd": 1.5, "att": 0 } },
+      { "id": "c", "label": "回想今天发生了什么，自己哪里有问题", "weights": { "att": 1, "cer": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q16",
+    "context": "",
+    "prompt": "你发现他/她没有像刚认识时那么上心了，你会？",
+    "options": [
+      { "id": "a", "label": "说出来：你最近好像没那么积极了", "weights": { "sig": 2, "rep": 1 } },
+      { "id": "b", "label": "接受，关系本来就是慢慢变淡的", "weights": { "bnd": 1.5, "ret": 0 } },
+      { "id": "c", "label": "我也稍微收一收，别显得太在意", "weights": { "ret": 1.5, "att": -1 } }
+    ]
+  },
+  {
+    "id": "lbti-q17",
+    "context": "",
+    "prompt": "你发现他/她同时还在和别人暧昧，你会？",
+    "options": [
+      { "id": "a", "label": "直接摊牌，不接受开放式关系", "weights": { "sig": 1, "cer": 2.5 } },
+      { "id": "b", "label": "假装没看见，等对方自己选", "weights": { "ret": 1.5, "att": -1 } },
+      { "id": "c", "label": "收集更多证据，确凿了再说", "weights": { "cer": 1.5, "att": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q18",
+    "context": "",
+    "prompt": "他/她问你「你到底喜欢我什么」，你会？",
+    "options": [
+      { "id": "a", "label": "认真说几条，具体到某个细节", "weights": { "sig": 1.5, "rep": 1.5, "att": 1 } },
+      { "id": "b", "label": "调侃过去：喜欢你傻呗", "weights": { "sig": -1.5, "bnd": 1.5 } },
+      { "id": "c", "label": "想了半天，发现自己也说不清楚", "weights": { "cer": -1.5, "att": 0 } }
+    ]
+  },
+  {
+    "id": "lbti-q19",
+    "context": "",
+    "prompt": "你给他/她发消息，撤回了，你会？",
+    "options": [
+      { "id": "a", "label": "重新组织语言，再发一条更合适的", "weights": { "sig": 1.5, "att": 1 } },
+      { "id": "b", "label": "当没发生过，反正撤回了", "weights": { "bnd": 1.5, "ret": 0 } },
+      { "id": "c", "label": "纠结对方有没有看到，越想越慌", "weights": { "att": 1, "cer": 1 } }
+    ]
+  },
+  {
+    "id": "lbti-q20",
+    "context": "",
+    "prompt": "你们吵架特别凶，吵完之后你会？",
+    "options": [
+      { "id": "a", "label": "等气消了，主动找个台阶下", "weights": { "rep": 2, "sig": 1 } },
+      { "id": "b", "label": "这次绝不低头，谁错谁自己清楚", "weights": { "sig": -1, "att": 0, "bnd": 1.5 } },
+      { "id": "c", "label": "需要时间冷静，但心里已经准备和解了", "weights": { "rep": 0, "cer": 1 } }
+    ]
   }
 ]

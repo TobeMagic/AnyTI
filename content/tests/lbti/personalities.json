@@ -19,7 +19,7 @@
     "targetVector": {
       "attunement": 0.98,
       "signal": 0.42,
-      "repair": 0.18,
+      "repair": 0.05,
       "boundary": -0.85,
       "certainty": 0.95,
       "retreat": -0.45
@@ -43,9 +43,9 @@
     "stressSignal": "如果长期只有你在补温，你会从温柔转成疲惫。",
     "repairTip": "最适合你的关系，是对方也愿意一起维护，而不是把你当成唯一续命系统。",
     "targetVector": {
-      "attunement": 0.8,
+      "attunement": 0.75,
       "signal": 0.35,
-      "repair": 0.65,
+      "repair": 0.5,
       "boundary": -0.7,
       "certainty": 0.88,
       "retreat": -0.55
@@ -147,12 +147,20 @@
     "stressSignal": "如果你长期一个人推进，你会开始觉得自己像在单向做项目。",
     "repairTip": "真正适合你的人，不会把你的主动当成理所当然。",
     "targetVector": {
-      "attunement": 0.4,
-      "signal": 0.82,
+      "attunement": 0.3,
+      "signal": 0.9,
       "repair": 0.9,
       "boundary": 0.1,
       "certainty": 0.96,
       "retreat": -0.1
+    },
+    "hiddenRule": {
+      "mode": "min-threshold",
+      "threshold": 2,
+      "dimensions": {
+        "certainty": 0.92,
+        "signal": 0.85
+      }
     }
   },
   {
@@ -225,12 +233,20 @@
     "stressSignal": "如果对方长期只会闪躲，你会越说越硬、越聊越累。",
     "repairTip": "适合你的关系，需要有人能接得住直球，而不是每次都把你晾成独角戏。",
     "targetVector": {
-      "attunement": 0.12,
+      "attunement": 0.08,
       "signal": 0.95,
       "repair": 0.98,
       "boundary": -0.18,
       "certainty": 0.28,
-      "retreat": -0.82
+      "retreat": -0.95
+    },
+    "hiddenRule": {
+      "mode": "min-threshold",
+      "threshold": 2,
+      "dimensions": {
+        "signal": 0.92,
+        "repair": 0.95
+      }
     }
   },
   {
@@ -252,11 +268,20 @@
     "repairTip": "别总替别人解释到最后，把自己的委屈也放进句子里。",
     "targetVector": {
       "attunement": 0.45,
-      "signal": 0.58,
+      "signal": 0.75,
       "repair": 0.92,
       "boundary": -0.1,
-      "certainty": 0.28,
-      "retreat": -0.2
+      "certainty": 0.1,
+      "retreat": 0.15
+    },
+    "hiddenRule": {
+      "mode": "min-threshold",
+      "threshold": 2,
+      "dimensions": {
+        "repair": 0.9,
+        "signal": 0.65,
+        "attunement": 0.4
+      }
     }
   },
   {
@@ -335,6 +360,14 @@
       "boundary": 0.94,
       "certainty": -0.15,
       "retreat": 0.98
+    },
+    "hiddenRule": {
+      "mode": "min-threshold",
+      "threshold": 2,
+      "dimensions": {
+        "retreat": 0.95,
+        "boundary": 0.9
+      }
     }
   },
   {
@@ -357,17 +390,25 @@
     "targetVector": {
       "attunement": -0.25,
       "signal": -0.48,
-      "repair": -0.58,
+      "repair": -0.72,
       "boundary": 0.96,
       "certainty": -0.32,
       "retreat": 0.92
+    },
+    "hiddenRule": {
+      "mode": "min-threshold",
+      "threshold": 2,
+      "dimensions": {
+        "boundary": 0.93,
+        "retreat": 0.9
+      }
     }
   },
   {
     "id": "lbti-watchtower",
     "slug": "ai-qing-guan-cha-shao",
     "group": "撤退保护组",
-    "name": "傻逼爱情测试者",
+    "name": "SB爱情测试者",
     "badge": "SBTI-LOVE / 自嘲面默认档案",
     "vibe": "先看风向、再吃两口瓜，进不进场你自己说了算。",
     "summary": "你是爱情现场的高质量观众。你会认真看、认真分析、认真代入，但真正要不要亲自下场，得等你把风向和安全出口都看清。",
@@ -387,6 +428,14 @@
       "boundary": 0.82,
       "certainty": 0.52,
       "retreat": 0.62
+    },
+    "hiddenRule": {
+      "mode": "min-threshold",
+      "threshold": 2,
+      "dimensions": {
+        "boundary": 0.78,
+        "certainty": 0.48
+      }
     }
   },
   {

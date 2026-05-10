@@ -403,7 +403,7 @@ const loveRoleMeta: Record<string, LoveRoleMeta> = {
     faces: {
       selfMock: {
         code: 'SBTI-LOVE',
-        name: '傻逼爱情测试者',
+        name: 'SB爱情测试者',
         quote: '测了这么半天，无非是想给那个放不下的自己，找一个听起来比较酷的名字。恭喜您，您测出了全中国最稀有的纯爱废柴人格。',
       },
       animal: {
