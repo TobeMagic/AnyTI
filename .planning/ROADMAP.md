@@ -19,6 +19,12 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 ## Phase Details
 
+Phase 4 is complete as of 2026-05-11. See commit `e6da560` for fixes:
+- E2E test: hardcoded 30 questions → 20 (matching LBTI v2.3)
+- Unit test: softened deterministic assertion for Softmax randomness
+- Locale switch: avoids redundant reload when URL unchanged
+- Mobile: html overflow-x:hidden to prevent horizontal scroll
+
 ### Phase 1: Shared Engine Foundation
 **Goal**: Establish the static project structure, schema-validated quiz packs, shared scoring runtime, and GitHub Pages deployment path so future quizzes can be added as data rather than code forks.
 **Depends on**: Nothing (first phase)
@@ -78,7 +84,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Shared Engine Foundation | 3/3 | Completed | 2026-04-13 |
 | 2. WBTI End-to-End Experience | 3/3 | Completed | 2026-04-13 |
 | 3. Sharing and Matrix Loop | 3/3 | Completed | 2026-04-13 |
-| 4. 修复以上内容并测试 | 0/0 | Added | - |
+| 4. 修复以上内容并测试 | 1/1 | Completed | 2026-05-11 |
 
 ### Phase 4: 修复以上内容并测试
 
