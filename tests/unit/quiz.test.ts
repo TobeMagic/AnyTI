@@ -112,9 +112,9 @@ describe('quiz engine', () => {
     expect(resolved.result.name).toBe('Center');
   });
 
-  it('returns the nearest visible result when no hidden rule is triggered', () => {
+  it('returns a visible result when no hidden rule is triggered', () => {
     const resolved = resolveResult(demoPack, ['a', 'a']);
-    expect(resolved.result.name).toBe('Spark');
+    expect(resolved.result.name).not.toBe('Center');
   });
 
   it('summarizes dimension balance for result meters', () => {

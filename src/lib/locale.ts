@@ -41,6 +41,18 @@ export function setPreferredLocale(locale: Locale) {
   }
 
   window.localStorage.setItem(STORAGE_KEY, locale);
+
+  const url = new URL(window.location.href);
+  if (locale === 'en') {
+    url.searchParams.set('lang', 'en');
+  } else {
+    url.searchParams.delete('lang');
+  }
+
+  if (url.href !== window.location.href) {
+    window.history.replaceState({}, '', url.href);
+    window.location.reload();
+  }
 }
 
 export function withLocale(href: string, locale: Locale) {

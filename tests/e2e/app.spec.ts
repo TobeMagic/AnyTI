@@ -23,14 +23,14 @@ test('home opens as a focused LBTI start page and routes into quiz', async ({ pa
   await expect(page.getByTestId('quiz-runner')).toBeVisible();
   await page.screenshot({ path: path.join(auditDir, '03-lbti-intro.png'), fullPage: true });
 
-  for (let index = 0; index < 30; index += 1) {
+  for (let index = 0; index < 20; index += 1) {
     await page.getByTestId('answer-a').click({ force: true });
-    if (index === 29) {
+    if (index === 19) {
       await expect(page.getByTestId('quiz-next')).toBeEnabled();
       await page.getByTestId('quiz-next').click({ force: true });
       await expect(page.getByTestId('result-panel')).toBeVisible({ timeout: 10000 });
     } else {
-      const nextLabel = `${index + 2} / 30`;
+      const nextLabel = `${index + 2} / 20`;
       await expect(page.getByTestId('quiz-progress')).toHaveText(nextLabel, { timeout: 5000 });
     }
   }
@@ -68,7 +68,7 @@ test.describe('mobile', () => {
 
     for (let index = 0; index < 6; index += 1) {
       await page.getByTestId('answer-a').click({ force: true });
-      const nextLabel = `${index + 2} / 30`;
+      const nextLabel = `${index + 2} / 20`;
       await expect(page.getByTestId('quiz-progress')).toHaveText(nextLabel, { timeout: 5000 });
     }
 
