@@ -153,19 +153,6 @@
       "boundary": 0.1,
       "certainty": 0.96,
       "retreat": -0.1
-    },
-    "hiddenRule": {
-      "mode": "all-range",
-      "dimensions": {
-        "signal": [
-          6,
-          999
-        ],
-        "certainty": [
-          8,
-          999
-        ]
-      }
     }
   },
   {
@@ -244,23 +231,6 @@
       "boundary": -0.18,
       "certainty": 0.28,
       "retreat": -0.95
-    },
-    "hiddenRule": {
-      "mode": "all-range",
-      "dimensions": {
-        "signal": [
-          3,
-          999
-        ],
-        "repair": [
-          4.5,
-          999
-        ],
-        "retreat": [
-          -999,
-          -0.5
-        ]
-      }
     }
   },
   {
@@ -287,27 +257,6 @@
       "boundary": -0.1,
       "certainty": 0.1,
       "retreat": 0.15
-    },
-    "hiddenRule": {
-      "mode": "all-range",
-      "dimensions": {
-        "signal": [
-          1.5,
-          999
-        ],
-        "repair": [
-          5,
-          999
-        ],
-        "boundary": [
-          -999,
-          2.5
-        ],
-        "certainty": [
-          3.5,
-          999
-        ]
-      }
     }
   },
   {
@@ -386,27 +335,6 @@
       "boundary": 0.94,
       "certainty": -0.15,
       "retreat": 0.98
-    },
-    "hiddenRule": {
-      "mode": "all-range",
-      "dimensions": {
-        "attunement": [
-          -999,
-          0
-        ],
-        "signal": [
-          -999,
-          0
-        ],
-        "boundary": [
-          5.5,
-          999
-        ],
-        "retreat": [
-          4.5,
-          999
-        ]
-      }
     }
   },
   {
@@ -433,27 +361,6 @@
       "boundary": 0.96,
       "certainty": -0.32,
       "retreat": 0.92
-    },
-    "hiddenRule": {
-      "mode": "all-range",
-      "dimensions": {
-        "signal": [
-          -999,
-          0.5
-        ],
-        "repair": [
-          -999,
-          -0.5
-        ],
-        "boundary": [
-          5.5,
-          999
-        ],
-        "retreat": [
-          4.5,
-          999
-        ]
-      }
     }
   },
   {
@@ -480,23 +387,6 @@
       "boundary": 0.82,
       "certainty": 0.52,
       "retreat": 0.62
-    },
-    "hiddenRule": {
-      "mode": "all-range",
-      "dimensions": {
-        "signal": [
-          -999,
-          0.5
-        ],
-        "boundary": [
-          8,
-          999
-        ],
-        "certainty": [
-          5.5,
-          999
-        ]
-      }
     }
   },
   {

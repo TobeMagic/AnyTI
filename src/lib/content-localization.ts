@@ -22,47 +22,52 @@ const groupEn: Record<string, string> = {
 export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
   'lbti-q1': {
     context: '',
-    prompt: 'They have read your message but not replied for three hours. How many episodes have you already written in your head?',
+    prompt: "They have read your message but not replied for three hours. How many episodes have you already written in your head?",
     options: {
-      a: { label: 'Already drafted the series finale.' },
-      b: { label: 'Send another message to test the water.' },
-      c: { label: 'Act like nothing happened and go on with my day.' },
+      a: { label: 'Already drafted the series finale — my inner drama is far richer than reality.' },
+      b: { label: 'Send a message to test the waters, take the initiative to break the silence.' },
+      c: { label: 'Act like I never saw it, go about my day.' },
+      d: { label: 'Send another message, try one more time proactively.' },
     },
   },
   'lbti-q2': {
     context: '',
-    prompt: 'You found something you think they would love. Your finger hovers over send for a full minute. Do you press it?',
+    prompt: "You found something you think they'd love and hovered over the send button for a full minute. Do you press it?",
     options: {
-      a: { label: 'Sent it, with a casual-sounding note to play it cool.' },
-      b: { label: 'Saved it to show them in person next time.' },
-      c: { label: 'Backed off. Would seem too eager.' },
+      a: { label: 'Sent it, with a casual note so it does not look too eager.' },
+      b: { label: 'Saved it — will share it in person next time we meet.' },
+      c: { label: 'Cancelled it. Would seem too invested.' },
+      d: { label: 'Could not resist and sent it anyway, with an emoji.' },
     },
   },
   'lbti-q3': {
     context: '',
-    prompt: 'They forgot something they promised you. What is your first reaction?',
+    prompt: "They forgot something they promised you. What is your first reaction?",
     options: {
-      a: { label: 'Held it in and digested it myself.' },
+      a: { label: 'Held it in and digested it myself first.' },
       b: { label: 'Said it directly: you always do this.' },
-      c: { label: 'Took mental notes and started reassessing the whole thing.' },
+      c: { label: 'Pretended it never happened, let it go.' },
+      d: { label: 'Expressed displeasure privately, but did not escalate.' },
     },
   },
   'lbti-q4': {
     context: '',
     prompt: 'They say "I need some time alone." What do you do?',
     options: {
-      a: { label: 'Give space, but I already acted out the worst scenario in my head.' },
-      b: { label: 'Pretend to give space, but check every few minutes if they replied.' },
-      c: { label: 'Actually go do my own thing and do not think about it.' },
+      a: { label: 'Give space, but I have already played out the worst-case scenario in my head.' },
+      b: { label: 'Pretend to give space, but check every few minutes if they have replied.' },
+      c: { label: 'Actually go do my own thing, do not dwell on it.' },
+      d: { label: 'Cannot help but reach out to ask what is going on.' },
     },
   },
   'lbti-q5': {
     context: '',
-    prompt: 'You had a fight and are both ignoring each other. Then they suddenly send you something trivial. What do you do?',
+    prompt: "You had a fight and are both ignoring each other. Then they suddenly send you something trivial. What do you do?",
     options: {
-      a: { label: 'Take the olive branch immediately.' },
+      a: { label: 'Immediately take the olive branch — relationships matter more than pride.' },
       b: { label: 'Saw it, but I will wait for them to make the next move first.' },
-      c: { label: 'Stay tough until the end. I will not speak first.' },
+      c: { label: 'Stay tough until the end, I will not speak first.' },
+      d: { label: 'Wait until the anger cools down a bit before responding, no rush to take a stance.' },
     },
   },
   'lbti-q6': {
@@ -70,17 +75,19 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
     prompt: 'They are in a bad mood. You offer care. They say "I am fine." What do you do?',
     options: {
       a: { label: 'Stay and accompany them, even in silence.' },
-      b: { label: 'Quietly observe without pushing.' },
+      b: { label: 'Observe quietly, do not push them to talk.' },
       c: { label: 'Actually walk away and give them space.' },
+      d: { label: 'Send a message to show I care, then give them space.' },
     },
   },
   'lbti-q7': {
     context: '',
     prompt: 'They suddenly ask you, "What are we?" What do you do?',
     options: {
-      a: { label: 'Say my answer directly and wait for their reaction.' },
-      b: { label: 'Turn it back on them: what do you think?' },
-      c: { label: 'Deflect the topic and do not engage.' },
+      a: { label: 'Say it directly, then wait for their reaction.' },
+      b: { label: 'Turn it back: what do you think?' },
+      c: { label: 'Deflect the topic, do not engage.' },
+      d: { label: 'Answer seriously, but leave some room to maneuver.' },
     },
   },
   'lbti-q8': {
@@ -89,7 +96,8 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
     options: {
       a: { label: 'Afraid of losing myself when we get too close.' },
       b: { label: 'Afraid they will change once things get serious.' },
-      c: { label: 'No reason. It is just instinct to run.' },
+      c: { label: 'No reason — it is just instinct to run.' },
+      d: { label: 'Not sure where this is going, want to slow down a bit.' },
     },
   },
   'lbti-q9': {
@@ -99,6 +107,7 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
       a: { label: 'Laugh along, neither confirming nor denying.' },
       b: { label: 'Deny it, but my face turns red.' },
       c: { label: 'Openly agree: yes we are.' },
+      d: { label: 'Pretend I did not hear it, change the subject.' },
     },
   },
   'lbti-q10': {
@@ -106,44 +115,49 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
     prompt: 'They are getting more clingy. You say "why are you so clingy" but inside you actually feel...',
     options: {
       a: { label: 'Secretly thrilled about it.' },
-      b: { label: 'A bit annoyed. I need some space.' },
+      b: { label: 'A bit annoyed — I need some space.' },
       c: { label: 'Worried the novelty is wearing off.' },
+      d: { label: 'Happy but also a little unsettled.' },
     },
   },
   'lbti-q11': {
     context: '',
     prompt: 'You like them but are not sure how they feel. What do you do?',
     options: {
-      a: { label: 'Find a chance to make a move. No loss if it does not work out.' },
-      b: { label: 'Wait for them to show their hand first. Too embarrassing if rejected.' },
+      a: { label: 'Find a chance to test the waters proactively — no loss if it does not work out.' },
+      b: { label: 'Wait for them to show their hand first — too embarrassing if rejected.' },
       c: { label: 'Watch quietly and look for clues in the details.' },
+      d: { label: 'Ask a mutual friend to find out indirectly.' },
     },
   },
   'lbti-q12': {
     context: '',
-    prompt: 'Their friend hints that they have feelings for you. What do you do?',
+    prompt: "Their friend hints that they have feelings for you. What do you do?",
     options: {
-      a: { label: 'Ask them directly. No need for third-party speculation.' },
-      b: { label: 'Use this lead to watch more closely and gather evidence.' },
-      c: { label: 'Pretend I did not hear it. Wait for them to say it themselves.' },
+      a: { label: 'Ask them directly — no need for third-party speculation.' },
+      b: { label: 'Use this lead to watch more closely and gather more evidence.' },
+      c: { label: 'Pretend I did not hear it — wait for them to say it themselves.' },
+      d: { label: 'Use the friend to test their reaction indirectly.' },
     },
   },
   'lbti-q13': {
     context: '',
     prompt: 'One month into dating, what do you care about most?',
     options: {
-      a: { label: 'Whether they still make me feel special. Details tell the truth.' },
+      a: { label: 'Whether they still make me feel special — details tell the truth.' },
       b: { label: 'Whether the pace of our getting along feels natural and comfortable.' },
-      c: { label: 'How we are going to move forward. Need some clarity.' },
+      c: { label: 'How we are going to move forward — need some clarity.' },
+      d: { label: 'Whether something feels off — my gut tells me something has changed.' },
     },
   },
   'lbti-q14': {
     context: '',
     prompt: 'They failed to do something they promised again. This time you...',
     options: {
-      a: { label: 'Say it. Express how I feel and how disappointed I am.' },
-      b: { label: 'Digest it myself and quietly deduct points.' },
-      c: { label: 'Let it go. Not everything needs to be a big deal.' },
+      a: { label: 'Say it — express how I feel and how disappointed I am.' },
+      b: { label: 'Digest it myself and quietly deduct points in my head.' },
+      c: { label: 'Let it go — not everything in a relationship needs to be a big deal.' },
+      d: { label: 'Express displeasure privately, but do not escalate.' },
     },
   },
   'lbti-q15': {
@@ -151,8 +165,9 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
     prompt: 'They seem unusually cold today. Your guess is?',
     options: {
       a: { label: 'Ask directly: what is going on today.' },
-      b: { label: 'Maybe they are tired. Give them space.' },
+      b: { label: 'Maybe they are tired — give them space.' },
       c: { label: 'Think about what happened today and what I might have done wrong.' },
+      d: { label: 'Pretend I did not notice and distract myself.' },
     },
   },
   'lbti-q16': {
@@ -160,17 +175,19 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
     prompt: 'You notice they are not as invested as when you first started dating. What do you do?',
     options: {
       a: { label: 'Bring it up: you have been less engaged lately.' },
-      b: { label: 'Accept it. Relationships naturally cool down over time.' },
-      c: { label: 'Pull back a little too. Do not seem too invested.' },
+      b: { label: 'Accept it — relationships naturally cool down over time.' },
+      c: { label: 'Pull back a little too — do not seem too invested.' },
+      d: { label: 'Proactively create some fresh spark to pull things back.' },
     },
   },
   'lbti-q17': {
     context: '',
     prompt: 'You find out they are also flirting with someone else. What do you do?',
     options: {
-      a: { label: 'Confront them directly. No open relationships for me.' },
-      b: { label: 'Pretend I did not see it. Let them make their choice.' },
-      c: { label: 'Gather more evidence before saying anything.' },
+      a: { label: 'Confront them directly — no open relationships for me.' },
+      b: { label: 'Pretend I did not see it — let them make their own choice.' },
+      c: { label: 'Gather more evidence first, then say something.' },
+      d: { label: 'Ask them directly to clarify what is going on.' },
     },
   },
   'lbti-q18': {
@@ -180,15 +197,17 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
       a: { label: 'List a few things, specific to a detail.' },
       b: { label: 'Deflect with a joke: I like that you are silly.' },
       c: { label: 'Think hard but cannot quite put it into words.' },
+      d: { label: 'Turn it back: tell me what you like about me first.' },
     },
   },
   'lbti-q19': {
     context: '',
     prompt: 'You send them a message, then recall it. What do you do?',
     options: {
-      a: { label: 'Rewrite it and send a better version.' },
-      b: { label: 'Pretend it never happened. It is recalled anyway.' },
-      c: { label: 'Worry about whether they saw it. The more I think the worse it gets.' },
+      a: { label: 'Reorganize my thoughts and send a better version.' },
+      b: { label: 'Pretend it never happened — it is recalled anyway.' },
+      c: { label: 'Worry about whether they saw it — the more I think the worse it gets.' },
+      d: { label: 'Do not dwell on it, keep chatting normally.' },
     },
   },
   'lbti-q20': {
@@ -196,8 +215,9 @@ export const lbtiQuestionEn: Record<string, QuestionTranslation> = {
     prompt: 'You had a terrible fight. After it cools down, what do you do?',
     options: {
       a: { label: 'Wait for the anger to pass, then proactively offer a way to make up.' },
-      b: { label: 'Refuse to back down this time. Whoever was wrong knows it.' },
+      b: { label: 'Refuse to back down this time — whoever was wrong knows it.' },
       c: { label: 'Need time to cool off, but inside I am already preparing to reconcile.' },
+      d: { label: 'Review what happened seriously and sort things out before making up.' },
     },
   },
 };

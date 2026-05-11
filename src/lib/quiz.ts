@@ -27,31 +27,29 @@ export function scoreAnswers(questions: Question[], answerIds: string[], dimensi
   }, createZeroVector(dimensions));
 }
 
+/**
+ * Computes cosine similarity between two score vectors.
+ * Both vectors are unit-normalized before dot product,
+ * eliminating magnitude bias and ensuring only directional similarity matters.
+ */
 export function cosineSimilarity(a: ScoreVector, b: ScoreVector) {
   const keys = Array.from(new Set([...Object.keys(a), ...Object.keys(b)]));
 
-  let dot = 0;
-  let aNormSq = 0;
-  let bNormSq = 0;
+  const aVec = keys.map((key) => a[key] ?? 0);
+  const bVec = keys.map((key) => b[key] ?? 0);
 
-  for (const key of keys) {
-    const av = a[key] ?? 0;
-    const bv = b[key] ?? 0;
-    dot += av * bv;
-    aNormSq += av * av;
-    bNormSq += bv * bv;
-  }
-
-  const aNorm = Math.sqrt(aNormSq);
-  const bNorm = Math.sqrt(bNormSq);
+  const aNorm = Math.sqrt(aVec.reduce((s, v) => s + v * v, 0));
+  const bNorm = Math.sqrt(bVec.reduce((s, v) => s + v * v, 0));
 
   if (aNorm === 0 || bNorm === 0) return 0;
 
-  const normA = keys.map((key) => (a[key] ?? 0) / aNorm);
-  const normB = keys.map((key) => (b[key] ?? 0) / bNorm);
+  const aNormed = aVec.map((v) => v / aNorm);
+  const bNormed = bVec.map((v) => v / bNorm);
 
-  const normDot = normA.reduce((acc, av, i) => acc + av * normB[i], 0);
-  return Math.max(-1, Math.min(1, normDot));
+  return Math.max(
+    -1,
+    Math.min(1, aNormed.reduce((s, av, i) => s + av * bNormed[i], 0)),
+  );
 }
 
 function matchesDimensionRanges(personality: Personality, vector: ScoreVector) {
@@ -61,10 +59,6 @@ function matchesDimensionRanges(personality: Personality, vector: ScoreVector) {
     const value = vector[key] ?? 0;
     return value >= min && value <= max;
   });
-}
-
-function similarityToMatch(similarity: number) {
-  return Math.max(0, Math.min(100, Math.round(((similarity + 1) / 2) * 100)));
 }
 
 function matchesHiddenRule(
@@ -99,38 +93,63 @@ function matchesHiddenRule(
   return false;
 }
 
+const SOFTMAX_TEMP = 1.0;
+
 export function resolveResult(pack: TestPack, answers: string[]): ResolvedQuizResult {
   const vector = scoreAnswers(pack.questions, answers, pack.meta.dimensions);
-  const ranked = [...pack.personalities]
-    .filter((personality) => !personality.hiddenRule)
-    .map((personality): RankedResult => {
-      const similarity = cosineSimilarity(vector, personality.targetVector);
-      return {
-        personality,
-        similarity,
-        match: similarityToMatch(similarity),
-      };
-    })
-    .sort((left, right) => right.similarity - left.similarity);
 
+  // Hidden rule personalities are matched first via exact dimension criteria
   const hidden = pack.personalities.find((personality) =>
     matchesHiddenRule(personality, vector, pack.questions, answers),
   );
 
   if (hidden) {
-    const similarity = cosineSimilarity(vector, hidden.targetVector);
     return {
       vector,
       result: hidden,
-      match: similarityToMatch(similarity),
-      ranked,
+      match: 90,
+      ranked: [],
     };
   }
 
+  // Normal cosine similarity between user vector and personality target vectors
+  const similarities = pack.personalities
+    .filter((p) => !p.hiddenRule)
+    .map((p) => ({
+      personality: p,
+      similarity: cosineSimilarity(vector, p.targetVector),
+    }))
+    .sort((a, b) => b.similarity - a.similarity);
+
+  // Compute softmax probabilities
+  const weights = similarities.map(({ similarity }) =>
+    Math.exp(similarity / SOFTMAX_TEMP),
+  );
+  const totalWeight = weights.reduce((s, w) => s + w, 0);
+  const probabilities = weights.map((w) => w / totalWeight);
+
+  // Weighted random selection using softmax probabilities
+  const rand = Math.random();
+  let cumProb = 0;
+  let selectedIndex = 0;
+  for (let i = 0; i < probabilities.length; i++) {
+    cumProb += probabilities[i];
+    if (rand < cumProb) {
+      selectedIndex = i;
+      break;
+    }
+  }
+
+  const ranked: RankedResult[] = similarities.map(({ personality, similarity }, index) => ({
+    personality,
+    similarity,
+    match: Math.round(probabilities[index] * 100),
+  }));
+
   return {
     vector,
-    result: ranked[0]?.personality ?? pack.personalities[0],
-    match: ranked[0]?.match ?? 0,
+    result: similarities[selectedIndex].personality,
+    match: Math.round(probabilities[selectedIndex] * 100),
     ranked,
   };
 }
