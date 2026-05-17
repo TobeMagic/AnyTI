@@ -154,6 +154,21 @@
   color: var(--ref-ivory);
 }
 
+.ref-gh-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  color: var(--ref-stone);
+  transition: color 180ms ease, background 180ms ease;
+}
+.ref-gh-link:hover {
+  color: var(--ref-text);
+  background: rgba(20, 20, 19, 0.05);
+}
+
 .ref-cta,
 .ref-button--primary {
   background: var(--ref-accent);
